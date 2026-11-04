@@ -18,8 +18,14 @@ paragraph breaks, Unicode punctuation, and numbered references are retained.
 Pipe-delimited and visibly aligned table rows keep their internal spacing.
 
 ## Chunking
-Size and overlap you shipped, storage amplification (stored tokens / original tokens),
-and the three configurations you measured:
+Pages are processed in order and split at Markdown heading boundaries so each
+chunk keeps a single section and page citation. Text is packed up to 400
+whitespace-delimited tokens by default, preferring paragraph, line, and sentence
+boundaries; overlong spans fall back to word boundaries. Consecutive chunks
+overlap by 50 tokens within a page and heading section. `CHUNK_SIZE` and
+`CHUNK_OVERLAP` can override these defaults; size must be positive and overlap
+must be non-negative and smaller than size. This uses whitespace token counts,
+not the embedding model's tokenizer, and does not infer non-Markdown headings.
 
 | Size (tokens) | Overlap (tokens) | recall@5 | Chunks stored |
 | --- | --- | --- | --- |
