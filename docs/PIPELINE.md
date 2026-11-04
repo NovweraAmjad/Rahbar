@@ -3,6 +3,12 @@
 <!-- STARTER-TODO(3.1, 3.3, 5.2): fill each section with your numbers, then delete this comment. -->
 
 ## Extraction
+PDFs are extracted page by page with pdfplumber; pages without a text layer are
+OCR'd with pytesseract when its Tesseract runtime is available. UTF-8 text and
+Markdown files become one page. Source filename and 1-based page number are
+retained. Unsupported or unreadable inputs are logged and produce an empty
+document.
+
 Which documents needed OCR, one before-and-after example of a table, what could not be recovered.
 
 ## Cleaning
