@@ -12,7 +12,10 @@ document.
 Which documents needed OCR, one before-and-after example of a table, what could not be recovered.
 
 ## Cleaning
-The rules you applied, and one thing you deliberately did not strip.
+Line endings and tabs are normalized; control characters and repeated blank
+lines are removed, and ordinary line whitespace is collapsed. Headings,
+paragraph breaks, Unicode punctuation, and numbered references are retained.
+Pipe-delimited and visibly aligned table rows keep their internal spacing.
 
 ## Chunking
 Size and overlap you shipped, storage amplification (stored tokens / original tokens),
