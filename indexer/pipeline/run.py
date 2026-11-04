@@ -46,6 +46,11 @@ def discover(corpus_dir: str) -> list[tuple[Path, str, bool]]:
     present. Otherwise read Markdown front matter (the CI fixtures work this way).
     """
     root = Path(corpus_dir)
+    if not root.exists():
+        raise FileNotFoundError(f"corpus directory does not exist: {root}")
+    if not root.is_dir():
+        raise NotADirectoryError(f"corpus path is not a directory: {root}")
+
     index = root / "_index.json"
     if index.exists():
         entries = json.loads(index.read_text(encoding="utf-8"))
@@ -72,15 +77,88 @@ def run_pipeline(settings: IndexerSettings) -> int:
 
     documents = discover(settings.corpus_dir)
     if not documents:
-        raise SystemExit(f"no documents found in {settings.corpus_dir}")
+        raise RuntimeError(f"no documents found in {settings.corpus_dir}")
+    log(
+        "documents discovered",
+        count=len(documents),
+        sources=[path.name for path, _version, _superseded in documents],
+    )
+
     all_chunks: list[Chunk] = []
     for path, doc_version, superseded in documents:
-        doc = clean(extract(str(path), doc_version, superseded))
-        pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
-        log("chunked", source=path.name, chunks=len(pieces))
+        stage = "extract"
+        try:
+            doc = extract(str(path), doc_version, superseded)
+            if not doc.pages:
+                raise RuntimeError("extraction produced no pages")
+            log(
+                "extracted",
+                source=path.name,
+                pages=len(doc.pages),
+                text_pages=sum(
+                    isinstance(page.text, str) and bool(page.text.strip()) for page in doc.pages
+                ),
+                ocr_pages=sum(page.ocr for page in doc.pages),
+            )
+
+            stage = "clean"
+            doc = clean(doc)
+            log("cleaned", source=path.name, pages=len(doc.pages))
+
+            stage = "chunk"
+            pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
+            log("chunked", source=path.name, chunks=len(pieces))
+        except Exception as exc:
+            log(
+                "document processing failed",
+                source=path.name,
+                stage=stage,
+                error_type=type(exc).__name__,
+                error=str(exc),
+            )
+            raise RuntimeError(
+                f"{stage} stage failed for {path.name}: {exc}"
+            ) from exc
         all_chunks.extend(pieces)
-    vectors = embed([c.text for c in all_chunks], settings)
-    return store(all_chunks, vectors, settings)
+
+    if not all_chunks:
+        raise RuntimeError("no chunks generated; existing Chroma index was not changed")
+
+    try:
+        vectors = embed([item.text for item in all_chunks], settings)
+        if len(vectors) != len(all_chunks):
+            raise RuntimeError(
+                f"embedding count mismatch: {len(vectors)} vectors for "
+                f"{len(all_chunks)} chunks"
+            )
+        log(
+            "embeddings generated",
+            count=len(vectors),
+            dimension=len(vectors[0]),
+            model=settings.embed_model,
+        )
+    except Exception as exc:
+        log(
+            "embedding failed",
+            chunks=len(all_chunks),
+            error_type=type(exc).__name__,
+            error=str(exc),
+        )
+        raise RuntimeError(f"embedding stage failed: {exc}") from exc
+
+    try:
+        stored = store(all_chunks, vectors, settings, prune_stale=True)
+    except Exception as exc:
+        log(
+            "storage failed",
+            chunks=len(all_chunks),
+            error_type=type(exc).__name__,
+            error=str(exc),
+        )
+        raise RuntimeError(f"storage stage failed: {exc}") from exc
+
+    log("stored", records=stored, submitted=len(all_chunks))
+    return stored
 
 
 def main() -> int:
@@ -103,6 +181,9 @@ def main() -> int:
     except NotImplementedError as exc:
         log("indexer stage not implemented yet", error=str(exc))
         return 2
+    except Exception as exc:
+        log("indexer failed", error_type=type(exc).__name__, error=str(exc))
+        return 1
     log("indexer finished", chunks=count, seconds=round(time.perf_counter() - started, 1))
     return 0
 

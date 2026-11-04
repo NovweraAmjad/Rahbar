@@ -41,6 +41,27 @@ models), and malformed responses fail indexing with a descriptive error; no
 placeholder vectors are generated. The API reads the same `EMBED_MODEL` setting
 when embedding retrieval queries.
 
+## Storage
+The indexer connects to the configured Chroma host, port, and collection. It
+creates the collection with cosine distance and records `embed_model` and vector
+`dimension`; existing collections with incompatible or missing metadata are
+rejected. Validated records are upserted in batches of 100, with duplicate IDs
+resolved by keeping the last input record. The indexer prepares all extracted
+documents, chunks, and embeddings before storage starts. It removes stale IDs
+only after every upsert batch succeeds. Thus extraction, chunking, and embedding
+failures leave the current index untouched; a write failure leaves stale IDs
+in place. Chroma does not provide an atomic collection swap here, so a storage
+failure after some successful batches can leave a mixture of old and new records.
+
+## Integrated run
+`python -m pipeline.run` discovers supported corpus files using `_index.json`
+metadata when present, otherwise Markdown front matter, then executes extract,
+clean, chunk, embed, and remote Chroma storage in that order. The CLI logs each
+stage and exits nonzero on discovery, extraction, embedding, or storage failures.
+A corpus with no documents, extraction with no pages, or a run that produces no
+chunks is rejected before the existing index is changed. The `--dummy` mode
+remains separate and writes the starter's fixed dummy index.
+
 ## Semantic cache
 Thresholds you tried, the false hit that ruled one out, the one you shipped.
 
