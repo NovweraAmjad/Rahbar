@@ -31,7 +31,15 @@ not the embedding model's tokenizer, and does not infer non-Markdown headings.
 | --- | --- | --- | --- |
 
 ## Embedding
-Model, vector dimension, where the pin lives, how the API checks it.
+Chunks are embedded with Ollama's batched `POST /api/embed` endpoint, using
+`EMBED_MODEL` (default `nomic-embed-text`) and `OLLAMA_URL` from the shared
+runtime configuration. The default model produces 768-dimensional vectors;
+response counts, numeric finite values, and consistent dimensions are validated
+before vectors are returned to storage. Input is sent in batches of 32. Empty
+input returns no vectors. Connection errors, API errors (including missing
+models), and malformed responses fail indexing with a descriptive error; no
+placeholder vectors are generated. The API reads the same `EMBED_MODEL` setting
+when embedding retrieval queries.
 
 ## Semantic cache
 Thresholds you tried, the false hit that ruled one out, the one you shipped.
