@@ -10,6 +10,11 @@ from ..schemas import Passage
 class Retriever(Protocol):
     name: str
 
-    def retrieve(self, question: str, k: int) -> list[Passage]:
+    def retrieve(
+        self,
+        question: str,
+        k: int,
+        query_embedding: list[float] | None = None,
+    ) -> list[Passage]:
         """Return up to k passages, best first."""
         ...
