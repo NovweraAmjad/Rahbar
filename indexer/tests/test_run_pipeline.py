@@ -247,6 +247,54 @@ def test_run_pipeline_reports_storage_failure(monkeypatch, tmp_path) -> None:
         run_pipeline(_settings(root))
 
 
+def test_run_pipeline_invalidates_cache_before_storage(monkeypatch, tmp_path) -> None:
+    root = _corpus(tmp_path)
+    calls: list[str] = []
+    settings = replace(_settings(root), redis_url="redis://redis:6379/0")
+    monkeypatch.setattr(
+        "pipeline.extract.extract",
+        lambda path, version, superseded: _document(path, version, superseded),
+    )
+    monkeypatch.setattr("pipeline.clean.clean", lambda doc: doc)
+    monkeypatch.setattr("pipeline.chunk.chunk", lambda doc, size, overlap: [_chunk(doc.source)])
+    monkeypatch.setattr("pipeline.embed.embed", lambda texts, settings: [[0.1]])
+    monkeypatch.setattr(
+        "pipeline.cache.invalidate_semantic_cache",
+        lambda _settings: calls.append("invalidate") or 2,
+    )
+    monkeypatch.setattr(
+        "pipeline.store.store",
+        lambda *_args, **_kwargs: calls.append("store") or 1,
+    )
+
+    assert run_pipeline(settings) == 1
+    assert calls == ["invalidate", "store"]
+
+
+def test_run_pipeline_does_not_store_if_cache_invalidation_fails(
+    monkeypatch, tmp_path
+) -> None:
+    root = _corpus(tmp_path)
+    monkeypatch.setattr(
+        "pipeline.extract.extract",
+        lambda path, version, superseded: _document(path, version, superseded),
+    )
+    monkeypatch.setattr("pipeline.clean.clean", lambda doc: doc)
+    monkeypatch.setattr("pipeline.chunk.chunk", lambda doc, size, overlap: [_chunk(doc.source)])
+    monkeypatch.setattr("pipeline.embed.embed", lambda texts, settings: [[0.1]])
+    monkeypatch.setattr(
+        "pipeline.cache.invalidate_semantic_cache",
+        lambda _settings: (_ for _ in ()).throw(RuntimeError("cache unavailable")),
+    )
+    monkeypatch.setattr(
+        "pipeline.store.store",
+        lambda *_args, **_kwargs: pytest.fail("index must not be modified"),
+    )
+
+    with pytest.raises(RuntimeError, match="cache unavailable"):
+        run_pipeline(replace(_settings(root), redis_url="redis://redis:6379/0"))
+
+
 def test_main_returns_nonzero_and_logs_pipeline_failure(monkeypatch, tmp_path, capsys) -> None:
     from pipeline import run
 

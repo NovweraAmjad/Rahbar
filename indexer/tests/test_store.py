@@ -153,6 +153,19 @@ def test_store_empty_input_does_not_connect(monkeypatch) -> None:
     assert store([], [], _settings()) == 0
 
 
+def test_store_rejects_empty_section_before_connecting(monkeypatch) -> None:
+    chunk = _chunk(1)
+    chunk.section = "  "
+
+    def unexpected_client(_settings):
+        raise AssertionError("invalid citation metadata must be rejected before connecting")
+
+    monkeypatch.setattr("pipeline.store.get_client", unexpected_client)
+
+    with pytest.raises(ValueError, match="empty or inconsistent section"):
+        store([chunk], [[1.0]], _settings())
+
+
 def test_get_client_uses_configured_chroma_address(monkeypatch) -> None:
     import chromadb
     import chromadb.config

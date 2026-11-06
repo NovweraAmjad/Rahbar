@@ -100,12 +100,48 @@ def test_chunk_preserves_page_section_and_document_metadata() -> None:
 
     assert [(item.source, item.page, item.section) for item in chunks] == [
         ("handbook.pdf", 4, "Academic Warning"),
-        ("handbook.pdf", 5, ""),
+        ("handbook.pdf", 5, "Page 5 (no section heading detected)"),
     ]
     assert all(item.doc_version == "2026-06" for item in chunks)
     assert all(item.superseded is True for item in chunks)
     assert chunks[0].text.startswith("# Academic Warning")
     assert len({item.id for item in chunks}) == len(chunks)
+
+
+def test_chunk_detects_plain_pdf_headings_before_numbered_clauses() -> None:
+    document = _document(
+        "NATIONAL UNIVERSITY\n"
+        "Attendance Requirements\n"
+        "1.21 Students must maintain attendance.\n"
+        "Bachelor's Degree Requirements\n"
+        "1.23 The minimum duration is four years.\n",
+        source="handbook.pdf",
+        page=10,
+    )
+
+    chunks = chunk(document, size=50, overlap=5)
+
+    assert [item.section for item in chunks] == [
+        "Page 10 (no section heading detected)",
+        "Attendance Requirements",
+        "Bachelor's Degree Requirements",
+    ]
+    assert "1.21 Students must maintain attendance." in chunks[1].text
+    assert "1.23 The minimum duration is four years." in chunks[2].text
+
+
+def test_chunk_does_not_infer_a_section_from_lowercase_prose() -> None:
+    document = _document(
+        "the following requirements apply\n"
+        "1.21 Students must maintain attendance.\n",
+        source="handbook.pdf",
+        page=10,
+    )
+
+    chunks = chunk(document, size=50, overlap=5)
+
+    assert len(chunks) == 1
+    assert chunks[0].section == "Page 10 (no section heading detected)"
 
 
 @pytest.mark.parametrize(

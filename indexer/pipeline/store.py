@@ -105,6 +105,11 @@ def _prepare_metadata(chunk: Chunk) -> dict[str, str | int | float | bool]:
     for key in ("source", "page", "section", "doc_version", "superseded"):
         if key not in metadata:
             raise ValueError(f"chunk {chunk.id!r} is missing required metadata {key!r}")
+    section = metadata["section"]
+    if not isinstance(section, str) or not section.strip() or section != chunk.section:
+        raise ValueError(
+            f"chunk {chunk.id!r} has an empty or inconsistent section metadata value"
+        )
     if (
         not isinstance(metadata["source"], str)
         or metadata["source"] != chunk.source

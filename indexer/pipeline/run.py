@@ -74,6 +74,7 @@ def run_pipeline(settings: IndexerSettings) -> int:
     from .embed import embed
     from .extract import extract
     from .store import store
+    from .cache import invalidate_semantic_cache
 
     documents = discover(settings.corpus_dir)
     if not documents:
@@ -146,6 +147,9 @@ def run_pipeline(settings: IndexerSettings) -> int:
         )
         raise RuntimeError(f"embedding stage failed: {exc}") from exc
 
+    invalidated = invalidate_semantic_cache(settings)
+    log("semantic cache invalidated", entries=invalidated, collection=settings.collection)
+
     try:
         stored = store(all_chunks, vectors, settings, prune_stale=True)
     except Exception as exc:
@@ -172,9 +176,12 @@ def main() -> int:
     started = time.perf_counter()
     try:
         if args.dummy:
+            from .cache import invalidate_semantic_cache
             from .dummy import write_dummy_index
             from .store import get_client
 
+            invalidated = invalidate_semantic_cache(settings)
+            log("semantic cache invalidated", entries=invalidated, collection=settings.collection)
             count = write_dummy_index(settings, get_client(settings))
         else:
             count = run_pipeline(settings)

@@ -9,6 +9,23 @@ from .models import Chunk, Document, Page
 
 _TOKEN = re.compile(r"\S+")
 _HEADING = re.compile(r"^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$")
+_NUMBERED_CLAUSE = re.compile(r"^\s*\d+(?:\.\d+)*\s+\S")
+_LOWERCASE_HEADING_WORDS = {
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "by",
+    "for",
+    "in",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "with",
+}
 _SENTENCE_END = re.compile(r"""[.!?]["'’”)\]]*$""")
 
 
@@ -22,18 +39,43 @@ def _regions(page: Page) -> list[_Region]:
     regions: list[_Region] = []
     section = ""
     lines: list[str] = []
+    page_lines = page.text.splitlines(keepends=True)
 
     def finish() -> None:
         text = "".join(lines).strip()
         if text:
             regions.append(_Region(text=text, section=section))
 
-    for line in page.text.splitlines(keepends=True):
-        heading = _HEADING.match(line.rstrip("\r\n"))
-        if heading:
+    for index, line in enumerate(page_lines):
+        stripped_line = line.rstrip("\r\n")
+        heading = _HEADING.match(stripped_line)
+        pdf_heading = stripped_line.strip()
+        next_content = next(
+            (
+                candidate.strip()
+                for candidate in page_lines[index + 1 :]
+                if candidate.strip()
+            ),
+            "",
+        )
+        heading_words = [
+            word for word in pdf_heading.split() if any(char.isalpha() for char in word)
+        ]
+        title_case = bool(heading_words) and all(
+            word[0].isupper() or word.lower() in _LOWERCASE_HEADING_WORDS
+            for word in heading_words
+        )
+        is_pdf_heading = (
+            bool(pdf_heading)
+            and len(pdf_heading) <= 120
+            and title_case
+            and not _SENTENCE_END.search(pdf_heading)
+            and _NUMBERED_CLAUSE.match(next_content) is not None
+        )
+        if heading or is_pdf_heading:
             finish()
             lines.clear()
-            section = heading.group(1).strip()
+            section = heading.group(1).strip() if heading else pdf_heading
         lines.append(line)
     finish()
     return regions
@@ -75,7 +117,7 @@ def _chunk_region(text: str, size: int, overlap: int) -> list[str]:
 def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
     """Split pages into bounded whitespace-token chunks with deterministic IDs.
 
-    Overlap is exact within each page and Markdown heading section. Page and
+    Overlap is exact within each page and detected heading section. Page and
     section boundaries are never crossed, preserving citation context.
     """
     if size <= 0:
@@ -100,7 +142,10 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
                         ),
                         text=text,
                         source=doc.source,
-                        section=region.section,
+                        section=(
+                            region.section
+                            or f"Page {page.page} (no section heading detected)"
+                        ),
                         page=page.page,
                         doc_version=doc.doc_version,
                         superseded=doc.superseded,
