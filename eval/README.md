@@ -100,6 +100,67 @@ approved baseline explicitly only if the gate passes and the run is accepted;
 retain the archived copy. Results and baselines contain no API credentials; do
 not put credentials in the URL or golden file.
 
+## Semantic-cache threshold evaluation
+
+`cache-threshold-pairs.yaml` defines explicit `expected_reuse` labels and
+rationales for equivalent questions, paraphrases, hard negatives, version- and
+entity-sensitive queries, and unrelated queries. Labels are set from whether
+the cached answer is appropriate for the new question; they are not derived
+from the measured similarity. The set includes difficult negatives involving
+attendance exceptions, academic warning rules, course repetition, report years,
+and distinct policy questions.
+
+The runner embeds each unique question once through the API's production
+`embed_query` helper at Ollama `/api/embed` and uses the production cache's
+cosine calculation and inclusive `similarity >= threshold` decision. The model
+and endpoint come from `EMBED_MODEL` and `OLLAMA_URL`, defaulting to
+`nomic-embed-text` and the current Minikube-configured endpoint. The runner
+checks and records the resolved Ollama model digest before and after embedding.
+No Kubernetes deployment or Redis server is needed.
+
+For each threshold, the output reports true hits (expected reuse and hit),
+false hits (unexpected reuse), missed hits (expected reuse but miss), and true
+misses. Hit rate is all actual cache decisions divided by all pairs; precision
+is true hits divided by actual hits; positive-pair recall is true hits divided
+by all expected-reuse pairs; false-hit rate is false hits divided by expected
+non-reuse pairs. A metric whose denominator is zero is reported as unavailable
+(`null`). The lowest tested threshold with zero false hits is reported when one
+exists. A zero observed false-hit rate is not proof of production safety.
+
+Run from the repository root with the Ollama endpoint reachable:
+
+```powershell
+$env:OLLAMA_URL = "http://172.23.112.1:11434"
+$env:EMBED_MODEL = "nomic-embed-text"
+python eval\run_cache_threshold_eval.py --out-dir eval\cache-threshold-runs\trial-20261107
+```
+
+Choose a new output directory for each run; the runner refuses to overwrite an
+existing directory. It saves `pair-results.json` with every similarity and
+decision, and `summary.json` with aggregate metrics, dataset checksum, model
+digest, and the evaluation assumptions. Pair scenarios are isolated: each is
+treated as one valid grounded cache entry, with a fixed collection and
+generation and no cross-pair entries. The harness does not execute Redis
+operations or test re-index invalidation or Redis failure handling; those
+behaviors remain covered by production cache/indexer tests.
+
+Completed run `20261107T171600` used 20 labeled pairs (8 expected reuses and 12
+expected non-reuses), `nomic-embed-text:latest`, digest
+`0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f`:
+
+| Threshold | True hits | False hits | Missed hits | Hit rate | Precision | Positive-pair recall | False-hit rate |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.90 | 5 | 1 | 3 | 30.00% | 83.33% | 62.50% | 8.33% |
+| 0.93 | 3 | 0 | 5 | 15.00% | 100.00% | 37.50% | 0.00% |
+| 0.95 (current) | 2 | 0 | 6 | 10.00% | 100.00% | 25.00% | 0.00% |
+| 0.97 | 1 | 0 | 7 | 5.00% | 100.00% | 12.50% | 0.00% |
+
+The 0.90 false hit was `report-year-2023-vs-2019`, similarity 0.9112: the
+2019–20 faculty-count question would reuse a response cached for the 2023–24
+faculty total. The lowest tested threshold with zero false hits was 0.93. This
+small test set does not establish that 0.93 or any threshold is generally safe;
+the production threshold remains 0.95 pending broader, answer-reviewed data.
+
 ## Reproducible chunk-tuning experiment
 
 `chunk-tuning.yaml` fixes the three sequential configurations: small

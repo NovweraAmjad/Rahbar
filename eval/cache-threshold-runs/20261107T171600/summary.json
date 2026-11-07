@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-07T12:15:56.837927+00:00",
+    "dataset": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\cache-threshold-pairs.yaml",
+    "dataset_sha256": "00aad3fa6c29f338c73615ad1808e5da3d6f6985c1af692fceb9aeeef5b03785",
+    "runner_sha256": "85aea1afd6ef496f21f7c24c449c1b3c974bfa8bc18de61600a4e7d75bd6a341",
+    "embedding_model": "nomic-embed-text",
+    "embedding_model_identity": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "ollama_url": "http://172.23.112.1:11434",
+    "production_threshold": 0.95,
+    "thresholds": [
+      0.9,
+      0.93,
+      0.95,
+      0.97
+    ],
+    "pair_count": 20,
+    "unique_question_count": 30,
+    "pair_labels_are_explicit": true,
+    "decision_semantics": "production cosine similarity >= threshold",
+    "isolation_assumptions": {
+      "each_pair_is_evaluated_independently": true,
+      "one_valid_grounded_cache_entry_is_assumed_per_pair": true,
+      "collection_and_generation_are_fixed_within_each_pair": true,
+      "cross_pair_entries_are_not_shared": true,
+      "redis_operations_and_invalidation_are_not_executed": true
+    }
+  },
+  "thresholds": [
+    {
+      "threshold": 0.9,
+      "pair_count": 20,
+      "true_hits": 5,
+      "false_hits": 1,
+      "missed_hits": 3,
+      "true_misses": 11,
+      "hit_rate_percentage": 30.0,
+      "precision_percentage": 83.3333,
+      "false_hit_rate_percentage": 8.3333,
+      "positive_pair_count": 8,
+      "negative_pair_count": 12
+    },
+    {
+      "threshold": 0.93,
+      "pair_count": 20,
+      "true_hits": 3,
+      "false_hits": 0,
+      "missed_hits": 5,
+      "true_misses": 12,
+      "hit_rate_percentage": 15.0,
+      "precision_percentage": 100.0,
+      "false_hit_rate_percentage": 0.0,
+      "positive_pair_count": 8,
+      "negative_pair_count": 12
+    },
+    {
+      "threshold": 0.95,
+      "pair_count": 20,
+      "true_hits": 2,
+      "false_hits": 0,
+      "missed_hits": 6,
+      "true_misses": 12,
+      "hit_rate_percentage": 10.0,
+      "precision_percentage": 100.0,
+      "false_hit_rate_percentage": 0.0,
+      "positive_pair_count": 8,
+      "negative_pair_count": 12
+    },
+    {
+      "threshold": 0.97,
+      "pair_count": 20,
+      "true_hits": 1,
+      "false_hits": 0,
+      "missed_hits": 7,
+      "true_misses": 12,
+      "hit_rate_percentage": 5.0,
+      "precision_percentage": 100.0,
+      "false_hit_rate_percentage": 0.0,
+      "positive_pair_count": 8,
+      "negative_pair_count": 12
+    }
+  ],
+  "lowest_tested_zero_false_hit_threshold": 0.93
+}

@@ -74,7 +74,30 @@ chunks is rejected before the existing index is changed. The `--dummy` mode
 remains separate and writes the starter's fixed dummy index.
 
 ## Semantic cache
-Thresholds you tried, the false hit that ruled one out, the one you shipped.
+An offline threshold probe was run with 20 explicitly labeled query pairs and
+the production cosine rule (`similarity >= threshold`) using
+`nomic-embed-text:latest`. Results are in
+`eval/cache-threshold-runs/20261107T171600/`:
+
+| Threshold | True hits | False hits | Missed hits | Hit rate | Precision | Positive-pair recall | False-hit rate |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.90 | 5 | 1 | 3 | 30.00% | 83.33% | 62.50% | 8.33% |
+| 0.93 | 3 | 0 | 5 | 15.00% | 100.00% | 37.50% | 0.00% |
+| 0.95 (current) | 2 | 0 | 6 | 10.00% | 100.00% | 25.00% | 0.00% |
+| 0.97 | 1 | 0 | 7 | 5.00% | 100.00% | 12.50% | 0.00% |
+
+The 0.90 false hit was `report-year-2023-vs-2019`: a question about the
+2019–20 faculty total was matched to a cached answer about the 2023–24 total
+(cosine similarity 0.9112). The lowest tested threshold with zero false hits
+was 0.93. Raising the threshold to 0.95 avoided that false hit in this set but
+also missed one additional labeled positive pair; at 0.97, only one of eight
+positive pairs was reused.
+
+These are pair-level measurements, not a guarantee of answer correctness or a
+production safety certification: they use 8 positive and 12 negative examples,
+with each pair evaluated independently and no Redis lookup, multiple-entry
+selection, or indexing invalidation performed. The default ConfigMap threshold
+remains 0.95; this experiment does not change it.
 
 ## Evaluation method
 Recall@k measures whether a retrieved passage in the top k matches the gold

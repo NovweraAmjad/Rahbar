@@ -27,6 +27,12 @@ generation and deletes only keys for the configured cache prefix and collection 
 changing Chroma; entries written by requests already in flight remain in the old
 generation and cannot be returned. If invalidation fails, index writes are stopped.
 
+An offline 20-pair threshold probe using the configured `nomic-embed-text:latest`
+model found one false hit at 0.90 and none at 0.93, 0.95, or 0.97. The lowest tested
+zero-false-hit threshold was 0.93, but it is not promoted: the probe is a small
+pair-level sample rather than a production answer-correctness evaluation. The
+ConfigMap remains at 0.95 pending broader validation.
+
 ## Options considered
 - Chroma metadata or vector search: rejected because the cache is mutable answer state,
   not corpus evidence, and should not share collection lifecycle or retrieval semantics.
@@ -38,7 +44,8 @@ generation and cannot be returned. If invalidation fails, index writes are stopp
 ## Consequences
 Redis remains optional for local development. The simple scan-and-compare implementation
 is suitable only while the cache is modest; high entry counts may require an indexed
-vector-search strategy. The threshold and follow-up heuristic need evaluation against
-representative questions and query pairs before production use. Corpus invalidation is
-scoped and occurs before index mutation, but operational configuration must provide the
-same Redis URL, cache prefix, and collection to the API and indexer.
+vector-search strategy. The offline threshold probe and its limitations are documented
+in `eval/README.md`; more representative, answer-reviewed pairs are needed before any
+threshold change. Corpus invalidation is scoped and occurs before index mutation, but
+operational configuration must provide the same Redis URL, cache prefix, and collection
+to the API and indexer.
