@@ -1,0 +1,102 @@
+{
+  "run_id": "rt3-114805-10405",
+  "namespace": "rahbar-chunk-tuning",
+  "started_at": "2026-11-07T11:48:08.845817+00:00",
+  "status": "completed_with_evaluation_failures",
+  "git_commit": "221e7d52545e25c1452baae2d299951ccf2300e2",
+  "declared_image_identifiers": {
+    "api": "rahbar-api:dev",
+    "chroma": "chromadb/chroma:1.0.12",
+    "indexer": "rahbar-indexer:dev",
+    "redis": "redis:7.4-alpine"
+  },
+  "corpus": {
+    "sha256": "8428722a632289fd5d0845d485a07aa5e5572a5bb4b4d6400ef639fd72e276fe",
+    "files": {
+      "_index.json": "0eb552d0746549ee6fe7f2e1c486f1959ea5097e5c581c4a67d7c7a9199240cd",
+      "academic-rules-handbook-jun-2026.pdf": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "annual-report-2019-20.pdf": "4d1961e340b13273bb039805ab5fd5e2c7bd0144a5bd5870f2ce4da13becd650",
+      "annual-report-2023-24.pdf": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a",
+      "faculty-entrepreneurship-and-technical-start-ups-policy.pdf": "c2d5c7648d1593daf34d5c0596ede476e8984b0551830cc1690017e6e22f1359",
+      "prospectus-2026-academic-rules-and-regulations.pdf": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a",
+      "student-handbook-jun-2026.pdf": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "undergraduate-academic-rules-aug-2023.pdf": "cddfe1f5e9770132e27d686abd1c2e6742ef4732f0c2f431ed514bc1691d2004"
+    }
+  },
+  "corpus_verification": "corpus/fetch.py --verify",
+  "corpus_verification_log": "  ok        undergraduate-academic-rules-aug-2023.pdf\n  ok        academic-rules-handbook-jun-2026.pdf\n  ok        prospectus-2026-academic-rules-and-regulations.pdf\n  ok        student-handbook-jun-2026.pdf\n  ok        annual-report-2019-20.pdf\n  ok        annual-report-2023-24.pdf\n  ok        faculty-entrepreneurship-and-technical-start-ups-policy.pdf\n\n7 of 7 match the manifest\n",
+  "golden_path": "/mnt/c/Users/lenovo/Desktop/sem5/SCD/rahbar-starter/eval/golden.yaml",
+  "golden_sha256": "27e76d7ba9cc5820c31fecd79b39a6cfd99e2e42e292dff796b72c9d63df2e3f",
+  "baseline_path": "/mnt/c/Users/lenovo/Desktop/sem5/SCD/rahbar-starter/eval/baseline.json",
+  "baseline_sha256": "27193aee9309e9febb5ed154d5a0dd0fc06ff57b000963131161f42ff7254463",
+  "source_fingerprints": {
+    "eval/baseline.json": "27193aee9309e9febb5ed154d5a0dd0fc06ff57b000963131161f42ff7254463",
+    "eval/chunk-tuning.yaml": "a0efca99c592f4fa58baa79ee667c0603b677b236c23be816c63111f7646b879",
+    "eval/golden.yaml": "27e76d7ba9cc5820c31fecd79b39a6cfd99e2e42e292dff796b72c9d63df2e3f",
+    "eval/run_chunk_tuning.py": "b6417e742d06f35145c4b8b3c305f559af0705b05dd26d88ae0437757b286388",
+    "eval/run_eval.py": "9c61c0eb834b27653539809ebfea9e9643eac08e3af44916bef99df2257d4ea7",
+    "k8s/experiments/chunk-tuning/api.yaml": "fc792e41b26816c2cef276fc3f0104fd71b87d813e28be7cc96b66989de83fa4",
+    "k8s/experiments/chunk-tuning/chroma.yaml": "07eb4d0b485440072df78c969851bf78ccd357368aae0823fb1c8ea97922642b",
+    "k8s/experiments/chunk-tuning/configmap.yaml": "816085a8ec7dbec210faf489b7691a21a36c78bb7bc2a94cc043aa58cc0f8252",
+    "k8s/experiments/chunk-tuning/indexer-job-template.yaml": "efdd46d5c0880259da804452e1aa96ee22569b8fb01afea2ea2fa338117803cd",
+    "k8s/experiments/chunk-tuning/kustomization.yaml": "6768d3fa6045cae2160f3c2ccac18813aa11a3a59645784b7c1eff5fa1ff68b4",
+    "k8s/experiments/chunk-tuning/namespace.yaml": "46f6ba34ae46ec226e022b7b855c7385b2788490ae183f687651b7da278de10f",
+    "k8s/experiments/chunk-tuning/redis.yaml": "5ea9dd61d139c58fb1dec740e4c513dbc3e1f537f054a440c2958b6a91b0ae9a",
+    "k8s/experiments/chunk-tuning/serviceaccounts.yaml": "c837920d30ba874ab596736557b9484b0dce1bd5bf84b1b9bfa19f11dac71618"
+  },
+  "locked_settings": {
+    "RETRIEVER": "chroma",
+    "LLM_PROVIDER": "ollama-host",
+    "EMBED_MODEL": "nomic-embed-text",
+    "CHROMA_HOST": "chunk-chroma",
+    "CHROMA_PORT": "8000",
+    "CORPUS_DIR": "/corpus",
+    "TOP_K": "5",
+    "RELEVANCE_FLOOR": "0.5",
+    "REDIS_URL": "redis://chunk-redis:6379/0",
+    "CACHE_PREFIX": "rahbar:semantic-cache",
+    "CACHE_SIMILARITY_THRESHOLD": "0.95",
+    "TEMPERATURE": "0.2",
+    "LLM_MODEL": "llama3.2:3b",
+    "OLLAMA_URL": "http://172.23.112.1:11434",
+    "LOG_LEVEL": "INFO"
+  },
+  "profiles": [
+    {
+      "name": "small",
+      "chunk_size": 200,
+      "chunk_overlap": 25
+    },
+    {
+      "name": "current",
+      "chunk_size": 400,
+      "chunk_overlap": 50
+    },
+    {
+      "name": "large",
+      "chunk_size": 800,
+      "chunk_overlap": 100
+    }
+  ],
+  "ollama_model_tags": {
+    "EMBED_MODEL": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "modified_at": "2026-11-04T17:16:17.0838103+05:00"
+    },
+    "LLM_MODEL": {
+      "configured": "llama3.2:3b",
+      "name": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "modified_at": "2026-11-06T16:52:06.4324532+05:00"
+    }
+  },
+  "evaluation_gate_failed_profiles": [
+    "small",
+    "current",
+    "large"
+  ],
+  "completed_at": "2026-11-07T11:58:16.780634+00:00",
+  "comparison": "comparison.json"
+}

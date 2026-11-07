@@ -1,0 +1,68 @@
+{
+  "failed_questions": [
+    {
+      "id": "q01",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on"
+      ]
+    },
+    {
+      "id": "q03",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on",
+        "one or more citations did not match gold evidence"
+      ]
+    },
+    {
+      "id": "q05",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on",
+        "not all gold evidence was retrieved in the top 5",
+        "one or more citations did not match gold evidence"
+      ]
+    },
+    {
+      "id": "q06",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on",
+        "answerable response contained no citations"
+      ]
+    },
+    {
+      "id": "q07",
+      "request_status": "succeeded",
+      "reasons": [
+        "one or more citations did not match gold evidence"
+      ]
+    },
+    {
+      "id": "q08",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on",
+        "not all gold evidence was retrieved in the top 5",
+        "answerable response contained no citations"
+      ]
+    },
+    {
+      "id": "q10",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on"
+      ]
+    },
+    {
+      "id": "q12",
+      "request_status": "succeeded",
+      "reasons": [
+        "answerable question was incorrectly abstained on",
+        "not all gold evidence was retrieved in the top 5",
+        "answerable response contained no citations"
+      ]
+    }
+  ]
+}

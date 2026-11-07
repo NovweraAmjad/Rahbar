@@ -99,3 +99,179 @@ After reviewing the candidate metrics and question-level details, replace the
 approved baseline explicitly only if the gate passes and the run is accepted;
 retain the archived copy. Results and baselines contain no API credentials; do
 not put credentials in the URL or golden file.
+
+## Reproducible chunk-tuning experiment
+
+`chunk-tuning.yaml` fixes the three sequential configurations: small
+(200/25), current (400/50), and large (800/100), where values are whitespace
+tokens. The runner keeps the 15-question golden set, corpus bytes, embedding
+and generation model tags, `TOP_K`, relevance floor, cache threshold, and
+temperature fixed. It reuses `run_eval.py`; Recall@3/@5 and both citation
+metrics retain the definitions above.
+
+Each run gets a unique output directory under `eval/chunk-tuning-runs/` and
+three distinct Chroma collections incorporating the run ID and profile. The
+runner refuses an existing output directory, an existing experiment namespace,
+or an existing profile collection. The experiment stack uses only the
+`rahbar-chunk-tuning` namespace, its own Chroma and Redis PVCs, and a one-replica
+API. It never uses the `rahbar` namespace, its PVCs, its collections,
+`eval/results.json`, or `eval/baseline.json`.
+
+Before each index, the runner runs `corpus/fetch.py --verify`, validates the
+index-listed files against their SHA-256 values, and checks that the corpus
+fingerprint has not changed. The profile's stored collection count and embedding
+metadata are checked before the API is switched to that collection. The API
+cache already namespaces both entries and generation keys by collection; the
+runner additionally uses a separate Redis service and records the resulting
+cache scope for each profile. Indexing and evaluations run one profile at a
+time to avoid simultaneous requests to Ollama; the runner waits for the API pod
+to terminate before starting the next profile's indexing Job.
+
+### Prepare and run on Minikube
+
+Run these commands from the repository root in PowerShell. First ensure the
+Minikube context is selected, Ollama is reachable at
+`http://172.23.112.1:11434`, and both configured model tags
+(`nomic-embed-text` and `llama3.2:3b`) are available.
+
+```powershell
+minikube status
+kubectl config use-context minikube
+```
+
+Verify the local corpus and build/load the API and indexer images:
+
+```powershell
+python corpus\fetch.py --verify
+docker build -t rahbar-api:dev api
+docker build -t rahbar-indexer:dev indexer
+minikube image load rahbar-api:dev
+minikube image load rahbar-indexer:dev
+```
+
+In a separate PowerShell terminal, keep the corpus mount running for the whole
+experiment:
+
+```powershell
+minikube mount "$(Resolve-Path .\corpus\raw):/mnt/rahbar-corpus"
+```
+
+Then run the experiment:
+
+```powershell
+python eval\run_chunk_tuning.py
+```
+
+The runner creates a unique output directory automatically. To choose a
+specific new directory, provide a unique lowercase run ID as its final path
+component:
+
+```powershell
+python eval\run_chunk_tuning.py --output-dir eval\chunk-tuning-runs\trial-20261107
+```
+
+The runner applies only `k8s/experiments/chunk-tuning/`, checks that
+`rahbar-chunk-tuning` does not already exist, indexes and evaluates each
+profile sequentially, and stops on any indexing, API request, corpus,
+collection, or incomplete-evaluation failure. A complete evaluation can still
+contain failed questions; those are reported as measured results, not hidden
+or treated as infrastructure failures. Evaluation-gate status and gate failure
+reasons are also retained per profile. An incomplete run exits nonzero and has
+no comparison summary; a complete run with one or more failed metric gates
+preserves the full comparison and exits nonzero to make that outcome explicit.
+
+Each run directory contains the Git commit, image references and runtime image
+IDs, verified corpus fingerprint and file hashes, model tags, and common
+settings. Each profile subdirectory contains its configuration, generated
+ConfigMap and Job YAML, indexing log, collection count/metadata, raw
+`run_eval.py` JSON, evaluation log, and failed question IDs. A comparison is
+written only after all three profiles complete successfully:
+
+```text
+eval/chunk-tuning-runs/<run-id>/comparison.json
+eval/chunk-tuning-runs/<run-id>/comparison.md
+```
+
+`comparison.md` reports chunk count, Recall@3/@5, citation provenance validity,
+gold-evidence relevance, must-abstain correctness, and failed IDs. After
+reviewing all three complete runs, copy the **measured** Recall@5 values and
+your evidence-based shipped-configuration rationale into the table in
+`docs/PIPELINE.md`. Do not fill that table from an incomplete run or from
+assumed values. The runner reads the existing baseline and checks its SHA-256;
+it never writes the baseline or the ordinary evaluation results file.
+
+### Completed run: `rt3-114805-10405`
+
+The completed comparison is preserved at
+`eval/chunk-tuning-runs/rt3-114805-10405/` (`comparison.json` and
+`comparison.md`). All three profiles completed their evaluations, but all
+three failed the overall evaluation gate:
+
+| Profile | Size / overlap | Chunks | Recall@3 | Recall@5 | Citation provenance | Gold-evidence relevance | Must-abstain | Failed questions |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Small | 200 / 25 | 650 | 66.67% | 75.00% | 100.00% | 66.67% | 100.00% | 8 / 15 |
+| Current | 400 / 50 | 440 | 83.33% | 83.33% | 100.00% | 87.50% | 100.00% | 7 / 15 |
+| Large | 800 / 100 | 355 | 75.00% | 75.00% | 100.00% | 85.71% | 100.00% | 6 / 15 |
+
+The 400/50 current profile is selected based on its highest measured Recall@5
+and gold-evidence relevance. Selection does not mean the evaluation gate
+passed. Citation provenance validity checks whether citations refer to
+retrieved material; gold-evidence relevance separately checks whether those
+citations match the expected evidence for each question. Therefore, 100%
+provenance validity does not imply 100% gold-evidence relevance.
+
+### Recovering from a failed run
+
+Collection existence, count, and metadata are read through Chroma's HTTP API
+using a temporary port-forward to `service/chunk-chroma`; the runner does not
+require Python in the Chroma container. It stops on inspection errors and
+preserves the run directory and any namespace/PVC state for inspection.
+
+The reported failed run `20261107t1106-56528f` stopped before submitting its
+indexer Job. Its `small/collection.json` records `not_indexed`. The experiment
+namespace was absent when this recovery note was written; check again before
+retrying because cluster state may have changed.
+
+From the repository root, first confirm the selected cluster and inspect only
+the disposable namespace:
+
+```powershell
+kubectl config current-context
+kubectl get namespace rahbar-chunk-tuning
+kubectl get pods,services,pvc,jobs -n rahbar-chunk-tuning
+```
+
+If that namespace exists, preserve/review the run artifacts and confirm it is
+the disposable experiment namespace before cleanup. Deleting it also deletes
+its PVCs (and may leave PVs depending on the storage reclaim policy):
+
+```powershell
+kubectl delete namespace rahbar-chunk-tuning
+kubectl wait --for=delete namespace/rahbar-chunk-tuning --timeout=120s
+```
+
+Skip namespace cleanup if it is already absent. Never delete or modify
+`rahbar`, its PVCs, or its collections. Keep the failed output directory as
+evidence; the runner intentionally refuses to reuse it. Once the intended
+Minikube context, corpus mount, images, and Ollama endpoint are ready, rerun
+with a new output directory:
+
+```powershell
+$runId = (Get-Date -Format "yyyyMMddTHHmmss").ToLower()
+python eval\run_chunk_tuning.py --output-dir "eval\chunk-tuning-runs\retry-$runId"
+```
+
+### Cleanup
+
+Review and retain the output directory before cleanup. The disposable namespace
+contains the experiment's only Chroma and Redis PVCs; deleting it removes those
+PVCs and may delete their backing storage according to the cluster's storage
+class reclaim policy:
+
+```powershell
+kubectl delete namespace rahbar-chunk-tuning
+```
+
+This command is intentionally scoped to the experiment namespace. Never replace
+that name with `rahbar`, and do not delete any PV or PVC by a broad selector.
+The host `minikube mount` can be stopped with Ctrl+C after the run and cleanup.

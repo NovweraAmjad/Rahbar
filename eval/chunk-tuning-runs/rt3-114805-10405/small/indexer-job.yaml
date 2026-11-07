@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: indexer-rt3-114805-10405-small
+  namespace: rahbar-chunk-tuning
+  labels:
+    rahbar.experiment: chunk-tuning
+    rahbar.profile: small
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: chunk-indexer
+    spec:
+      serviceAccountName: chunk-indexer
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+      - name: indexer
+        image: rahbar-indexer:dev
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: chunk-tuning-common
+        - configMapRef:
+            name: chunk-profile-rt3-114805-10405-small
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: '2'
+            memory: 3Gi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: corpus
+          mountPath: /corpus
+          readOnly: true
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: corpus
+        hostPath:
+          path: /mnt/rahbar-corpus
+          type: Directory
+      - name: tmp
+        emptyDir:
+          sizeLimit: 1Gi

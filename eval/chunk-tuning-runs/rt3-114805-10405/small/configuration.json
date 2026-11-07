@@ -1,0 +1,49 @@
+{
+  "profile": {
+    "name": "small",
+    "chunk_size": 200,
+    "chunk_overlap": 25
+  },
+  "collection": "rahbar-ct-rt3-114805-10405-small",
+  "cache_scope": "rahbar:semantic-cache:rahbar-ct-rt3-114805-10405-small",
+  "common_settings": {
+    "RETRIEVER": "chroma",
+    "LLM_PROVIDER": "ollama-host",
+    "EMBED_MODEL": "nomic-embed-text",
+    "CHROMA_HOST": "chunk-chroma",
+    "CHROMA_PORT": "8000",
+    "CORPUS_DIR": "/corpus",
+    "TOP_K": "5",
+    "RELEVANCE_FLOOR": "0.5",
+    "REDIS_URL": "redis://chunk-redis:6379/0",
+    "CACHE_PREFIX": "rahbar:semantic-cache",
+    "CACHE_SIMILARITY_THRESHOLD": "0.95",
+    "TEMPERATURE": "0.2",
+    "LLM_MODEL": "llama3.2:3b",
+    "OLLAMA_URL": "http://172.23.112.1:11434",
+    "LOG_LEVEL": "INFO"
+  },
+  "golden_sha256": "27e76d7ba9cc5820c31fecd79b39a6cfd99e2e42e292dff796b72c9d63df2e3f",
+  "baseline_sha256": "27193aee9309e9febb5ed154d5a0dd0fc06ff57b000963131161f42ff7254463",
+  "git_commit": "221e7d52545e25c1452baae2d299951ccf2300e2",
+  "declared_image_identifiers": {
+    "api": "rahbar-api:dev",
+    "chroma": "chromadb/chroma:1.0.12",
+    "indexer": "rahbar-indexer:dev",
+    "redis": "redis:7.4-alpine"
+  },
+  "ollama_model_tags": {
+    "EMBED_MODEL": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "modified_at": "2026-11-04T17:16:17.0838103+05:00"
+    },
+    "LLM_MODEL": {
+      "configured": "llama3.2:3b",
+      "name": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "modified_at": "2026-11-06T16:52:06.4324532+05:00"
+    }
+  }
+}

@@ -27,8 +27,19 @@ overlap by 50 tokens within a page and heading section. `CHUNK_SIZE` and
 must be non-negative and smaller than size. This uses whitespace token counts,
 not the embedding model's tokenizer, and does not infer non-Markdown headings.
 
-| Size (tokens) | Overlap (tokens) | recall@5 | Chunks stored |
-| --- | --- | --- | --- |
+Completed chunk-tuning run `rt3-114805-10405` compared all three profiles
+against the same 15-question evaluation set:
+
+| Profile | Size / overlap (tokens) | Chunks stored | Recall@3 | Recall@5 | Citation provenance validity | Gold-evidence relevance | Must-abstain accuracy | Failed questions | Evaluation gate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Small | 200 / 25 | 650 | 66.67% | 75.00% | 100.00% | 66.67% | 100.00% | 8 / 15 | Failed |
+| Current | 400 / 50 | 440 | 83.33% | 83.33% | 100.00% | 87.50% | 100.00% | 7 / 15 | Failed |
+| Large | 800 / 100 | 355 | 75.00% | 75.00% | 100.00% | 85.71% | 100.00% | 6 / 15 | Failed |
+
+The 400/50 current profile is selected from these measurements because it had
+the strongest Recall@5 and gold-evidence relevance. All three profiles
+completed, but every profile failed the overall evaluation gate; this
+comparison is not evidence that the quality gate passed.
 
 ## Embedding
 Chunks are embedded with Ollama's batched `POST /api/embed` endpoint, using
@@ -66,4 +77,13 @@ remains separate and writes the starter's fixed dummy index.
 Thresholds you tried, the false hit that ruled one out, the one you shipped.
 
 ## Evaluation method
-How recall@k matches retrieved passages to golden ones (by source and section? by chunk id?).
+Recall@k measures whether a retrieved passage in the top k matches the gold
+evidence using the evaluator's source and page matching rule, with section
+checked when provided. Citation provenance validity and gold-evidence
+relevance are distinct: provenance checks whether each citation matches an
+actual retrieved reference (source and page, and section when available);
+gold-evidence relevance checks whether citations also match the question's
+expected gold evidence. A validly sourced citation can therefore be irrelevant
+to the expected answer. In run `rt3-114805-10405`, provenance validity was
+100% for all profiles, while gold-evidence relevance ranged from 66.67% to
+87.50%.

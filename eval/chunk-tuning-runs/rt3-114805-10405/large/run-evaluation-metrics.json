@@ -1,0 +1,101 @@
+{
+  "total_questions": 15,
+  "successful_requests": 15,
+  "request_failures": 0,
+  "request_failure_details": [],
+  "answerable_questions": 12,
+  "answerable_answered_from_context": 6,
+  "answerable_incorrectly_abstained": 6,
+  "recall_at_3": 0.75,
+  "recall_at_5": 0.75,
+  "citation_provenance_validity_percentage": 100.0,
+  "gold_evidence_relevance_percentage": 85.71428571428571,
+  "citation_validity_percentage": 100.0,
+  "citation_count": 7,
+  "valid_citation_count": 7,
+  "gold_evidence_relevant_citation_count": 6,
+  "invalid_citation_provenance": [],
+  "gold_irrelevant_citations": [
+    {
+      "question_id": "q08",
+      "citation": {
+        "source": "student-handbook-jun-2026.pdf",
+        "section": "Page 59 (no section heading detected)",
+        "page": 59
+      },
+      "reason": "citation did not match expected gold evidence"
+    }
+  ],
+  "invalid_citations": [
+    {
+      "question_id": "q08",
+      "citation": {
+        "source": "student-handbook-jun-2026.pdf",
+        "section": "Page 59 (no section heading detected)",
+        "page": 59
+      },
+      "reason": "citation did not match expected gold evidence"
+    }
+  ],
+  "must_abstain_cases": [
+    {
+      "id": "q13",
+      "request_status": "succeeded",
+      "correct": true,
+      "reason": null
+    },
+    {
+      "id": "q14",
+      "request_status": "succeeded",
+      "correct": true,
+      "reason": null
+    },
+    {
+      "id": "q15",
+      "request_status": "succeeded",
+      "correct": true,
+      "reason": null
+    }
+  ],
+  "must_abstain_correctness_percentage": 100.0,
+  "per_category": {
+    "exact-term": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "must-abstain": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "must_abstain_correctness_percentage": 100.0
+    },
+    "ordinary": {
+      "questions": 8,
+      "successful_requests": 8,
+      "recall_at_3": 0.75,
+      "recall_at_5": 0.75,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "prompt-injection": {
+      "questions": 1,
+      "successful_requests": 1,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "must_abstain_correctness_percentage": 100.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "must_abstain_correctness_percentage": 0.0
+    }
+  },
+  "passed_questions": 9,
+  "failed_questions": 6,
+  "metrics_unavailable_reason": null
+}
