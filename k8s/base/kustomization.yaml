@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - chroma.yaml
+  - redis.yaml
+  - api.yaml
+  - ui.yaml
+  - ingress.yaml
+  - indexer-job.yaml
+  - indexer-cronjob.yaml
+  - serviceaccounts.yaml
+  - networkpolicy-default-deny.yaml
+  - networkpolicy-allow.yaml
+  - hpa.yaml

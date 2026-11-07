@@ -3,16 +3,32 @@
 from __future__ import annotations
 
 import math
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Protocol, cast
+
+import httpx
 
 from ..config import Settings
 from ..embeddings import embed_query
 from ..schemas import Passage
 
 if TYPE_CHECKING:
+    from chromadb.api import ClientAPI
     from chromadb.api.types import Where
 
 _SUPERSEDED_FILTER: Where = {"superseded": False}
+_CHROMA_TIMEOUT_SECONDS = 2.0
+
+
+class _ChromaHttpSession(Protocol):
+    timeout: httpx.Timeout | float | None
+
+
+class _ChromaHttpServer(Protocol):
+    _session: _ChromaHttpSession
+
+
+class _ChromaHttpClient(Protocol):
+    _server: _ChromaHttpServer
 
 
 def _result_rows(response: object) -> list[tuple[str, str, dict[str, object], float]]:
@@ -56,15 +72,25 @@ class ChromaRetriever:
     name = "chroma"
 
     def __init__(self, settings: Settings) -> None:
-        import chromadb  # the thin client, from chromadb-client in requirements.txt
-        from chromadb.config import Settings as ChromaSettings
-
         self.settings = settings
-        self.client = chromadb.HttpClient(
-            host=settings.chroma_host,
-            port=settings.chroma_port,
-            settings=ChromaSettings(anonymized_telemetry=False),
-        )
+        self._client: ClientAPI | None = None
+
+    @property
+    def client(self) -> ClientAPI:
+        if self._client is None:
+            import chromadb  # the thin client, from chromadb-client in requirements.txt
+            from chromadb.config import Settings as ChromaSettings
+
+            client = chromadb.HttpClient(
+                host=self.settings.chroma_host,
+                port=self.settings.chroma_port,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
+            cast(_ChromaHttpClient, client)._server._session.timeout = httpx.Timeout(
+                _CHROMA_TIMEOUT_SECONDS
+            )
+            self._client = client
+        return self._client
 
     def retrieve(
         self,
