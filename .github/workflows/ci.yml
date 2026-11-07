@@ -172,10 +172,12 @@ jobs:
       - name: Install pinned Trivy
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error \
-            https://github.com/aquasecurity/trivy/releases/download/v0.59.1/trivy_0.59.1_Linux-64bit.tar.gz \
-            -o /tmp/trivy.tar.gz
-          tar -xzf /tmp/trivy.tar.gz -C /tmp trivy
+          docker pull ghcr.io/aquasecurity/trivy:0.59.1
+          trivy_container="$(docker create ghcr.io/aquasecurity/trivy:0.59.1)"
+          trap 'docker rm -f "$trivy_container" >/dev/null' EXIT
+          docker cp "$trivy_container:/usr/local/bin/trivy" /tmp/trivy
+          chmod 0755 /tmp/trivy
+          /tmp/trivy --version
       - name: Scan API image
         run: /tmp/trivy image --input rahbar-api.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
       - name: Scan indexer image
@@ -255,11 +257,13 @@ jobs:
           kubectl port-forward --namespace rahbar service/ui 18080:8080 \
             >/tmp/rahbar-ui-port-forward.log 2>&1 &
           echo "$!" > /tmp/rahbar-ui-port-forward.pid
-          for attempt in $(seq 1 30); do
+          attempt=0
+          while [ "$attempt" -lt 30 ]; do
             if curl --fail --silent http://127.0.0.1:18000/readyz >/dev/null \
               && curl --fail --silent http://127.0.0.1:18080/healthz >/dev/null; then
               break
             fi
+            attempt=$((attempt + 1))
             sleep 2
           done
           curl --fail --silent http://127.0.0.1:18080/ >/dev/null
