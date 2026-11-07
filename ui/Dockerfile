@@ -1,4 +1,14 @@
-FROM nginx:1.28.1-alpine
+FROM nginx:1.28-alpine
+USER root
+RUN apk update \
+    && apk upgrade --no-cache \
+    && apk del --no-cache \
+        nginx-module-acme \
+        nginx-module-geoip \
+        nginx-module-image-filter \
+        nginx-module-njs \
+        nginx-module-xslt \
+    && apk add --no-cache "nginx>=1.28.3-r7"
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /usr/share/nginx/html/index.html

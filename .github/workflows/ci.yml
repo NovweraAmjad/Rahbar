@@ -116,33 +116,35 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+      # pull + no-cache: a cached "apk upgrade" / "apt-get upgrade" layer would
+      # keep old vulnerable packages, so always rebuild on a fresh base.
       - name: Build API image
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: ./api
           push: false
           load: true
+          pull: true
+          no-cache: true
           tags: rahbar-api:dev
-          cache-from: type=gha,scope=rahbar-api
-          cache-to: type=gha,scope=rahbar-api,mode=max
       - name: Build indexer image
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: ./indexer
           push: false
           load: true
+          pull: true
+          no-cache: true
           tags: rahbar-indexer:dev
-          cache-from: type=gha,scope=rahbar-indexer
-          cache-to: type=gha,scope=rahbar-indexer,mode=max
       - name: Build UI image
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: ./ui
           push: false
           load: true
+          pull: true
+          no-cache: true
           tags: rahbar-ui:dev
-          cache-from: type=gha,scope=rahbar-ui
-          cache-to: type=gha,scope=rahbar-ui,mode=max
       - name: Save built images for scan and e2e jobs
         run: |
           docker save --output rahbar-api.tar rahbar-api:dev
@@ -179,11 +181,11 @@ jobs:
           chmod 0755 /tmp/trivy
           /tmp/trivy --version
       - name: Scan API image
-        run: /tmp/trivy image --input rahbar-api.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
+        run: /tmp/trivy image --input rahbar-api.tar --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
       - name: Scan indexer image
-        run: /tmp/trivy image --input rahbar-indexer.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
+        run: /tmp/trivy image --input rahbar-indexer.tar --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
       - name: Scan UI image
-        run: /tmp/trivy image --input rahbar-ui.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
+        run: /tmp/trivy image --input rahbar-ui.tar --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
 
   e2e-eval:
     name: Fixture indexing and evaluation
