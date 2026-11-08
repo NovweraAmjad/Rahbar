@@ -1,0 +1,15 @@
+schema_version: 1
+questions:
+- id: q-version-current-attendance
+  category: version-sensitive
+  question: Under the current June 2026 Academic Rules Handbook, how much absence
+    may the HoD condone for genuine reasons under clause 1.21?
+  expected_answerability: answerable
+  expected_answer: A maximum of 20% of total attendance may be condoned.
+  gold_evidence:
+  - source: academic-rules-handbook-jun-2026.pdf
+    page: 10
+    section: Attendance Requirements
+    document_version: 2026-06
+  expected_document: Academic Rules Handbook (Jun 2026)
+  expected_version: 2026-06

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chunk-profile-rt3-114805-10405-current
+  namespace: rahbar-chunk-tuning
+  labels:
+    rahbar.experiment: chunk-tuning
+    rahbar.profile: current
+data:
+  CHROMA_COLLECTION: rahbar-ct-rt3-114805-10405-current
+  CHUNK_SIZE: '400'
+  CHUNK_OVERLAP: '50'

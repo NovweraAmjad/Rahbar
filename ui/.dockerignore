@@ -1,0 +1,14 @@
+.git
+.venv
+venv
+node_modules
+dist
+build
+coverage
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.env
+.env.*
+*.log
+*.pdf

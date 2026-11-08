@@ -1,0 +1,72 @@
+{
+  "declared": {
+    "api": "rahbar-api:dev",
+    "chroma": "chromadb/chroma:1.0.12",
+    "indexer": "rahbar-indexer:dev",
+    "redis": "redis:7.4-alpine"
+  },
+  "observed": {
+    "chroma": [
+      {
+        "pod": "chunk-chroma-0",
+        "containers": [
+          {
+            "name": "chroma",
+            "image": "docker.io/chromadb/chroma:1.0.12",
+            "image_id": "docker.io/chromadb/chroma@sha256:28a3b2c05c74c83686c2273d4d0994b80c481805d0f47887f289c53a4616e592"
+          }
+        ]
+      }
+    ],
+    "redis": [
+      {
+        "pod": "chunk-redis-765dc46b66-c6sqg",
+        "containers": [
+          {
+            "name": "redis",
+            "image": "docker.io/library/redis:7.4-alpine",
+            "image_id": "docker.io/library/redis@sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b"
+          }
+        ]
+      }
+    ],
+    "api": [
+      {
+        "pod": "chunk-api-7c55db9b6-fkqzj",
+        "containers": [
+          {
+            "name": "api",
+            "image": "docker.io/library/rahbar-api:dev",
+            "image_id": "sha256:14566156fd728dce5f2b647fdb613f46db24d5ce013388a1f6499bb4610181dd"
+          }
+        ]
+      }
+    ],
+    "indexer": [
+      {
+        "pod": "indexer-rt3-114805-10405-large-vqlfv",
+        "containers": [
+          {
+            "name": "indexer",
+            "image": "docker.io/library/rahbar-indexer:dev",
+            "image_id": "sha256:a4c99ddc7e0d1d8150f83f420ee2f7be64bef69ea3900bd6e4b3a9789fadbc25"
+          }
+        ]
+      }
+    ]
+  },
+  "ollama_model_tags": {
+    "EMBED_MODEL": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "modified_at": "2026-11-04T17:16:17.0838103+05:00"
+    },
+    "LLM_MODEL": {
+      "configured": "llama3.2:3b",
+      "name": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "modified_at": "2026-11-06T16:52:06.4324532+05:00"
+    }
+  }
+}

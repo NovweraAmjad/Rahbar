@@ -1,0 +1,52 @@
+{
+  "evaluation_timestamp": "2026-11-07T08:59:42.924376+00:00",
+  "api_base_url": "http://localhost:8080",
+  "number_of_evaluated_questions": 15,
+  "successful_requests": 15,
+  "recall_at_3": 0.8333333333333334,
+  "recall_at_5": 0.8333333333333334,
+  "citation_validity_percentage": 87.5,
+  "must_abstain_correctness_percentage": 100.0,
+  "per_category_metrics": {
+    "exact-term": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "must-abstain": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "must_abstain_correctness_percentage": 100.0
+    },
+    "ordinary": {
+      "questions": 8,
+      "successful_requests": 8,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "prompt-injection": {
+      "questions": 1,
+      "successful_requests": 1,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "must_abstain_correctness_percentage": 100.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "must_abstain_correctness_percentage": 0.0
+    }
+  },
+  "evaluation_gate_passed": false,
+  "evaluation_gate_failures": [
+    "7 question(s) failed evaluation checks",
+    "citation validity is below 95%"
+  ]
+}

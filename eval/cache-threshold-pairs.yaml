@@ -1,0 +1,146 @@
+schema_version: 1
+thresholds:
+  - 0.90
+  - 0.93
+  - 0.95
+  - 0.97
+pairs:
+  - id: attendance-equivalent
+    category: equivalent
+    expected_reuse: true
+    cached_question: What attendance level does the June 2026 Academic Rules Handbook require?
+    query_question: Under the June 2026 Academic Rules Handbook, what attendance level is required?
+    rationale: Both ask for the required attendance level from the same handbook version.
+
+  - id: attendance-condonation-paraphrase
+    category: paraphrase
+    expected_reuse: true
+    cached_question: How much absence may the HoD condone for genuine reasons?
+    query_question: For genuine reasons, what is the maximum absence the HoD may excuse?
+    rationale: Both ask for the same maximum condonable absence under the handbook.
+
+  - id: warning-reset-equivalent
+    category: equivalent
+    expected_reuse: true
+    cached_question: When is the academic-warning count reset after a warning?
+    query_question: Under what condition does the academic warning count reset?
+    rationale: Both ask for the condition that resets the academic-warning count.
+
+  - id: repeat-course-paraphrase
+    category: paraphrase
+    expected_reuse: true
+    cached_question: May a student repeat a course to improve CGPA under the June 2026 rules?
+    query_question: Can students retake a course to raise their CGPA under the June 2026 rules?
+    rationale: Both ask whether course repetition is allowed to improve CGPA under the same rules.
+
+  - id: generative-ai-citation-paraphrase
+    category: paraphrase
+    expected_reuse: true
+    cached_question: What must students do when submitting work containing Generative AI output?
+    query_question: How should a student acknowledge AI-generated material in submitted work?
+    rationale: Both ask about acknowledging and citing Generative AI output in submitted work.
+
+  - id: faculty-2019-equivalent
+    category: equivalent
+    expected_reuse: true
+    cached_question: In the Annual Report 2019-20, how many faculty members are listed in the university-wide summary?
+    query_question: What was the university-wide faculty count in Annual Report 2019-20?
+    rationale: Both ask for the same university-wide faculty figure in the same report year.
+
+  - id: faculty-2023-equivalent
+    category: equivalent
+    expected_reuse: true
+    cached_question: In the Annual Report 2023-24, what is the university-wide faculty total?
+    query_question: How many faculty members did the university-wide summary report in 2023-24?
+    rationale: Both ask for the same faculty total in the 2023-24 report.
+
+  - id: attendance-clause-paraphrase
+    category: paraphrase
+    expected_reuse: true
+    cached_question: Which clause number in the June 2026 Academic Rules Handbook contains the attendance requirement?
+    query_question: What is the June 2026 handbook clause for the attendance requirement?
+    rationale: Both ask for the clause containing the attendance requirement.
+
+  - id: attendance-vs-condonation
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What attendance level must students maintain under the June 2026 handbook?
+    query_question: How much absence may the HoD condone for genuine reasons under that handbook?
+    rationale: Closely related attendance rules, but one asks for required attendance and the other for the permitted exception.
+
+  - id: attendance-vs-exam-eligibility
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What attendance level does the June 2026 handbook require?
+    query_question: What happens if a student does not meet the course attendance requirement?
+    rationale: Same rule area, but the answer changes from a percentage requirement to an examination consequence.
+
+  - id: warning-floor-vs-reset
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What minimum CGPA is required to avoid academic warning in the June 2026 handbook?
+    query_question: When is the academic-warning count reset after a warning?
+    rationale: Similar academic-warning topic, but asks about different conditions and consequences.
+
+  - id: failed-course-vs-repeat
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What must a student do with a failed or missed course from a previous semester?
+    query_question: May a student repeat a course to improve CGPA under the June 2026 rules?
+    rationale: Both concern course registration, but one requires registering a failed or missed course and the other permits repetition for improvement.
+
+  - id: report-year-2019-vs-2023
+    category: version_sensitive
+    expected_reuse: false
+    cached_question: In the Annual Report 2019-20, how many faculty members are listed in the university-wide summary?
+    query_question: In the Annual Report 2023-24, what is the university-wide faculty total?
+    rationale: Nearly identical query shape, but the report years and expected figures differ.
+
+  - id: report-year-2023-vs-2019
+    category: version_sensitive
+    expected_reuse: false
+    cached_question: In the Annual Report 2023-24, what is the university-wide faculty total?
+    query_question: What faculty total does the Annual Report 2019-20 give for the university?
+    rationale: The same metric from different report years has different expected values.
+
+  - id: genai-section-title-vs-citation-rule
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What is the exact title of Section XII in the June 2026 Student Handbook?
+    query_question: What must students cite when submitted work includes Generative AI output?
+    rationale: Same policy topic, but asks for a section title versus the specific acknowledgement rule.
+
+  - id: attendance-vs-cgpa-clause
+    category: hard_negative
+    expected_reuse: false
+    cached_question: Which clause number contains the June 2026 handbook attendance requirement?
+    query_question: What minimum CGPA avoids academic warning in the June 2026 handbook?
+    rationale: Same source and document year, but asks for unrelated clauses and answer types.
+
+  - id: genai-title-vs-attendance-clause
+    category: entity_sensitive
+    expected_reuse: false
+    cached_question: What is the exact title of Section XII in the June 2026 Student Handbook?
+    query_question: Which clause number in the June 2026 Academic Rules Handbook contains the attendance requirement?
+    rationale: Similar request for a precise named reference, but the documents and requested concepts differ.
+
+  - id: attendance-requirement-vs-missed-course
+    category: hard_negative
+    expected_reuse: false
+    cached_question: What attendance level is required by the June 2026 Academic Rules Handbook?
+    query_question: What must a student do with a failed or missed course from a previous semester?
+    rationale: Similar student-rules domain, but these questions require distinct rules and answers.
+
+  - id: cafeteria-vs-faculty-report
+    category: unrelated
+    expected_reuse: false
+    cached_question: What food is served in the FAST-NUCES cafeteria?
+    query_question: How many faculty members were listed in Annual Report 2023-24?
+    rationale: Unrelated unsupported cafeteria query and historical faculty-count query.
+
+  - id: cafeteria-vs-attendance
+    category: unrelated
+    expected_reuse: false
+    cached_question: What food is served in the FAST-NUCES cafeteria?
+    query_question: What attendance level does the June 2026 handbook require?
+    rationale: Unrelated unsupported cafeteria query and attendance-policy query.

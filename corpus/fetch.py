@@ -98,16 +98,32 @@ def fetch(force: bool) -> int:
     index_path = RAW / "_index.json"
     previous = {e["name"]: e for e in json.loads(index_path.read_text())} \
         if index_path.exists() else {}
+    previous_by_url = {
+        normalise(e["url"]): e for e in previous.values() if e.get("url")
+    }
     entries, failures = [], []
+    seen_urls: set[str] = set()
     with httpx.Client(headers={"User-Agent": USER_AGENT}, follow_redirects=True,
                       timeout=httpx.Timeout(60.0, connect=15.0)) as client:
         for doc in docs:
-            name, url = doc["name"], normalise(doc["url"])
+            name, source_url = doc["name"], str(doc["url"])
+            url = normalise(source_url)
+            if url in seen_urls:
+                print(f"  duplicate URL skipped: {source_url}")
+                continue
+            seen_urls.add(url)
             old = previous.get(name)
-            if old and not force and (RAW / old["file"]).exists() and old["url"] == url:
-                print(f"  have    {old['file']}")
-                entries.append({**old, "doc_version": doc.get("doc_version", "unknown"),
-                                "superseded": bool(doc.get("superseded", False))})
+            cached = old if old and normalise(old.get("url", "")) == url else \
+                previous_by_url.get(url)
+            if cached and not force and (RAW / cached["file"]).exists():
+                print(f"  have    {cached['file']}")
+                entries.append({
+                    **cached,
+                    "name": name,
+                    "url": source_url,
+                    "doc_version": doc.get("doc_version", "unknown"),
+                    "superseded": bool(doc.get("superseded", False)),
+                })
                 continue
             print(f"  fetch   {name}")
             try:
@@ -118,10 +134,14 @@ def fetch(force: bool) -> int:
                 if "drive.google.com" in url and "html" in content_type:
                     raise RuntimeError("Google Drive returned a web page, not the file "
                                        "(too large for direct download, or not shared publicly)")
+                if (urlsplit(url).path.lower().endswith(".pdf")
+                        or "pdf" in content_type.lower()) and not response.content.startswith(b"%PDF-"):
+                    raise RuntimeError("expected a PDF response, but the payload has no PDF signature")
                 file = slug(name) + guess_extension(url, content_type)
                 (RAW / file).write_bytes(response.content)
                 entries.append({
-                    "name": name, "url": url, "file": file, "bytes": len(response.content),
+                    "name": name, "url": source_url, "file": file,
+                    "bytes": len(response.content),
                     "sha256": hashlib.sha256(response.content).hexdigest(),
                     "content_type": content_type.split(";")[0],
                     "fetched_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
@@ -134,14 +154,15 @@ def fetch(force: bool) -> int:
                 print(f"  FAILED  {name}: {exc}")
             time.sleep(PAUSE_SECONDS)
 
-    index_path.write_text(json.dumps(entries, indent=2), encoding="utf-8")
-    write_manifest(entries)
-    print(f"\n{len(entries)} documents in corpus/raw, manifest written to corpus/MANIFEST.md")
     if failures:
         print(f"{len(failures)} failed; fix their URLs in sources.yaml and run again:")
         for name, reason in failures:
             print(f"  - {name}: {reason}")
         return 1
+
+    index_path.write_text(json.dumps(entries, indent=2), encoding="utf-8")
+    write_manifest(entries)
+    print(f"\n{len(entries)} documents in corpus/raw, manifest written to corpus/MANIFEST.md")
     return 0
 
 

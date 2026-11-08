@@ -12,10 +12,17 @@ from pipeline.run import discover
 
 
 class FakeCollection:
-    def __init__(self, name: str, metadata: dict) -> None:
-        self.name, self.metadata, self.rows = name, metadata, {}
+    def __init__(self, name: str, metadata: dict[str, object]) -> None:
+        self.name, self.metadata = name, metadata
+        self.rows: dict[str, tuple[str, list[float], dict[str, str | int | bool]]] = {}
 
-    def add(self, ids, documents, embeddings, metadatas) -> None:
+    def add(
+        self,
+        ids: list[str],
+        documents: list[str],
+        embeddings: list[list[float]],
+        metadatas: list[dict[str, str | int | bool]],
+    ) -> None:
         for i, d, e, m in zip(ids, documents, embeddings, metadatas):
             self.rows[i] = (d, e, m)
 
@@ -32,7 +39,7 @@ class FakeClient:
             raise ValueError("no such collection")
         del self.collections[name]
 
-    def create_collection(self, name: str, metadata: dict) -> FakeCollection:
+    def create_collection(self, name: str, metadata: dict[str, object]) -> FakeCollection:
         self.collections[name] = FakeCollection(name, metadata)
         return self.collections[name]
 

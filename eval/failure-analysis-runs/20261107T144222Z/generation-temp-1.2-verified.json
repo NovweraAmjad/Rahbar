@@ -1,0 +1,137 @@
+{
+  "evaluation_timestamp": "2026-11-07T15:12:07.714387+00:00",
+  "api_base_url": "http://127.0.0.1:18003",
+  "golden_file": "superseded-policy-question.yaml",
+  "metrics": {
+    "total_questions": 1,
+    "successful_requests": 1,
+    "request_failures": 0,
+    "request_failure_details": [],
+    "answerable_questions": 1,
+    "answerable_answered_from_context": 0,
+    "answerable_incorrectly_abstained": 1,
+    "recall_at_3": 1.0,
+    "recall_at_5": 1.0,
+    "citation_provenance_validity_percentage": null,
+    "gold_evidence_relevance_percentage": null,
+    "citation_validity_percentage": null,
+    "citation_count": 0,
+    "valid_citation_count": 0,
+    "gold_evidence_relevant_citation_count": 0,
+    "invalid_citation_provenance": [],
+    "gold_irrelevant_citations": [],
+    "invalid_citations": [],
+    "must_abstain_cases": [],
+    "must_abstain_correctness_percentage": null,
+    "per_category": {
+      "version-sensitive": {
+        "questions": 1,
+        "successful_requests": 1,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "must_abstain_correctness_percentage": 0.0
+      }
+    },
+    "passed_questions": 0,
+    "failed_questions": 1,
+    "metrics_unavailable_reason": null
+  },
+  "questions": [
+    {
+      "id": "q-version-current-attendance",
+      "category": "version-sensitive",
+      "question": "Under the current June 2026 Academic Rules Handbook, how much absence may the HoD condone for genuine reasons under clause 1.21?",
+      "expected_answerability": "answerable",
+      "gold_evidence": [
+        {
+          "source": "academic-rules-handbook-jun-2026.pdf",
+          "page": 10,
+          "section": "Attendance Requirements",
+          "document_version": "2026-06"
+        }
+      ],
+      "expected_answer": "A maximum of 20% of total attendance may be condoned.",
+      "expected_document": "Academic Rules Handbook (Jun 2026)",
+      "expected_version": "2026-06",
+      "request_status": "succeeded",
+      "elapsed_seconds": 1.49,
+      "response": {
+        "request_id": "1cd015f30655432a8d2babecc9154048",
+        "answer": "I couldn't produce a reliable answer from the available documents. Please try again later.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "academic-rules-handbook-jun-2026.pdf:2026-06:10:24",
+            "source": "academic-rules-handbook-jun-2026.pdf",
+            "section": "Attendance Requirements",
+            "page": 10,
+            "score": 0.75182498
+          },
+          {
+            "chunk_id": "academic-rules-handbook-jun-2026.pdf:2026-06:25:54",
+            "source": "academic-rules-handbook-jun-2026.pdf",
+            "section": "Page 25 (no section heading detected)",
+            "page": 25,
+            "score": 0.69843364
+          },
+          {
+            "chunk_id": "student-handbook-jun-2026.pdf:2026-06:29:36",
+            "source": "student-handbook-jun-2026.pdf",
+            "section": "Page 29 (no section heading detected)",
+            "page": 29,
+            "score": 0.69393814
+          },
+          {
+            "chunk_id": "student-handbook-jun-2026.pdf:2026-06:28:35",
+            "source": "student-handbook-jun-2026.pdf",
+            "section": "Page 28 (no section heading detected)",
+            "page": 28,
+            "score": 0.6898639200000001
+          },
+          {
+            "chunk_id": "academic-rules-handbook-jun-2026.pdf:2026-06:22:48",
+            "source": "academic-rules-handbook-jun-2026.pdf",
+            "section": "Adding or Dropping a Course",
+            "page": 22,
+            "score": 0.67894185
+          }
+        ],
+        "provider": "ollama"
+      },
+      "request_error": null,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "citation_provenance_validity_percentage": null,
+      "gold_evidence_relevance_percentage": null,
+      "citation_validity_percentage": null,
+      "citation_details": [],
+      "invalid_citations": [],
+      "passed": false,
+      "pass_reasons": [
+        "answerable question was incorrectly abstained on",
+        "answerable response contained no citations"
+      ],
+      "request_id": "1cd015f30655432a8d2babecc9154048",
+      "response_metadata": {
+        "confidence": "low",
+        "provider": "ollama",
+        "answered_from_context": false,
+        "retrieved_count": 5,
+        "citation_count": 0
+      },
+      "answerable_answered_from_context": false,
+      "answerable_incorrectly_abstained": true
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "failures": [
+      "1 question(s) failed evaluation checks",
+      "must-abstain correctness is unavailable",
+      "citation provenance validity is unavailable"
+    ],
+    "baseline_comparison_available": true
+  }
+}

@@ -1,0 +1,10 @@
+profiles:
+  - name: small
+    chunk_size: 200
+    chunk_overlap: 25
+  - name: current
+    chunk_size: 400
+    chunk_overlap: 50
+  - name: large
+    chunk_size: 800
+    chunk_overlap: 100

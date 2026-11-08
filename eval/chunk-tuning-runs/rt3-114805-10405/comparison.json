@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-11-07T11:58:16.769152+00:00",
+  "run_id": "rt3-114805-10405",
+  "git_commit": "221e7d52545e25c1452baae2d299951ccf2300e2",
+  "corpus_sha256": "8428722a632289fd5d0845d485a07aa5e5572a5bb4b4d6400ef639fd72e276fe",
+  "golden_sha256": "27e76d7ba9cc5820c31fecd79b39a6cfd99e2e42e292dff796b72c9d63df2e3f",
+  "baseline_sha256": "27193aee9309e9febb5ed154d5a0dd0fc06ff57b000963131161f42ff7254463",
+  "ollama_model_tags": {
+    "EMBED_MODEL": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "modified_at": "2026-11-04T17:16:17.0838103+05:00"
+    },
+    "LLM_MODEL": {
+      "configured": "llama3.2:3b",
+      "name": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "modified_at": "2026-11-06T16:52:06.4324532+05:00"
+    }
+  },
+  "profiles": [
+    {
+      "profile": "small",
+      "chunk_size": 200,
+      "chunk_overlap": 25,
+      "chunk_count": 650,
+      "recall_at_3": 0.6666666666666666,
+      "recall_at_5": 0.75,
+      "citation_provenance_validity_percentage": 100.0,
+      "gold_evidence_relevance_percentage": 66.66666666666667,
+      "must_abstain_correctness_percentage": 100.0,
+      "evaluation_gate_passed": false,
+      "evaluation_gate_failures": [
+        "8 question(s) failed evaluation checks",
+        "Recall@5 dropped more than 5 percentage points below baseline"
+      ],
+      "failed_question_ids": [
+        "q01",
+        "q03",
+        "q05",
+        "q06",
+        "q07",
+        "q08",
+        "q10",
+        "q12"
+      ]
+    },
+    {
+      "profile": "current",
+      "chunk_size": 400,
+      "chunk_overlap": 50,
+      "chunk_count": 440,
+      "recall_at_3": 0.8333333333333334,
+      "recall_at_5": 0.8333333333333334,
+      "citation_provenance_validity_percentage": 100.0,
+      "gold_evidence_relevance_percentage": 87.5,
+      "must_abstain_correctness_percentage": 100.0,
+      "evaluation_gate_passed": false,
+      "evaluation_gate_failures": [
+        "7 question(s) failed evaluation checks"
+      ],
+      "failed_question_ids": [
+        "q03",
+        "q05",
+        "q06",
+        "q07",
+        "q08",
+        "q10",
+        "q12"
+      ]
+    },
+    {
+      "profile": "large",
+      "chunk_size": 800,
+      "chunk_overlap": 100,
+      "chunk_count": 355,
+      "recall_at_3": 0.75,
+      "recall_at_5": 0.75,
+      "citation_provenance_validity_percentage": 100.0,
+      "gold_evidence_relevance_percentage": 85.71428571428571,
+      "must_abstain_correctness_percentage": 100.0,
+      "evaluation_gate_passed": false,
+      "evaluation_gate_failures": [
+        "6 question(s) failed evaluation checks",
+        "Recall@5 dropped more than 5 percentage points below baseline"
+      ],
+      "failed_question_ids": [
+        "q03",
+        "q05",
+        "q06",
+        "q07",
+        "q08",
+        "q12"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "baseline_type": "fixture-quality-target",
+  "dataset": "golden.fixture.yaml",
+  "recall_at_5": 1.0,
+  "rationale": "All five answerable fixture questions have a single annotated evidence section; this target makes the assignment's five-percentage-point recall gate require complete fixture evidence retrieval."
+}

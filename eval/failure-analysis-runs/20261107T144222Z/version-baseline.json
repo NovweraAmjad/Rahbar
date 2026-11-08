@@ -1,0 +1,224 @@
+{
+  "evaluation_timestamp": "2026-11-07T14:55:05.047773+00:00",
+  "api_base_url": "http://127.0.0.1:18003",
+  "golden_file": "version-questions.yaml",
+  "metrics": {
+    "total_questions": 2,
+    "successful_requests": 2,
+    "request_failures": 0,
+    "request_failure_details": [],
+    "answerable_questions": 2,
+    "answerable_answered_from_context": 0,
+    "answerable_incorrectly_abstained": 2,
+    "recall_at_3": 1.0,
+    "recall_at_5": 1.0,
+    "citation_provenance_validity_percentage": null,
+    "gold_evidence_relevance_percentage": null,
+    "citation_validity_percentage": null,
+    "citation_count": 0,
+    "valid_citation_count": 0,
+    "gold_evidence_relevant_citation_count": 0,
+    "invalid_citation_provenance": [],
+    "gold_irrelevant_citations": [],
+    "invalid_citations": [],
+    "must_abstain_cases": [],
+    "must_abstain_correctness_percentage": null,
+    "per_category": {
+      "version-sensitive": {
+        "questions": 2,
+        "successful_requests": 2,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "must_abstain_correctness_percentage": 0.0
+      }
+    },
+    "passed_questions": 0,
+    "failed_questions": 2,
+    "metrics_unavailable_reason": null
+  },
+  "questions": [
+    {
+      "id": "q09",
+      "category": "version-sensitive",
+      "question": "In the Annual Report 2019-20, how many faculty members are listed in the university-wide summary?",
+      "expected_answerability": "answerable",
+      "gold_evidence": [
+        {
+          "source": "annual-report-2019-20.pdf",
+          "page": 13,
+          "section": "Page 13 (no section heading detected)",
+          "document_version": "2019-20"
+        }
+      ],
+      "expected_answer": "615 faculty members.",
+      "expected_document": "Annual Report 2019-20",
+      "expected_version": "2019-20",
+      "request_status": "succeeded",
+      "elapsed_seconds": 3.53,
+      "response": {
+        "request_id": "716c6dd08eb44b50a56202b0162786fd",
+        "answer": "Withdrawn",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "annual-report-2019-20.pdf:2019-20:13:16",
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.7346214
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:13:20",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.67702425
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:75:127",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75,
+            "score": 0.62469405
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:66:117",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 66 (no section heading detected)",
+            "page": 66,
+            "score": 0.6174327
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:72:123",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72,
+            "score": 0.6057766
+          }
+        ],
+        "provider": "ollama"
+      },
+      "request_error": null,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "citation_provenance_validity_percentage": null,
+      "gold_evidence_relevance_percentage": null,
+      "citation_validity_percentage": null,
+      "citation_details": [],
+      "invalid_citations": [],
+      "passed": false,
+      "pass_reasons": [
+        "answerable question was incorrectly abstained on",
+        "answerable response contained no citations"
+      ],
+      "request_id": "716c6dd08eb44b50a56202b0162786fd",
+      "response_metadata": {
+        "confidence": "low",
+        "provider": "ollama",
+        "answered_from_context": false,
+        "retrieved_count": 5,
+        "citation_count": 0
+      },
+      "answerable_answered_from_context": false,
+      "answerable_incorrectly_abstained": true
+    },
+    {
+      "id": "q10",
+      "category": "version-sensitive",
+      "question": "In the Annual Report 2023-24, what is the university-wide faculty total?",
+      "expected_answerability": "answerable",
+      "gold_evidence": [
+        {
+          "source": "annual-report-2023-24.pdf",
+          "page": 13,
+          "section": "Page 13 (no section heading detected)",
+          "document_version": "2023-24"
+        }
+      ],
+      "expected_answer": "735 faculty members.",
+      "expected_document": "Annual Report 2023-24",
+      "expected_version": "2023-24",
+      "request_status": "succeeded",
+      "elapsed_seconds": 1.93,
+      "response": {
+        "request_id": "fa77cb0e743b4bc4b6aaeb19d4ed332d",
+        "answer": "None",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "annual-report-2019-20.pdf:2019-20:13:16",
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.6973312
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:13:20",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.6720343799999999
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:72:123",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72,
+            "score": 0.6620955
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:75:127",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75,
+            "score": 0.63516152
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:1:1",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 1 (no section heading detected)",
+            "page": 1,
+            "score": 0.63246167
+          }
+        ],
+        "provider": "ollama"
+      },
+      "request_error": null,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "citation_provenance_validity_percentage": null,
+      "gold_evidence_relevance_percentage": null,
+      "citation_validity_percentage": null,
+      "citation_details": [],
+      "invalid_citations": [],
+      "passed": false,
+      "pass_reasons": [
+        "answerable question was incorrectly abstained on",
+        "answerable response contained no citations"
+      ],
+      "request_id": "fa77cb0e743b4bc4b6aaeb19d4ed332d",
+      "response_metadata": {
+        "confidence": "low",
+        "provider": "ollama",
+        "answered_from_context": false,
+        "retrieved_count": 5,
+        "citation_count": 0
+      },
+      "answerable_answered_from_context": false,
+      "answerable_incorrectly_abstained": true
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "failures": [
+      "2 question(s) failed evaluation checks",
+      "must-abstain correctness is unavailable",
+      "citation provenance validity is unavailable"
+    ],
+    "baseline_comparison_available": true
+  }
+}

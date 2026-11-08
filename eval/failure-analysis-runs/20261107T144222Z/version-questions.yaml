@@ -1,0 +1,27 @@
+schema_version: 1
+questions:
+- id: q09
+  category: version-sensitive
+  question: In the Annual Report 2019-20, how many faculty members are listed in the
+    university-wide summary?
+  expected_answerability: answerable
+  expected_document: Annual Report 2019-20
+  expected_version: 2019-20
+  expected_answer: 615 faculty members.
+  gold_evidence:
+  - source: annual-report-2019-20.pdf
+    page: 13
+    section: Page 13 (no section heading detected)
+    document_version: 2019-20
+- id: q10
+  category: version-sensitive
+  question: In the Annual Report 2023-24, what is the university-wide faculty total?
+  expected_answerability: answerable
+  expected_document: Annual Report 2023-24
+  expected_version: 2023-24
+  expected_answer: 735 faculty members.
+  gold_evidence:
+  - source: annual-report-2023-24.pdf
+    page: 13
+    section: Page 13 (no section heading detected)
+    document_version: 2023-24

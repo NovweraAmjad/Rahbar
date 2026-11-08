@@ -21,6 +21,7 @@ from .logjson import configure_logging, request_id_var
 from .providers.llm import get_provider
 from .retrieval import get_retriever
 from .routes import ask, health, metrics
+from .services.semantic_cache import get_semantic_cache
 
 log = logging.getLogger("rahbar.api")
 
@@ -32,6 +33,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.settings = settings
     app.state.retriever = get_retriever(settings)
     app.state.provider = get_provider(settings)
+    app.state.semantic_cache = get_semantic_cache(settings)
     # STARTER-TODO(4.4): compare the collection's embedding-model metadata with
     # settings.embed_model here, and make /readyz fail on a mismatch.
     # This process only reads the index. The indexer Job writes it.
@@ -40,7 +42,11 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         extra={"retriever": settings.retriever, "llm_provider": settings.llm_provider,
                "embed_model": settings.embed_model, "top_k": settings.top_k},
     )
-    yield
+    try:
+        yield
+    finally:
+        if app.state.semantic_cache is not None:
+            app.state.semantic_cache.close()
 
 
 app = FastAPI(title="RAHBAR API", lifespan=lifespan)

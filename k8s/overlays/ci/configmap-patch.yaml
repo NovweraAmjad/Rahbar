@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rahbar-config
+  namespace: rahbar
+data:
+  LLM_PROVIDER: stub
+  EMBED_MODEL: rahbar-fixture-hash-embed-v1
+  CHROMA_COLLECTION: rahbar-ci
+  RELEVANCE_FLOOR: "0.1"
+  CACHE_PREFIX: rahbar:ci:semantic-cache
+  OLLAMA_URL: http://ollama-fixture:8081

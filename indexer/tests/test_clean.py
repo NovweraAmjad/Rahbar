@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from typing import cast
 
 from pipeline.clean import clean
 from pipeline.models import Document, Page
@@ -61,7 +62,7 @@ def test_clean_removes_control_characters_and_collapses_blank_lines() -> None:
 
 def test_clean_handles_empty_and_malformed_text(caplog) -> None:
     empty_page = Page(source="empty.txt", page=1, text="")
-    malformed_page = Page(source="malformed.txt", page=4, text=None)
+    malformed_page = Page(source="malformed.txt", page=4, text=cast(str, None))
     document = Document("source", "unknown", True, [empty_page, malformed_page])
 
     with caplog.at_level(logging.WARNING):

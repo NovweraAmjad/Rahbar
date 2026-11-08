@@ -7,6 +7,10 @@ from typing import Protocol
 from ...schemas import Answer, Passage
 
 
+class InvalidAnswerError(RuntimeError):
+    """The provider returned output that does not satisfy the Answer contract."""
+
+
 class LLMProvider(Protocol):
     name: str
 
