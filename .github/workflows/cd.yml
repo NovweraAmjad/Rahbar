@@ -412,6 +412,9 @@ jobs:
           kubectl rollout status --namespace rahbar deployment/redis --timeout=5m
           kubectl rollout status --namespace rahbar deployment/api --timeout=5m
           kubectl rollout status --namespace rahbar deployment/ui --timeout=5m
+          kubectl wait --namespace rahbar \
+            --for=jsonpath='{.subsets[0].addresses[0].ip}' \
+            endpoints/api --timeout=2m
 
       - name: Smoke-test UI and API through Ingress
         run: |
@@ -419,20 +422,63 @@ jobs:
           ingress_url=http://rahbar.local:18080
           attempt=0
           while [ "$attempt" -lt 30 ]; do
-            if curl --fail --silent --resolve rahbar.local:18080:127.0.0.1 \
+            if curl --fail --silent --connect-timeout 3 --max-time 10 \
+              --resolve rahbar.local:18080:127.0.0.1 \
               "${ingress_url}/healthz" >/dev/null; then
               break
             fi
             attempt=$((attempt + 1))
             sleep 2
           done
-          curl --fail --silent --show-error --resolve rahbar.local:18080:127.0.0.1 \
+          curl --fail --silent --show-error --connect-timeout 3 --max-time 10 \
+            --resolve rahbar.local:18080:127.0.0.1 \
             "${ingress_url}/" >/dev/null
-          curl --fail --silent --show-error --resolve rahbar.local:18080:127.0.0.1 \
-            --header 'Content-Type: application/json' \
-            --data '{"question":"When is a student placed on academic warning?"}' \
-            "${ingress_url}/api/ask" \
-            --output /tmp/rahbar-ingress-api-smoke.json
+          api_smoke_status=000
+          attempt=0
+          api_smoke_deadline=$(( $(date +%s) + 60 ))
+          while [ "$attempt" -lt 30 ] && [ "$(date +%s)" -lt "$api_smoke_deadline" ]; do
+            api_smoke_remaining=$(( api_smoke_deadline - $(date +%s) ))
+            if [ "$api_smoke_remaining" -le 0 ]; then
+              break
+            fi
+            api_smoke_max_time=10
+            if [ "$api_smoke_remaining" -lt "$api_smoke_max_time" ]; then
+              api_smoke_max_time="$api_smoke_remaining"
+            fi
+            api_smoke_status="$(
+              curl --silent --show-error --connect-timeout 3 \
+                --max-time "$api_smoke_max_time" \
+                --resolve rahbar.local:18080:127.0.0.1 \
+                --header 'Content-Type: application/json' \
+                --data '{"question":"When is a student placed on academic warning?"}' \
+                --write-out '%{http_code}' \
+                --output /tmp/rahbar-ingress-api-smoke.json \
+                "${ingress_url}/api/ask" || true
+            )"
+            if [ "$api_smoke_status" = "200" ]; then
+              break
+            fi
+            attempt=$((attempt + 1))
+            api_smoke_remaining=$(( api_smoke_deadline - $(date +%s) ))
+            if [ "$api_smoke_remaining" -le 0 ]; then
+              break
+            fi
+            api_smoke_sleep=2
+            if [ "$api_smoke_remaining" -lt "$api_smoke_sleep" ]; then
+              api_smoke_sleep="$api_smoke_remaining"
+            fi
+            sleep "$api_smoke_sleep"
+          done
+          if [ "$api_smoke_status" != "200" ]; then
+            echo "Ingress API smoke test returned HTTP $api_smoke_status" >&2
+            echo "Response body:" >&2
+            cat /tmp/rahbar-ingress-api-smoke.json >&2 || true
+            echo "API endpoints:" >&2
+            kubectl get endpoints api --namespace rahbar --output yaml || true
+            echo "API pod logs:" >&2
+            kubectl logs deployment/api --namespace rahbar --all-containers=true || true
+            exit 1
+          fi
           python -c "import json; d=json.load(open('/tmp/rahbar-ingress-api-smoke.json', encoding='utf-8')); assert d.get('request_id') and d.get('answered_from_context') is True and d.get('retrieved') and d.get('citations'), d; print('Ingress API smoke test passed:', d['request_id'])"
 
       - name: Show deployment cluster diagnostics on failure
