@@ -184,7 +184,7 @@ jobs:
       - name: Set image references
         id: image-tags
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
         run: |
           set -euo pipefail
           test -n "$DOCKERHUB_USERNAME" || { echo "DOCKERHUB_USERNAME is required" >&2; exit 1; }
@@ -194,7 +194,7 @@ jobs:
 
       - name: Authenticate to Docker Hub
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
           set -euo pipefail
@@ -247,7 +247,7 @@ jobs:
       API_IMAGE: ${{ needs.build-push.outputs.api_image }}
       INDEXER_IMAGE: ${{ needs.build-push.outputs.indexer_image }}
       UI_IMAGE: ${{ needs.build-push.outputs.ui_image }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - name: Check out source
@@ -301,6 +301,9 @@ jobs:
       - name: Pull and load the exact published image tags
         run: |
           set -euo pipefail
+          test -n "$API_IMAGE" || { echo "API_IMAGE is required" >&2; exit 1; }
+          test -n "$INDEXER_IMAGE" || { echo "INDEXER_IMAGE is required" >&2; exit 1; }
+          test -n "$UI_IMAGE" || { echo "UI_IMAGE is required" >&2; exit 1; }
           test -n "$DOCKERHUB_USERNAME" || { echo "DOCKERHUB_USERNAME is required" >&2; exit 1; }
           test -n "$DOCKERHUB_TOKEN" || { echo "DOCKERHUB_TOKEN is required" >&2; exit 1; }
           printf '%s' "$DOCKERHUB_TOKEN" \
