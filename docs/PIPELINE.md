@@ -1,112 +1,97 @@
 # Indexing and retrieval pipeline
 
-<!-- STARTER-TODO(3.1, 3.3, 5.2): fill each section with your numbers, then delete this comment. -->
-
 ## Extraction
-PDFs are extracted page by page with pdfplumber; pages without a text layer are
-OCR'd with pytesseract when its Tesseract runtime is available. UTF-8 text and
-Markdown files become one page. Source filename and 1-based page number are
-retained. Unsupported or unreadable inputs are logged and produce an empty
-document.
 
-Which documents needed OCR, one before-and-after example of a table, what could not be recovered.
+PDFs are extracted page by page with pdfplumber. Pages with no text layer are
+sent through the pytesseract path when the Tesseract executable is available;
+UTF-8 text and Markdown files become one page. Source filename and 1-based page
+number are retained. The scanned Faculty Entrepreneurship and Technical
+Start-ups Policy has eight image-only pages, and the 2023 rules PDF has only
+limited extractable text. The current environment did not have a Tesseract
+runtime, so those OCR results were not produced and must not be presented as
+searchable evidence.
+
+Table extraction is deliberately conservative. Text-bearing aligned rows are
+kept during cleaning, but no verified before/after OCR table reconstruction is
+committed for the image-only PDF. The information-bearing faculty table used as
+corpus evidence is the extractable Annual Report 2023-24 table on PDF page 13;
+its total row is 735. A future OCR run must preserve a before/after sample and
+record what was unrecoverable.
 
 ## Cleaning
+
 Line endings and tabs are normalized; control characters and repeated blank
 lines are removed, and ordinary line whitespace is collapsed. Headings,
-paragraph breaks, Unicode punctuation, and numbered references are retained.
-Pipe-delimited and visibly aligned table rows keep their internal spacing.
+paragraph breaks, Unicode punctuation, numbered references, and the internal
+spacing of pipe-delimited or visibly aligned table rows are retained. Repeated
+headers and footers are removed only when identified by the extractor; heading
+boundaries are not stripped.
 
 ## Chunking
+
 Pages are processed in order and split at Markdown heading boundaries so each
 chunk keeps a single section and page citation. Text is packed up to 400
 whitespace-delimited tokens by default, preferring paragraph, line, and sentence
-boundaries; overlong spans fall back to word boundaries. Consecutive chunks
-overlap by 50 tokens within a page and heading section. `CHUNK_SIZE` and
-`CHUNK_OVERLAP` can override these defaults; size must be positive and overlap
-must be non-negative and smaller than size. This uses whitespace token counts,
-not the embedding model's tokenizer, and does not infer non-Markdown headings.
+boundaries. Consecutive chunks overlap by 50 tokens within a page and heading
+section. `CHUNK_SIZE` and `CHUNK_OVERLAP` override these defaults with validation.
+These are whitespace counts, not the embedding model tokenizer.
 
-Completed chunk-tuning run `rt3-114805-10405` compared all three profiles
-against the same 15-question evaluation set:
+Completed run `rt3-114805-10405` compared three profiles against the same
+15-question set:
 
-| Profile | Size / overlap (tokens) | Chunks stored | Recall@3 | Recall@5 | Citation provenance validity | Gold-evidence relevance | Must-abstain accuracy | Failed questions | Evaluation gate |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| Small | 200 / 25 | 650 | 66.67% | 75.00% | 100.00% | 66.67% | 100.00% | 8 / 15 | Failed |
-| Current | 400 / 50 | 440 | 83.33% | 83.33% | 100.00% | 87.50% | 100.00% | 7 / 15 | Failed |
-| Large | 800 / 100 | 355 | 75.00% | 75.00% | 100.00% | 85.71% | 100.00% | 6 / 15 | Failed |
+| Profile | Size / overlap | Chunks | Recall@3 | Recall@5 | Citation provenance | Gold relevance | Must-abstain | Gate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Small | 200 / 25 | 650 | 66.67% | 75.00% | 100.00% | 66.67% | 100.00% | Failed |
+| Current | 400 / 50 | 440 | 83.33% | 83.33% | 100.00% | 87.50% | 100.00% | Failed |
+| Large | 800 / 100 | 355 | 75.00% | 75.00% | 100.00% | 85.71% | 100.00% | Failed |
 
-The 400/50 current profile is selected from these measurements because it had
-the strongest Recall@5 and gold-evidence relevance. All three profiles
-completed, but every profile failed the overall evaluation gate; this
-comparison is not evidence that the quality gate passed.
+The 400/50 profile was selected for the strongest Recall@5 and gold relevance.
+The saved comparison is evidence of a tuning experiment, not a passing gate.
+The exact assignment perturbation of fixed 100-token chunks with no overlap was
+not run.
+
+Storage amplification (stored tokens divided by original tokens) was not
+measured in a committed run. The chunk counts above must not be substituted for
+that ratio; this remains a submission evidence gap.
 
 ## Embedding
-Chunks are embedded with Ollama's batched `POST /api/embed` endpoint, using
-`EMBED_MODEL` (default `nomic-embed-text`) and `OLLAMA_URL` from the shared
-runtime configuration. The default model produces 768-dimensional vectors;
-response counts, numeric finite values, and consistent dimensions are validated
-before vectors are returned to storage. Input is sent in batches of 32. Empty
-input returns no vectors. Connection errors, API errors (including missing
-models), and malformed responses fail indexing with a descriptive error; no
-placeholder vectors are generated. The API reads the same `EMBED_MODEL` setting
-when embedding retrieval queries.
+
+Chunks are embedded with Ollama's batched `/api/embed` endpoint using
+`EMBED_MODEL` and `OLLAMA_URL` from shared runtime configuration. The default
+model is `nomic-embed-text` and its vectors are expected to be 768-dimensional.
+Counts, finite numeric values, and consistent dimensions are validated before
+storage. The API reads the same model setting for query embeddings.
 
 ## Storage
-The indexer connects to the configured Chroma host, port, and collection. It
-creates the collection with cosine distance and records `embed_model` and vector
-`dimension`; existing collections with incompatible or missing metadata are
-rejected. Validated records are upserted in batches of 100, with duplicate IDs
-resolved by keeping the last input record. The indexer prepares all extracted
-documents, chunks, and embeddings before storage starts. It removes stale IDs
-only after every upsert batch succeeds. Thus extraction, chunking, and embedding
-failures leave the current index untouched; a write failure leaves stale IDs
-in place. Chroma does not provide an atomic collection swap here, so a storage
-failure after some successful batches can leave a mixture of old and new records.
 
-## Integrated run
-`python -m pipeline.run` discovers supported corpus files using `_index.json`
-metadata when present, otherwise Markdown front matter, then executes extract,
-clean, chunk, embed, and remote Chroma storage in that order. The CLI logs each
-stage and exits nonzero on discovery, extraction, embedding, or storage failures.
-A corpus with no documents, extraction with no pages, or a run that produces no
-chunks is rejected before the existing index is changed. The `--dummy` mode
-remains separate and writes the starter's fixed dummy index.
+The indexer creates a cosine-distance Chroma collection and records
+`embed_model` and vector `dimension`. Each record carries `source`, `section`,
+`page`, `doc_version`, and `superseded` metadata. Records are upserted in batches
+of 100 after extraction, chunking, and embedding succeed; stale IDs are removed
+only after all upserts succeed. Existing collections with incompatible metadata
+are rejected. Chroma storage and the Redis cache are persistent in the
+Kubernetes deployment; see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Semantic cache
-An offline threshold probe was run with 20 explicitly labeled query pairs and
-the production cosine rule (`similarity >= threshold`) using
-`nomic-embed-text:latest`. Results are in
-`eval/cache-threshold-runs/20261107T171600/`:
 
-| Threshold | True hits | False hits | Missed hits | Hit rate | Precision | Positive-pair recall | False-hit rate |
-| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 0.90 | 5 | 1 | 3 | 30.00% | 83.33% | 62.50% | 8.33% |
-| 0.93 | 3 | 0 | 5 | 15.00% | 100.00% | 37.50% | 0.00% |
-| 0.95 (current) | 2 | 0 | 6 | 10.00% | 100.00% | 25.00% | 0.00% |
-| 0.97 | 1 | 0 | 7 | 5.00% | 100.00% | 12.50% | 0.00% |
+The optional Redis cache uses cosine similarity at the ConfigMap threshold.
+The 20-pair probe in `eval/cache-threshold-runs/20261107T171600/` found one
+false hit at 0.90 and none at 0.93, 0.95, or 0.97. The deployed threshold is
+0.95. The sample is pair-level evidence only and does not certify production
+answer correctness or exercise Redis failure handling.
 
-The 0.90 false hit was `report-year-2023-vs-2019`: a question about the
-2019–20 faculty total was matched to a cached answer about the 2023–24 total
-(cosine similarity 0.9112). The lowest tested threshold with zero false hits
-was 0.93. Raising the threshold to 0.95 avoided that false hit in this set but
-also missed one additional labeled positive pair; at 0.97, only one of eight
-positive pairs was reused.
-
-These are pair-level measurements, not a guarantee of answer correctness or a
-production safety certification: they use 8 positive and 12 negative examples,
-with each pair evaluated independently and no Redis lookup, multiple-entry
-selection, or indexing invalidation performed. The default ConfigMap threshold
-remains 0.95; this experiment does not change it.
+Follow-ups, abstentions, out-of-scope answers, invalid model responses, and
+uncited answers are not cacheable. Indexing invalidates keys for the configured
+prefix and collection before changing Chroma; invalidation failure stops index
+writes.
 
 ## Evaluation method
-Recall@k measures whether a retrieved passage in the top k matches the gold
-evidence using the evaluator's source and page matching rule, with section
-checked when provided. Citation provenance validity and gold-evidence
-relevance are distinct: provenance checks whether each citation matches an
-actual retrieved reference (source and page, and section when available);
-gold-evidence relevance checks whether citations also match the question's
-expected gold evidence. A validly sourced citation can therefore be irrelevant
-to the expected answer. In run `rt3-114805-10405`, provenance validity was
-100% for all profiles, while gold-evidence relevance ranged from 66.67% to
-87.50%.
+
+Recall@k matches gold source/page evidence in the first k results, with section
+matching when supplied. Citation provenance checks that every citation matches
+an actually retrieved reference; gold-evidence relevance additionally checks
+the question's expected evidence. The committed evaluation results report
+Recall@3 and Recall@5, citation provenance, gold relevance, and abstention
+correctness by category. The gate requires no request failures, 100% abstention
+correctness, at least 95% citation provenance, and no Recall@5 drop greater than
+five percentage points from the baseline.
