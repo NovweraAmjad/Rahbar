@@ -317,10 +317,22 @@ jobs:
         run: |
           set -euo pipefail
           kubectl apply --filename /tmp/ingress-nginx-kind.yaml
-          kubectl wait --namespace ingress-nginx \
+          if ! kubectl wait --namespace ingress-nginx \
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
-            --timeout=5m
+            --timeout=180s; then
+            kubectl get pods --namespace ingress-nginx \
+              --selector=app.kubernetes.io/component=controller \
+              --output=wide || true
+            kubectl describe pods --namespace ingress-nginx \
+              --selector=app.kubernetes.io/component=controller || true
+            kubectl logs --namespace ingress-nginx \
+              --selector=app.kubernetes.io/component=controller \
+              --all-containers=true --prefix=true || true
+            kubectl get events --namespace ingress-nginx \
+              --sort-by=.lastTimestamp || true
+            exit 1
+          fi
 
       - name: Apply fixture-backed manifests with published image overrides
         run: |
