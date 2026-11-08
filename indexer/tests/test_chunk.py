@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+from typing import cast
 
 from pipeline.chunk import chunk
 from pipeline.models import Document, Page
@@ -14,7 +15,7 @@ def _document(text: str, **kwargs: object) -> Document:
         pages=[
             Page(
                 source=str(kwargs.get("source", "policy.md")),
-                page=int(kwargs.get("page", 1)),
+                page=int(cast(str | int, kwargs.get("page", 1))),
                 text=text,
                 ocr=bool(kwargs.get("ocr", False)),
             )

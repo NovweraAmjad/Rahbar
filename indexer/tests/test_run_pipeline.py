@@ -138,13 +138,22 @@ def test_run_pipeline_fails_on_extraction_failure_before_embedding_or_storage(
         raise OSError("file cannot be read")
 
     monkeypatch.setattr("pipeline.extract.extract", fail_extract)
+
+    def record_embed(*_args) -> list[list[float]]:
+        calls.append("embed")
+        return [[0.1]]
+
+    def record_store(*_args, **_kwargs) -> int:
+        calls.append("store")
+        return 1
+
     monkeypatch.setattr(
         "pipeline.embed.embed",
-        lambda *_args: calls.append("embed") or [[0.1]],
+        record_embed,
     )
     monkeypatch.setattr(
         "pipeline.store.store",
-        lambda *_args, **_kwargs: calls.append("store") or 1,
+        record_store,
     )
 
     with pytest.raises(RuntimeError, match="extract stage failed for policy.txt"):
@@ -258,13 +267,22 @@ def test_run_pipeline_invalidates_cache_before_storage(monkeypatch, tmp_path) ->
     monkeypatch.setattr("pipeline.clean.clean", lambda doc: doc)
     monkeypatch.setattr("pipeline.chunk.chunk", lambda doc, size, overlap: [_chunk(doc.source)])
     monkeypatch.setattr("pipeline.embed.embed", lambda texts, settings: [[0.1]])
+
+    def record_invalidate(_settings) -> int:
+        calls.append("invalidate")
+        return 2
+
+    def record_store(*_args, **_kwargs) -> int:
+        calls.append("store")
+        return 1
+
     monkeypatch.setattr(
         "pipeline.cache.invalidate_semantic_cache",
-        lambda _settings: calls.append("invalidate") or 2,
+        record_invalidate,
     )
     monkeypatch.setattr(
         "pipeline.store.store",
-        lambda *_args, **_kwargs: calls.append("store") or 1,
+        record_store,
     )
 
     assert run_pipeline(settings) == 1

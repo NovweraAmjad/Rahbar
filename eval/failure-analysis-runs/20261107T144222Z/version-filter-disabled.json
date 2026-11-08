@@ -1,0 +1,432 @@
+{
+  "evaluation_timestamp": "2026-11-07T14:56:02.473275+00:00",
+  "api_base_url": "http://127.0.0.1:18003",
+  "golden_file": "version-questions.yaml",
+  "metrics": {
+    "total_questions": 2,
+    "successful_requests": 2,
+    "request_failures": 0,
+    "request_failure_details": [],
+    "answerable_questions": 2,
+    "answerable_answered_from_context": 2,
+    "answerable_incorrectly_abstained": 0,
+    "recall_at_3": 1.0,
+    "recall_at_5": 1.0,
+    "citation_provenance_validity_percentage": 100.0,
+    "gold_evidence_relevance_percentage": 40.0,
+    "citation_validity_percentage": 100.0,
+    "citation_count": 5,
+    "valid_citation_count": 5,
+    "gold_evidence_relevant_citation_count": 2,
+    "invalid_citation_provenance": [],
+    "gold_irrelevant_citations": [
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 72 (no section heading detected)",
+          "page": 72
+        },
+        "reason": "citation did not match expected gold evidence"
+      },
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 75 (no section heading detected)",
+          "page": 75
+        },
+        "reason": "citation did not match expected gold evidence"
+      },
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 1 (no section heading detected)",
+          "page": 1
+        },
+        "reason": "citation did not match expected gold evidence"
+      }
+    ],
+    "invalid_citations": [
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 72 (no section heading detected)",
+          "page": 72
+        },
+        "reason": "citation did not match expected gold evidence"
+      },
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 75 (no section heading detected)",
+          "page": 75
+        },
+        "reason": "citation did not match expected gold evidence"
+      },
+      {
+        "question_id": "q10",
+        "citation": {
+          "source": "annual-report-2023-24.pdf",
+          "section": "Page 1 (no section heading detected)",
+          "page": 1
+        },
+        "reason": "citation did not match expected gold evidence"
+      }
+    ],
+    "must_abstain_cases": [],
+    "must_abstain_correctness_percentage": null,
+    "per_category": {
+      "version-sensitive": {
+        "questions": 2,
+        "successful_requests": 2,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "must_abstain_correctness_percentage": 0.0
+      }
+    },
+    "passed_questions": 1,
+    "failed_questions": 1,
+    "metrics_unavailable_reason": null
+  },
+  "questions": [
+    {
+      "id": "q09",
+      "category": "version-sensitive",
+      "question": "In the Annual Report 2019-20, how many faculty members are listed in the university-wide summary?",
+      "expected_answerability": "answerable",
+      "gold_evidence": [
+        {
+          "source": "annual-report-2019-20.pdf",
+          "page": 13,
+          "section": "Page 13 (no section heading detected)",
+          "document_version": "2019-20"
+        }
+      ],
+      "expected_answer": "615 faculty members.",
+      "expected_document": "Annual Report 2019-20",
+      "expected_version": "2019-20",
+      "request_status": "succeeded",
+      "elapsed_seconds": 6.81,
+      "response": {
+        "request_id": "8b8c028bcf174c20b72e9f0d50c84eff",
+        "answer": "615",
+        "citations": [
+          {
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "high",
+        "retrieved": [
+          {
+            "chunk_id": "annual-report-2019-20.pdf:2019-20:13:16",
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.7346214
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:13:20",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.67702425
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:75:127",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75,
+            "score": 0.62469405
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:66:117",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 66 (no section heading detected)",
+            "page": 66,
+            "score": 0.6174327
+          },
+          {
+            "chunk_id": "undergraduate-academic-rules-aug-2023.pdf:2023-08:21:42",
+            "source": "undergraduate-academic-rules-aug-2023.pdf",
+            "section": "Dean's List of Honors",
+            "page": 21,
+            "score": 0.61221832
+          }
+        ],
+        "provider": "ollama"
+      },
+      "request_error": null,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "citation_provenance_validity_percentage": 100.0,
+      "gold_evidence_relevance_percentage": 100.0,
+      "citation_validity_percentage": 100.0,
+      "citation_details": [
+        {
+          "citation_index": 1,
+          "citation": {
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13
+          },
+          "provenance_valid": true,
+          "matching_retrieved_reference": {
+            "chunk_id": "annual-report-2019-20.pdf:2019-20:13:16",
+            "source": "annual-report-2019-20.pdf",
+            "page": 13,
+            "section": "Page 13 (no section heading detected)"
+          },
+          "provenance_error": null,
+          "gold_evidence_relevant": true,
+          "matching_gold_evidence": {
+            "source": "annual-report-2019-20.pdf",
+            "page": 13,
+            "section": "Page 13 (no section heading detected)",
+            "document_version": "2019-20"
+          },
+          "relevance_error": null
+        }
+      ],
+      "invalid_citations": [],
+      "passed": true,
+      "pass_reasons": [],
+      "request_id": "8b8c028bcf174c20b72e9f0d50c84eff",
+      "response_metadata": {
+        "confidence": "high",
+        "provider": "ollama",
+        "answered_from_context": true,
+        "retrieved_count": 5,
+        "citation_count": 1
+      },
+      "answerable_answered_from_context": true
+    },
+    {
+      "id": "q10",
+      "category": "version-sensitive",
+      "question": "In the Annual Report 2023-24, what is the university-wide faculty total?",
+      "expected_answerability": "answerable",
+      "gold_evidence": [
+        {
+          "source": "annual-report-2023-24.pdf",
+          "page": 13,
+          "section": "Page 13 (no section heading detected)",
+          "document_version": "2023-24"
+        }
+      ],
+      "expected_answer": "735 faculty members.",
+      "expected_document": "Annual Report 2023-24",
+      "expected_version": "2023-24",
+      "request_status": "succeeded",
+      "elapsed_seconds": 7.79,
+      "response": {
+        "request_id": "6fb19603b7e6441385c220d6e016f599",
+        "answer": "That the university-wide faculty total is 662.",
+        "citations": [
+          {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13
+          },
+          {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72
+          },
+          {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75
+          },
+          {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 1 (no section heading detected)",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "annual-report-2019-20.pdf:2019-20:13:16",
+            "source": "annual-report-2019-20.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.6973312
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:13:20",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13,
+            "score": 0.6720343799999999
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:72:123",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72,
+            "score": 0.6620955
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:75:127",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75,
+            "score": 0.63516152
+          },
+          {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:1:1",
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 1 (no section heading detected)",
+            "page": 1,
+            "score": 0.63246167
+          }
+        ],
+        "provider": "ollama"
+      },
+      "request_error": null,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0,
+      "citation_provenance_validity_percentage": 100.0,
+      "gold_evidence_relevance_percentage": 25.0,
+      "citation_validity_percentage": 100.0,
+      "citation_details": [
+        {
+          "citation_index": 1,
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 13 (no section heading detected)",
+            "page": 13
+          },
+          "provenance_valid": true,
+          "matching_retrieved_reference": {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:13:20",
+            "source": "annual-report-2023-24.pdf",
+            "page": 13,
+            "section": "Page 13 (no section heading detected)"
+          },
+          "provenance_error": null,
+          "gold_evidence_relevant": true,
+          "matching_gold_evidence": {
+            "source": "annual-report-2023-24.pdf",
+            "page": 13,
+            "section": "Page 13 (no section heading detected)",
+            "document_version": "2023-24"
+          },
+          "relevance_error": null
+        },
+        {
+          "citation_index": 2,
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72
+          },
+          "provenance_valid": true,
+          "matching_retrieved_reference": {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:72:123",
+            "source": "annual-report-2023-24.pdf",
+            "page": 72,
+            "section": "Page 72 (no section heading detected)"
+          },
+          "provenance_error": null,
+          "gold_evidence_relevant": false,
+          "matching_gold_evidence": null,
+          "relevance_error": "citation did not match expected gold evidence"
+        },
+        {
+          "citation_index": 3,
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75
+          },
+          "provenance_valid": true,
+          "matching_retrieved_reference": {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:75:127",
+            "source": "annual-report-2023-24.pdf",
+            "page": 75,
+            "section": "Page 75 (no section heading detected)"
+          },
+          "provenance_error": null,
+          "gold_evidence_relevant": false,
+          "matching_gold_evidence": null,
+          "relevance_error": "citation did not match expected gold evidence"
+        },
+        {
+          "citation_index": 4,
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 1 (no section heading detected)",
+            "page": 1
+          },
+          "provenance_valid": true,
+          "matching_retrieved_reference": {
+            "chunk_id": "annual-report-2023-24.pdf:2023-24:1:1",
+            "source": "annual-report-2023-24.pdf",
+            "page": 1,
+            "section": "Page 1 (no section heading detected)"
+          },
+          "provenance_error": null,
+          "gold_evidence_relevant": false,
+          "matching_gold_evidence": null,
+          "relevance_error": "citation did not match expected gold evidence"
+        }
+      ],
+      "invalid_citations": [
+        {
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 72 (no section heading detected)",
+            "page": 72
+          },
+          "reason": "citation did not match expected gold evidence"
+        },
+        {
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 75 (no section heading detected)",
+            "page": 75
+          },
+          "reason": "citation did not match expected gold evidence"
+        },
+        {
+          "citation": {
+            "source": "annual-report-2023-24.pdf",
+            "section": "Page 1 (no section heading detected)",
+            "page": 1
+          },
+          "reason": "citation did not match expected gold evidence"
+        }
+      ],
+      "passed": false,
+      "pass_reasons": [
+        "one or more citations did not match gold evidence"
+      ],
+      "request_id": "6fb19603b7e6441385c220d6e016f599",
+      "response_metadata": {
+        "confidence": "medium",
+        "provider": "ollama",
+        "answered_from_context": true,
+        "retrieved_count": 5,
+        "citation_count": 4
+      },
+      "answerable_answered_from_context": true
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "failures": [
+      "1 question(s) failed evaluation checks",
+      "must-abstain correctness is unavailable"
+    ],
+    "baseline_comparison_available": true
+  }
+}

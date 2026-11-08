@@ -1,0 +1,13 @@
+schema_version: 1
+questions:
+- id: q01
+  category: ordinary
+  question: What attendance level does the June 2026 Academic Rules Handbook require?
+  expected_answerability: answerable
+  expected_answer: Students are required to maintain 100% attendance; the HoD may
+    condone up to 20% absence for genuine reasons.
+  gold_evidence:
+  - source: academic-rules-handbook-jun-2026.pdf
+    page: 10
+    section: Attendance Requirements
+    document_version: 2026-06

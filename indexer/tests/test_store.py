@@ -171,10 +171,15 @@ def test_get_client_uses_configured_chroma_address(monkeypatch) -> None:
     import chromadb.config
 
     calls: list[tuple[str, int, object]] = []
+
+    def fake_http_client(*, host: str, port: int, settings: object) -> str:
+        calls.append((host, port, settings))
+        return "client"
+
     monkeypatch.setattr(
         chromadb,
         "HttpClient",
-        lambda *, host, port, settings: calls.append((host, port, settings)) or "client",
+        fake_http_client,
     )
 
     from pipeline.store import get_client
