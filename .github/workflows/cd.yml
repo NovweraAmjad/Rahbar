@@ -253,6 +253,12 @@ jobs:
       - name: Check out source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
+      - name: Build fixture embedding image
+        run: |
+          set -euo pipefail
+          docker build --tag rahbar-fixture-embed:ci \
+            --file eval/fixtures/Dockerfile eval/fixtures
+
       - name: Install pinned kind and kubectl
         run: |
           set -euo pipefail
@@ -312,7 +318,8 @@ jobs:
           docker pull "$API_IMAGE"
           docker pull "$INDEXER_IMAGE"
           docker pull "$UI_IMAGE"
-          kind load docker-image --name rahbar-cd "$API_IMAGE" "$INDEXER_IMAGE" "$UI_IMAGE"
+          kind load docker-image --name rahbar-cd \
+            "$API_IMAGE" "$INDEXER_IMAGE" "$UI_IMAGE" rahbar-fixture-embed:ci
 
       - name: Install pinned NGINX Ingress controller
         run: |
@@ -361,6 +368,36 @@ jobs:
             - name: rahbar-ui
               newName: ${DOCKERHUB_USERNAME}/rahbar-ui
               newTag: ${GITHUB_SHA}
+          patches:
+            - target:
+                group: batch
+                version: v1
+                kind: Job
+                name: indexer
+                namespace: rahbar
+              patch: |-
+                - op: add
+                  path: /spec/template/spec/initContainers
+                  value:
+                    - name: wait-for-fixture-embedding
+                      image: ${INDEXER_IMAGE}
+                      imagePullPolicy: IfNotPresent
+                      command:
+                        - python
+                        - -c
+                        - |-
+                          import time
+                          import urllib.request
+                          url = "http://ollama-fixture:8081/healthz"
+                          deadline = time.monotonic() + 180
+                          while time.monotonic() < deadline:
+                              try:
+                                  urllib.request.urlopen(url, timeout=2).read()
+                                  break
+                              except Exception:
+                                  time.sleep(2)
+                          else:
+                              raise SystemExit("fixture embedding server did not become ready")
           YAML
           kubectl apply --kustomize "$overlay_dir"
 
@@ -403,8 +440,12 @@ jobs:
         run: |
           kubectl get all,pvc,ingress,networkpolicy --all-namespaces || true
           kubectl describe pods --namespace rahbar || true
+          kubectl describe deployment/ollama-fixture --namespace rahbar || true
+          kubectl logs deployment/ollama-fixture --namespace rahbar --all-containers=true || true
+          kubectl describe job/indexer --namespace rahbar || true
           kubectl describe ingress --namespace rahbar || true
           kubectl logs job/indexer --namespace rahbar --all-containers=true || true
+          kubectl get events --namespace rahbar --sort-by=.lastTimestamp || true
           kubectl logs deployment/api --namespace rahbar --all-containers=true || true
           kubectl logs deployment/ingress-nginx-controller --namespace ingress-nginx --all-containers=true || true
 
