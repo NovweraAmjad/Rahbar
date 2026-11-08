@@ -297,6 +297,7 @@ jobs:
                   protocol: TCP
           YAML
           kind create cluster --name rahbar-cd --config /tmp/rahbar-kind-config.yaml --wait 120s
+          kubectl label node rahbar-cd-control-plane ingress-ready=true
 
       - name: Pull and load the exact published image tags
         run: |
