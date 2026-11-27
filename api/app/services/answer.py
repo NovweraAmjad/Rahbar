@@ -32,6 +32,16 @@ _FALLBACK_TEXT = (
 )
 
 
+def _trace_latency_float(metadata: dict[str, object], key: str) -> float:
+    value = metadata.get(key, 0.0)
+    if isinstance(value, (str, int, float)):
+        try:
+            return float(value)
+        except (OverflowError, ValueError):
+            pass
+    return 0.0
+
+
 def _abstention() -> Answer:
     return Answer(
         reasoning="No retrieved passage met the configured relevance threshold.",
@@ -596,11 +606,15 @@ def answer_question(
     stage_latency_ms = {
         "cache_lookup": cache_lookup_ms,
         "embedding": cache_embedding_ms
-        + float(retrieval_metadata.get("embedding_latency_ms", 0.0)),
-        "vector_query": float(retrieval_metadata.get("vector_query_latency_ms", 0.0)),
-        "reranking": float(retrieval_metadata.get("reranking_latency_ms", 0.0)),
-        "retrieval": float(retrieval_metadata.get("retrieval_latency_ms", 0.0)),
-        "generation": float(retrieval_metadata.get("generation_latency_ms", 0.0)),
+        + _trace_latency_float(retrieval_metadata, "embedding_latency_ms"),
+        "vector_query": _trace_latency_float(
+            retrieval_metadata, "vector_query_latency_ms"
+        ),
+        "reranking": _trace_latency_float(retrieval_metadata, "reranking_latency_ms"),
+        "retrieval": _trace_latency_float(retrieval_metadata, "retrieval_latency_ms"),
+        "generation": _trace_latency_float(
+            retrieval_metadata, "generation_latency_ms"
+        ),
         "guardrail": guardrail_latency_ms,
         "total": (perf_counter() - total_started) * 1000,
     }
