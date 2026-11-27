@@ -102,6 +102,9 @@ def test_validated_answers_exist_at_their_gold_pages() -> None:
         pytest.skip("pdfplumber is unavailable")
 
     corpus = HERE.parent / "corpus"
+    raw_dir = corpus / "raw"
+    if not raw_dir.is_dir() or not any(raw_dir.glob("*.pdf")):
+        pytest.skip("raw PDF corpus is not present (gitignored; run corpus/fetch.py)")
     page_checks = {
         "q01": ("academic-rules-handbook-jun-2026.pdf", 10, ["100%", "20%"]),
         "q09": ("annual-report-2019-20.pdf", 13, ["615"]),

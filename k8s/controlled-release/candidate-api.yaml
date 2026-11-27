@@ -43,7 +43,7 @@ spec:
         fsGroup: 10001
       containers:
         - name: api
-          image: rahbar-api:dev
+          image: docker.io/library/rahbar-api@sha256:73da6dcefcccb44b641779cfd13d8e8e3be3b253a29368b78bdd88726a00ac2f
           imagePullPolicy: Never
           envFrom:
             - configMapRef:
