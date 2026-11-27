@@ -19,6 +19,12 @@ import httpx
 import yaml  # type: ignore[import-untyped]
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from eval import golden_schema  # noqa: E402
+
 DEFAULT_GOLDEN = HERE / "golden.yaml"
 DEFAULT_BASE_URL = "http://localhost:8080"
 DEFAULT_HOST = "rahbar.local"
@@ -45,6 +51,7 @@ _LEGACY_CATEGORIES = {
     "must-abstain": "must-abstain",
     "injection": "prompt-injection",
     "prompt-injection": "prompt-injection",
+    "hard": "hard",
 }
 
 
@@ -155,9 +162,35 @@ def _normalize_question(raw: Any, index: int) -> dict[str, Any]:
         "expected_answerability": answerability,
         "gold_evidence": normalized_evidence,
     }
+    origin = raw.get("origin")
+    if origin is not None:
+        if origin not in {"human", "synthetic"}:
+            raise GoldenSetError(f"{question_id}: invalid origin {origin!r}")
+        normalized["origin"] = origin
+    manual_review = raw.get("manual_review")
+    if manual_review is not None:
+        if not isinstance(manual_review, dict):
+            raise GoldenSetError(f"{question_id}: manual_review must be a mapping")
+        status = manual_review.get("status")
+        reviewer = manual_review.get("reviewer")
+        if not isinstance(status, str) or not status.strip():
+            raise GoldenSetError(f"{question_id}: manual_review status is required")
+        if not isinstance(reviewer, str) or not reviewer.strip():
+            raise GoldenSetError(f"{question_id}: manual_review reviewer is required")
+        normalized["manual_review"] = {
+            "status": status.strip(),
+            "reviewer": reviewer.strip(),
+        }
     for optional_field in ("expected_answer", "expected_document", "expected_version"):
         value = raw.get(optional_field, raw.get("expect") if optional_field == "expected_answer" else None)
         if value is not None:
+            if (
+                optional_field == "expected_answer"
+                and answerability == "must_abstain"
+                and isinstance(value, str)
+                and not value.strip()
+            ):
+                continue
             if not isinstance(value, str) or not value.strip():
                 raise GoldenSetError(f"{question_id}: {optional_field} must be a non-empty string")
             normalized[optional_field] = value.strip()
@@ -219,6 +252,40 @@ def _manifest_sources() -> set[str]:
 
 
 def load_golden(path: Path, *, require_assignment_counts: bool = False) -> list[dict[str, Any]]:
+    if path.suffix.lower() == ".jsonl":
+        questions: list[dict[str, Any]] = []
+        try:
+            for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+                if not line.strip():
+                    continue
+                try:
+                    item = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise GoldenSetError(
+                        f"invalid JSONL at {path}:{line_number}: {exc}"
+                    ) from exc
+                questions.append(item)
+        except OSError as exc:
+            raise GoldenSetError(f"cannot read golden JSONL {path}") from exc
+        if require_assignment_counts:
+            try:
+                golden_schema.validate_golden(questions)
+            except golden_schema.GoldenSchemaError as exc:
+                raise GoldenSetError(str(exc)) from exc
+        return validate_questions(
+            questions,
+            require_assignment_counts=False,
+            allowed_sources=_manifest_sources()
+            | {
+                entry["file"]
+                for entry in json.loads(
+                    (HERE.parent / "corpus" / "batch-b" / "_index.json").read_text(
+                        encoding="utf-8"
+                    )
+                )
+                if isinstance(entry, dict) and isinstance(entry.get("file"), str)
+            },
+        )
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
     except OSError as exc:
@@ -312,6 +379,15 @@ def _matches(candidate: dict[str, Any], gold: dict[str, Any]) -> bool:
     return True
 
 
+def _matches_retrieval_source_page(candidate: dict[str, Any], gold: dict[str, Any]) -> bool:
+    """Match retrieval evidence by source and gold page, independent of section labels."""
+    if candidate.get("source") != gold["source"]:
+        return False
+    if "page" in gold and candidate.get("page") != gold["page"]:
+        return False
+    return True
+
+
 def recall_at_k(
     gold_evidence: list[dict[str, Any]],
     retrieved: list[dict[str, Any]],
@@ -323,8 +399,69 @@ def recall_at_k(
     if not gold_evidence:
         return None
     top_k = retrieved[:k]
-    hits = sum(any(_matches(passage, item) for passage in top_k) for item in gold_evidence)
+    hits = sum(
+        any(_matches_retrieval_source_page(passage, item) for passage in top_k)
+        for item in gold_evidence
+    )
     return hits / len(gold_evidence)
+
+
+def reciprocal_rank(
+    gold_evidence: list[dict[str, Any]],
+    retrieved: list[dict[str, Any]],
+) -> float | None:
+    """Return reciprocal rank of the first retrieved gold evidence item."""
+    if not gold_evidence:
+        return None
+    for rank, passage in enumerate(retrieved, start=1):
+        if any(_matches_retrieval_source_page(passage, item) for item in gold_evidence):
+            return 1.0 / rank
+    return 0.0
+
+
+def ndcg_at_k(
+    gold_evidence: list[dict[str, Any]],
+    retrieved: list[dict[str, Any]],
+    k: int,
+) -> float | None:
+    """Calculate binary nDCG@k for unique matched gold-evidence items."""
+    if k < 1:
+        raise ValueError("k must be positive")
+    if not gold_evidence:
+        return None
+
+    unmatched = list(gold_evidence)
+    gains: list[float] = []
+    for passage in retrieved[:k]:
+        gain = 0.0
+        for index, item in enumerate(unmatched):
+            if _matches_retrieval_source_page(passage, item):
+                gain = 1.0
+                unmatched.pop(index)
+                break
+        gains.append(gain)
+
+    dcg = sum(gain / math.log2(rank + 1) for rank, gain in enumerate(gains, start=1))
+    ideal_count = min(len(gold_evidence), k)
+    idcg = sum(1.0 / math.log2(rank + 1) for rank in range(1, ideal_count + 1))
+    return dcg / idcg if idcg else 0.0
+
+
+def apply_controlled_typo(question: str) -> str:
+    """Apply a deterministic single-character typo for the noise experiment."""
+    characters = list(question)
+    eligible = [
+        index
+        for index, character in enumerate(characters)
+        if character.isalpha()
+        and index + 1 < len(characters)
+        and characters[index + 1].isalpha()
+    ]
+    if not eligible:
+        return question
+    index = eligible[len(eligible) // 2]
+    characters[index], characters[index + 1] = characters[index + 1], characters[index]
+    return "".join(characters)
 
 
 def citation_provenance_validity(
@@ -424,15 +561,22 @@ def _score_question(
     response: dict[str, Any] | None,
     error: str | None,
     elapsed_seconds: float,
+    *,
+    evaluated_question: str | None = None,
 ) -> dict[str, Any]:
+    evaluated_question = evaluated_question or question["question"]
     row: dict[str, Any] = {
         **question,
+        "baseline_question": question["question"],
+        "evaluated_question": evaluated_question,
         "request_status": "failed" if error else "succeeded",
         "elapsed_seconds": round(elapsed_seconds, 2),
         "response": response,
         "request_error": error,
         "recall_at_3": None,
         "recall_at_5": None,
+        "mrr": None,
+        "ndcg_at_5": None,
         "citation_provenance_validity_percentage": None,
         "gold_evidence_relevance_percentage": None,
         "citation_validity_percentage": None,
@@ -455,6 +599,8 @@ def _score_question(
     }
     row["recall_at_3"] = recall_at_k(question["gold_evidence"], response["retrieved"], 3)
     row["recall_at_5"] = recall_at_k(question["gold_evidence"], response["retrieved"], 5)
+    row["mrr"] = reciprocal_rank(question["gold_evidence"], response["retrieved"])
+    row["ndcg_at_5"] = ndcg_at_k(question["gold_evidence"], response["retrieved"], 5)
     if response["citations"]:
         provenance_valid, provenance_details = citation_provenance_validity(
             response["citations"],
@@ -546,6 +692,10 @@ def summarise(rows: list[dict[str, Any]]) -> dict[str, Any]:
     categories = sorted({row["category"] for row in rows})
     for category in categories:
         selected = [row for row in rows if row["category"] == category]
+        answerable_selected = [
+            row for row in selected
+            if row["expected_answerability"] == "answerable"
+        ]
         per_category[category] = {
             "questions": len(selected),
             "successful_requests": sum(row["request_status"] == "succeeded" for row in selected),
@@ -555,6 +705,20 @@ def summarise(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "recall_at_5": aggregate_recall(selected, "recall_at_5")
             if any(row["expected_answerability"] == "answerable" for row in selected)
             else None,
+            "mrr": (
+                sum(row["mrr"] or 0.0 for row in answerable_selected)
+                / len(answerable_selected)
+                if answerable_selected
+                and all(row["request_status"] == "succeeded" for row in answerable_selected)
+                else None
+            ),
+            "ndcg_at_5": (
+                sum(row["ndcg_at_5"] or 0.0 for row in answerable_selected)
+                / len(answerable_selected)
+                if answerable_selected
+                and all(row["request_status"] == "succeeded" for row in answerable_selected)
+                else None
+            ),
             "must_abstain_correctness_percentage": _abstention_percentage(selected),
         }
 
@@ -566,6 +730,22 @@ def summarise(rows: list[dict[str, Any]]) -> dict[str, Any]:
     gold_relevance_percentage = (
         100.0 * gold_evidence_relevant_count / citation_count
         if citation_count and not failures
+        else None
+    )
+    successful_answerable = [
+        row for row in answerable
+        if row["request_status"] == "succeeded"
+    ]
+    mrr = (
+        sum(row["mrr"] or 0.0 for row in successful_answerable)
+        / len(successful_answerable)
+        if successful_answerable and not failures
+        else None
+    )
+    ndcg_at_5 = (
+        sum(row["ndcg_at_5"] or 0.0 for row in successful_answerable)
+        / len(successful_answerable)
+        if successful_answerable and not failures
         else None
     )
     return {
@@ -585,6 +765,8 @@ def summarise(rows: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "recall_at_3": aggregate_recall(answerable, "recall_at_3"),
         "recall_at_5": aggregate_recall(answerable, "recall_at_5"),
+        "mrr": mrr,
+        "ndcg_at_5": ndcg_at_5,
         "citation_provenance_validity_percentage": citation_provenance_percentage,
         "gold_evidence_relevance_percentage": gold_relevance_percentage,
         "citation_validity_percentage": citation_provenance_percentage,
@@ -697,6 +879,8 @@ def _baseline_snapshot(results: dict[str, Any]) -> dict[str, Any]:
         "successful_requests": metrics["successful_requests"],
         "recall_at_3": metrics["recall_at_3"],
         "recall_at_5": metrics["recall_at_5"],
+        "mrr": metrics["mrr"],
+        "ndcg_at_5": metrics["ndcg_at_5"],
         "citation_validity_percentage": metrics["citation_provenance_validity_percentage"],
         "citation_provenance_validity_percentage": metrics[
             "citation_provenance_validity_percentage"
@@ -754,6 +938,12 @@ def _arg_parser() -> argparse.ArgumentParser:
         default=REQUEST_TIMEOUT_SECONDS,
         help="per-request timeout in seconds",
     )
+    parser.add_argument(
+        "--noise",
+        choices=("none", "controlled-typos"),
+        default="none",
+        help="apply a deterministic query-noise experiment",
+    )
     return parser
 
 
@@ -781,14 +971,25 @@ def main(argv: list[str] | None = None) -> int:
         with httpx.Client(timeout=args.timeout, headers=headers) as client:
             for question in questions:
                 started = time.perf_counter()
+                evaluated_question = (
+                    apply_controlled_typo(question["question"])
+                    if args.noise == "controlled-typos"
+                    else question["question"]
+                )
                 try:
-                    response = ask(client, args.api, question["question"])
+                    response = ask(client, args.api, evaluated_question)
                     error = None
                 except EvaluationRequestError as exc:
                     response = None
                     error = str(exc)
                 elapsed = time.perf_counter() - started
-                row = _score_question(question, response, error, elapsed)
+                row = _score_question(
+                    question,
+                    response,
+                    error,
+                    elapsed,
+                    evaluated_question=evaluated_question,
+                )
                 rows.append(row)
                 request_id = row.get("request_id", "FAILED")
                 print(
@@ -805,6 +1006,7 @@ def main(argv: list[str] | None = None) -> int:
         "evaluation_timestamp": timestamp,
         "api_base_url": safe_api_base_url,
         "golden_file": args.golden.name,
+        "noise_experiment": args.noise,
         "metrics": summarise(rows),
         "questions": rows,
     }
@@ -827,6 +1029,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  Request failures: {metrics['request_failures']}")
     print(f"  Recall@3: {_format_metric(metrics['recall_at_3'])}")
     print(f"  Recall@5: {_format_metric(metrics['recall_at_5'])}")
+    print(f"  MRR: {_format_metric(metrics['mrr'])}")
+    print(f"  nDCG@5: {_format_metric(metrics['ndcg_at_5'])}")
     print(
         "  Citation provenance validity: "
         f"{_format_percentage(metrics['citation_provenance_validity_percentage'])}"

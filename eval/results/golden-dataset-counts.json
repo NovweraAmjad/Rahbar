@@ -1,0 +1,20 @@
+{
+  "dataset": "eval/golden.jsonl",
+  "schema_version": 1,
+  "total_questions": 30,
+  "answerable": 24,
+  "unanswerable": 6,
+  "hard": 5,
+  "human_written": 12,
+  "synthetic": 18,
+  "reviewed_synthetic": 18,
+  "categories": {
+    "ordinary": 15,
+    "version-sensitive": 2,
+    "exact-term": 2,
+    "must-abstain": 5,
+    "prompt-injection": 1,
+    "hard": 5
+  },
+  "validation_status": "passed"
+}

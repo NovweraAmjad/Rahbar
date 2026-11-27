@@ -1,0 +1,75 @@
+{
+  "evaluation_timestamp": "2026-11-22T12:25:40.174713+00:00",
+  "api_base_url": "http://127.0.0.1:18092",
+  "number_of_evaluated_questions": 30,
+  "successful_requests": 30,
+  "recall_at_3": 0.6,
+  "recall_at_5": 0.64,
+  "mrr": 0.59375,
+  "ndcg_at_5": 0.6121890027173461,
+  "citation_validity_percentage": 100.0,
+  "citation_provenance_validity_percentage": 100.0,
+  "gold_evidence_relevance_percentage": 36.111111111111114,
+  "must_abstain_correctness_percentage": 33.333333333333336,
+  "per_category_metrics": {
+    "exact-term": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.5,
+      "ndcg_at_5": 0.5,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "hard": {
+      "questions": 5,
+      "successful_requests": 5,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.6,
+      "ndcg_at_5": 0.6,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "must-abstain": {
+      "questions": 5,
+      "successful_requests": 5,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "mrr": null,
+      "ndcg_at_5": null,
+      "must_abstain_correctness_percentage": 40.0
+    },
+    "ordinary": {
+      "questions": 15,
+      "successful_requests": 15,
+      "recall_at_3": 0.7333333333333333,
+      "recall_at_5": 0.8,
+      "mrr": 0.6833333333333333,
+      "ndcg_at_5": 0.7128357376810872,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "prompt-injection": {
+      "questions": 1,
+      "successful_requests": 1,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "mrr": null,
+      "ndcg_at_5": null,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0,
+      "mrr": 0.0,
+      "ndcg_at_5": 0.0,
+      "must_abstain_correctness_percentage": 0.0
+    }
+  },
+  "evaluation_gate_passed": false,
+  "evaluation_gate_failures": [
+    "19 question(s) failed evaluation checks",
+    "must-abstain correctness is below 100%"
+  ]
+}

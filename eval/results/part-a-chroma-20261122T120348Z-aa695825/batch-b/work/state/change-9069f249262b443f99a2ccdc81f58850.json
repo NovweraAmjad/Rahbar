@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "discovered": 5,
+    "unchanged": 5,
+    "updated": 0,
+    "new": 0,
+    "deleted": 0,
+    "total_chunks_embedded": 0,
+    "total_chunks_skipped": 5,
+    "total_chunks_removed": 0
+  },
+  "documents": [
+    {
+      "source": "batch-valid-attendance.txt",
+      "classification": "unchanged",
+      "chunks_skipped": 1
+    },
+    {
+      "source": "batch-exact-a.txt",
+      "classification": "unchanged",
+      "chunks_skipped": 1
+    },
+    {
+      "source": "batch-near-a.txt",
+      "classification": "unchanged",
+      "chunks_skipped": 1
+    },
+    {
+      "source": "batch-academic-policy-2026.txt",
+      "classification": "unchanged",
+      "chunks_skipped": 1
+    },
+    {
+      "source": "batch-scholarship.txt",
+      "classification": "unchanged",
+      "chunks_skipped": 1
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "window": {
+    "start_inclusive": "2026-11-22T00:00:00Z",
+    "end_exclusive": "2026-11-23T00:00:00Z"
+  },
+  "records": {
+    "valid_in_window": 1,
+    "malformed": 0,
+    "invalid_timestamps": 0
+  },
+  "top1_similarity": {
+    "count": 1,
+    "mean": 0.7315974199999999,
+    "min": 0.7315974199999999,
+    "p50": 0.7315974199999999,
+    "p95": 0.7315974199999999,
+    "max": 0.7315974199999999
+  },
+  "abstention_rate": {
+    "count": 1,
+    "rate": 0.0
+  },
+  "cache_hit_rate": {
+    "lookup_count": 0,
+    "rate": null
+  },
+  "stage_latency_ms": {
+    "cache_lookup": {
+      "count": 1,
+      "p95": 0.036699988413602114
+    },
+    "embedding": {
+      "count": 1,
+      "p95": 3486.5869999630377
+    },
+    "generation": {
+      "count": 1,
+      "p95": 4798.500899982173
+    },
+    "guardrail": {
+      "count": 1,
+      "p95": 0.1107999705709517
+    },
+    "reranking": {
+      "count": 1,
+      "p95": 0.20640000002458692
+    },
+    "retrieval": {
+      "count": 1,
+      "p95": 4887.884100025985
+    },
+    "total": {
+      "count": 1,
+      "p95": 9686.73969997326
+    },
+    "vector_query": {
+      "count": 1,
+      "p95": 685.3087000199594
+    }
+  },
+  "injection_attempts_flagged": 0,
+  "missing_metrics": {
+    "top1_similarity": 0,
+    "abstention": 0,
+    "cache_status": 1,
+    "injection_status": 0
+  }
+}

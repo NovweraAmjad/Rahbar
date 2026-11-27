@@ -1,0 +1,44 @@
+{
+  "summary": {
+    "discovered": 6,
+    "unchanged": 0,
+    "updated": 0,
+    "new": 6,
+    "deleted": 0,
+    "total_chunks_embedded": 339,
+    "total_chunks_skipped": 0,
+    "total_chunks_removed": 0
+  },
+  "documents": [
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "classification": "new",
+      "chunks": 97
+    },
+    {
+      "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+      "classification": "new",
+      "chunks": 11
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "classification": "new",
+      "chunks": 87
+    },
+    {
+      "source": "annual-report-2023-24.pdf",
+      "classification": "new",
+      "chunks": 142
+    },
+    {
+      "source": "part-a-integration-change.txt",
+      "classification": "new",
+      "chunks": 1
+    },
+    {
+      "source": "part-a-integration-delete.txt",
+      "classification": "new",
+      "chunks": 1
+    }
+  ]
+}

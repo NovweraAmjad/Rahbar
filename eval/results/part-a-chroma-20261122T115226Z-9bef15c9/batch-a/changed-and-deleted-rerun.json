@@ -1,0 +1,18 @@
+{
+  "run_id": "5e010a9bfae147babd15ea15e2208023",
+  "total_stored": 187,
+  "chunks_embedded": 2,
+  "chunks_skipped": 184,
+  "chunks_removed": 1,
+  "summary": {
+    "discovered": 3,
+    "unchanged": 2,
+    "updated": 1,
+    "new": 0,
+    "deleted": 1,
+    "total_chunks_embedded": 2,
+    "total_chunks_skipped": 184,
+    "total_chunks_removed": 1
+  },
+  "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\batch-a\\work\\state\\change-5e010a9bfae147babd15ea15e2208023.json"
+}

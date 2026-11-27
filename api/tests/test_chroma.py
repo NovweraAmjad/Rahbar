@@ -2,13 +2,15 @@ from __future__ import annotations
 
 from typing import Any
 from unittest.mock import Mock
+from uuid import UUID
 
 import httpx
 import pytest
 
 from app.config import Settings
 from app import embeddings
-from app.retrieval.chroma import ChromaRetriever
+from app.retrieval.chroma import ChromaRetriever, _rerank_for_versions
+from app.schemas import Passage
 
 
 def _settings() -> Settings:
@@ -46,6 +48,8 @@ def _retriever(
 
     collection = Mock()
     collection.query.return_value = result or _query_response()
+    collection.metadata = {"embed_model": "nomic-embed-text", "dimension": 3}
+    collection.id = UUID("e5837fe0-1493-4ba2-a78d-5abfed73f114")
     if chroma_error is not None:
         collection.query.side_effect = chroma_error
     client = Mock()
@@ -75,6 +79,7 @@ def test_retrieve_embeds_with_configured_model_and_maps_results(
                 "page": 12,
                 "doc_version": "2026-06",
                 "superseded": False,
+                "document_id": "academic-rules-2026",
             },
             {
                 "source": "policy-2023.pdf",
@@ -103,7 +108,7 @@ def test_retrieve_embeds_with_configured_model_and_maps_results(
     client.get_collection.assert_called_once_with(name="rahbar-test")
     collection.query.assert_called_once_with(
         query_embeddings=[0.1, 0.2, 0.3],
-        n_results=4,
+        n_results=12,
         where={"superseded": False},
         include=["documents", "metadatas", "distances"],
     )
@@ -115,8 +120,78 @@ def test_retrieve_embeds_with_configured_model_and_maps_results(
     assert passage.section == "4.2 Registration"
     assert passage.page == 12
     assert passage.doc_version == "2026-06"
+    assert passage.document_id == "academic-rules-2026"
     assert passage.superseded is False
     assert passage.score == pytest.approx(0.88)
+    assert passages.trace_metadata["filters_applied"] == {"superseded": False}
+    assert passages.trace_metadata["raw_ranked_order"] == ["chunk-current"]
+    assert passages.trace_metadata["reranked_order"] == ["chunk-current"]
+    assert passages.trace_metadata["collection_version"] == (
+        "e5837fe0-1493-4ba2-a78d-5abfed73f114"
+    )
+    assert passages.trace_metadata["collection_id"] == (
+        "e5837fe0-1493-4ba2-a78d-5abfed73f114"
+    )
+    assert passages.trace_metadata["collection_version_source"] == "collection_id"
+
+
+def test_requested_report_version_is_prioritized() -> None:
+    old = Passage(
+        chunk_id="old",
+        text="2019 faculty total 615",
+        source="annual-report-2019-20.pdf",
+        section="Faculty",
+        page=13,
+        score=0.70,
+        doc_version="2019-20",
+    )
+    current = Passage(
+        chunk_id="current",
+        text="2023 faculty total 735",
+        source="annual-report-2023-24.pdf",
+        section="Faculty",
+        page=13,
+        score=0.65,
+        doc_version="2023-24",
+    )
+
+    ranked = _rerank_for_versions(
+        "In the Annual Report 2023-24, what is the faculty total?",
+        [old, current],
+        k=2,
+    )
+    assert ranked[0].source == "annual-report-2023-24.pdf"
+
+
+def test_multi_report_question_selects_both_versions() -> None:
+    old = Passage(
+        chunk_id="old",
+        text="2019 faculty total 615",
+        source="annual-report-2019-20.pdf",
+        section="Faculty",
+        page=13,
+        score=0.70,
+        doc_version="2019-20",
+    )
+    current = Passage(
+        chunk_id="current",
+        text="2023 faculty total 735",
+        source="annual-report-2023-24.pdf",
+        section="Faculty",
+        page=13,
+        score=0.65,
+        doc_version="2023-24",
+    )
+
+    ranked = _rerank_for_versions(
+        "Compare faculty totals in the 2019-20 and 2023-24 annual reports.",
+        [old, current],
+        k=2,
+    )
+    assert {passage.source for passage in ranked} == {
+        "annual-report-2019-20.pdf",
+        "annual-report-2023-24.pdf",
+    }
 
 
 def test_retrieve_returns_empty_list_for_no_matches(monkeypatch: pytest.MonkeyPatch) -> None:

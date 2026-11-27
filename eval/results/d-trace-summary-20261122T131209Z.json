@@ -1,0 +1,71 @@
+{
+  "window": {
+    "start_inclusive": "2026-11-22T00:00:00Z",
+    "end_exclusive": "2026-11-23T00:00:00Z"
+  },
+  "records": {
+    "valid_in_window": 2,
+    "malformed": 0,
+    "invalid_timestamps": 0
+  },
+  "top1_similarity": {
+    "count": 2,
+    "mean": 0.7315974199999999,
+    "min": 0.7315974199999999,
+    "p50": 0.7315974199999999,
+    "p95": 0.7315974199999999,
+    "max": 0.7315974199999999
+  },
+  "abstention_rate": {
+    "count": 2,
+    "rate": 0.0
+  },
+  "cache_hit_rate": {
+    "lookup_count": 0,
+    "rate": null,
+    "status_counts": {
+      "disabled": 2
+    }
+  },
+  "stage_latency_ms": {
+    "cache_lookup": {
+      "count": 2,
+      "p95": 0.03689004515763372
+    },
+    "embedding": {
+      "count": 2,
+      "p95": 3324.164834964904
+    },
+    "generation": {
+      "count": 2,
+      "p95": 4640.197524984251
+    },
+    "guardrail": {
+      "count": 2,
+      "p95": 0.1091149722924456
+    },
+    "reranking": {
+      "count": 2,
+      "p95": 0.20513500203378499
+    },
+    "retrieval": {
+      "count": 2,
+      "p95": 4715.146215024288
+    },
+    "total": {
+      "count": 2,
+      "p95": 9355.695499974536
+    },
+    "vector_query": {
+      "count": 2,
+      "p95": 679.2122100188863
+    }
+  },
+  "injection_attempts_flagged": 0,
+  "missing_metrics": {
+    "top1_similarity": 0,
+    "abstention": 0,
+    "cache_status": 0,
+    "injection_status": 0
+  }
+}

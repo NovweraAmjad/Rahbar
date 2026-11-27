@@ -1,0 +1,262 @@
+{
+  "configuration": {
+    "role": "baseline",
+    "profile": {
+      "name": "baseline",
+      "chunk_size": 400,
+      "chunk_overlap": 50
+    },
+    "changed": {
+      "variable": "chunk_size",
+      "value": 400
+    },
+    "unchanged": {
+      "chunk_overlap": 50,
+      "RETRIEVER": "chroma",
+      "LLM_PROVIDER": "ollama-host",
+      "EMBED_MODEL": "nomic-embed-text",
+      "CHROMA_HOST": "chunk-chroma",
+      "CHROMA_PORT": "8000",
+      "CORPUS_DIR": "/corpus",
+      "TOP_K": "5",
+      "RELEVANCE_FLOOR": "0.5",
+      "REDIS_URL": "redis://chunk-redis:6379/0",
+      "CACHE_PREFIX": "rahbar:semantic-cache",
+      "CACHE_SIMILARITY_THRESHOLD": "0.95",
+      "TEMPERATURE": "0.2",
+      "LLM_MODEL": "llama3.2:3b",
+      "OLLAMA_URL": "http://172.23.112.1:11434",
+      "LOG_LEVEL": "INFO",
+      "QUARANTINE_DIR": "/tmp/quarantine",
+      "VERIFICATION_REPORT_DIR": "/tmp/verification-reports",
+      "ARCHIVE_DIR": "/tmp/archive"
+    },
+    "collection": "rahbar-ct-c1s-baseline",
+    "cache_scope": "rahbar:semantic-cache:rahbar-ct-c1s-baseline",
+    "namespace": "rahbar-part-c1-c1s",
+    "corpus_sha256": "65d37ca13a9a9a2e864322f21cc376eefbf199ccf254e596f1b3d5fcdbf8b0d7",
+    "golden_sha256": "0dae3da1fcb30c64e650a066fe350458d6787860b4cab867f7eb666e2ba73f7f"
+  },
+  "collection": {
+    "name": "rahbar-ct-c1s-baseline",
+    "count": 202,
+    "metadata": {
+      "dimension": 768,
+      "embed_model": "nomic-embed-text",
+      "hnsw:space": "cosine"
+    },
+    "corpus_sha256": "65d37ca13a9a9a2e864322f21cc376eefbf199ccf254e596f1b3d5fcdbf8b0d7"
+  },
+  "suite_dir": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z",
+  "summary": {
+    "metadata": {
+      "generated_at": "2026-11-22T11:07:31.844179+00:00",
+      "golden_file": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\golden.jsonl",
+      "api_base_url": "http://127.0.0.1:18092",
+      "host": "rahbar.local",
+      "embedding_model": "nomic-embed-text",
+      "embedding_ollama_url": "http://172.23.112.1:11434",
+      "llm_model": "llama3.2:3b",
+      "llm_temperature": 0.2,
+      "seeds": {
+        "python_random": 20261121,
+        "python_hash_seed": 20261121,
+        "numpy": 20261121,
+        "dataset": 20261121
+      },
+      "remaining_variation": "The module embedding path uses fixed dataset and provider settings. Component retrieval is deterministic when the live corpus and returned rankings are unchanged. End-to-end LLM text may vary because the provider uses temperature 0.2; provider restarts, cache behavior, model revisions, request failures, and live retrieval state can also affect results."
+    },
+    "run_paths": {
+      "1": {
+        "module": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-1\\module\\module-embedding-20261122T110803Z",
+        "component": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-1\\component\\component-retrieval-20261122T110803Z",
+        "end_to_end": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-1\\end-to-end\\end-to-end-20261122T110959Z"
+      },
+      "2": {
+        "module": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-2\\module\\module-embedding-20261122T111051Z",
+        "component": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-2\\component\\component-retrieval-20261122T111051Z",
+        "end_to_end": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\run-2\\end-to-end\\end-to-end-20261122T111125Z"
+      }
+    },
+    "runs": {
+      "1": {
+        "module": {
+          "mean_paraphrase_cosine": 0.8311255411599171,
+          "mean_unrelated_cosine": 0.3618973254920409,
+          "paraphrase_minus_unrelated": 0.4692282156678762,
+          "embedding_time_mean_seconds": 0.256989401661364,
+          "embedding_time_p95_seconds": 0.2760461499652592,
+          "largest_determinism_difference": 0.0,
+          "embedding_dimension": 768
+        },
+        "component": {
+          "baseline_recall_at_3": 0.64,
+          "baseline_recall_at_5": 0.64,
+          "baseline_mrr": 0.625,
+          "baseline_ndcg_at_5": 0.6359108127976215,
+          "typo_recall_at_3": 0.6,
+          "typo_recall_at_5": 0.64,
+          "typo_mrr": 0.59375,
+          "typo_ndcg_at_5": 0.6121890027173461
+        },
+        "end_to_end": {
+          "faithfulness_percentage": 83.33333333333333,
+          "abstention_correctness_percentage": 16.666666666666668,
+          "citation_validity_percentage": 100.0,
+          "latency_p50_seconds": 0.07574999998905696,
+          "latency_p95_seconds": 3.1101180499943446,
+          "successful_requests": 30,
+          "request_failures": 0
+        }
+      },
+      "2": {
+        "module": {
+          "mean_paraphrase_cosine": 0.8311255411599171,
+          "mean_unrelated_cosine": 0.3618973254920409,
+          "paraphrase_minus_unrelated": 0.4692282156678762,
+          "embedding_time_mean_seconds": 0.24180930833196423,
+          "embedding_time_p95_seconds": 0.2669187899737153,
+          "largest_determinism_difference": 0.0,
+          "embedding_dimension": 768
+        },
+        "component": {
+          "baseline_recall_at_3": 0.6,
+          "baseline_recall_at_5": 0.64,
+          "baseline_mrr": 0.6145833333333334,
+          "baseline_ndcg_at_5": 0.6275669296518688,
+          "typo_recall_at_3": 0.6,
+          "typo_recall_at_5": 0.64,
+          "typo_mrr": 0.59375,
+          "typo_ndcg_at_5": 0.6121890027173461
+        },
+        "end_to_end": {
+          "faithfulness_percentage": 95.83333333333333,
+          "abstention_correctness_percentage": 16.666666666666668,
+          "citation_validity_percentage": 100.0,
+          "latency_p50_seconds": 0.0734121999994386,
+          "latency_p95_seconds": 1.7466339300153777,
+          "successful_requests": 30,
+          "request_failures": 0
+        }
+      }
+    },
+    "comparison": {
+      "component": {
+        "baseline_mrr": {
+          "run_1": 0.625,
+          "run_2": 0.6145833333333334,
+          "absolute_difference": -0.010416666667
+        },
+        "baseline_ndcg_at_5": {
+          "run_1": 0.6359108127976215,
+          "run_2": 0.6275669296518688,
+          "absolute_difference": -0.008343883146
+        },
+        "baseline_recall_at_3": {
+          "run_1": 0.64,
+          "run_2": 0.6,
+          "absolute_difference": -0.04
+        },
+        "baseline_recall_at_5": {
+          "run_1": 0.64,
+          "run_2": 0.64,
+          "absolute_difference": 0.0
+        },
+        "typo_mrr": {
+          "run_1": 0.59375,
+          "run_2": 0.59375,
+          "absolute_difference": 0.0
+        },
+        "typo_ndcg_at_5": {
+          "run_1": 0.6121890027173461,
+          "run_2": 0.6121890027173461,
+          "absolute_difference": 0.0
+        },
+        "typo_recall_at_3": {
+          "run_1": 0.6,
+          "run_2": 0.6,
+          "absolute_difference": 0.0
+        },
+        "typo_recall_at_5": {
+          "run_1": 0.64,
+          "run_2": 0.64,
+          "absolute_difference": 0.0
+        }
+      },
+      "end_to_end": {
+        "abstention_correctness_percentage": {
+          "run_1": 16.666666666666668,
+          "run_2": 16.666666666666668,
+          "absolute_difference": 0.0
+        },
+        "citation_validity_percentage": {
+          "run_1": 100.0,
+          "run_2": 100.0,
+          "absolute_difference": 0.0
+        },
+        "faithfulness_percentage": {
+          "run_1": 83.33333333333333,
+          "run_2": 95.83333333333333,
+          "absolute_difference": 12.5
+        },
+        "latency_p50_seconds": {
+          "run_1": 0.07574999998905696,
+          "run_2": 0.0734121999994386,
+          "absolute_difference": -0.00233779999
+        },
+        "latency_p95_seconds": {
+          "run_1": 3.1101180499943446,
+          "run_2": 1.7466339300153777,
+          "absolute_difference": -1.363484119979
+        },
+        "request_failures": {
+          "run_1": 0,
+          "run_2": 0,
+          "absolute_difference": 0
+        },
+        "successful_requests": {
+          "run_1": 30,
+          "run_2": 30,
+          "absolute_difference": 0
+        }
+      },
+      "module": {
+        "embedding_dimension": {
+          "run_1": 768,
+          "run_2": 768,
+          "absolute_difference": 0
+        },
+        "embedding_time_mean_seconds": {
+          "run_1": 0.256989401661364,
+          "run_2": 0.24180930833196423,
+          "absolute_difference": -0.015180093329
+        },
+        "embedding_time_p95_seconds": {
+          "run_1": 0.2760461499652592,
+          "run_2": 0.2669187899737153,
+          "absolute_difference": -0.009127359992
+        },
+        "largest_determinism_difference": {
+          "run_1": 0.0,
+          "run_2": 0.0,
+          "absolute_difference": 0.0
+        },
+        "mean_paraphrase_cosine": {
+          "run_1": 0.8311255411599171,
+          "run_2": 0.8311255411599171,
+          "absolute_difference": 0.0
+        },
+        "mean_unrelated_cosine": {
+          "run_1": 0.3618973254920409,
+          "run_2": 0.3618973254920409,
+          "absolute_difference": 0.0
+        },
+        "paraphrase_minus_unrelated": {
+          "run_1": 0.4692282156678762,
+          "run_2": 0.4692282156678762,
+          "absolute_difference": 0.0
+        }
+      }
+    }
+  }
+}

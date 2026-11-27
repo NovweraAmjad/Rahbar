@@ -1,0 +1,327 @@
+{
+  "metadata": {
+    "schema_version": 1,
+    "generated_at": "2026-11-23T12:49:11.925483+00:00",
+    "baseline_summary": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\drift-part-e-complete\\pre-batch-b\\part-b-stochasticity-20261123T124512Z\\summary.json",
+    "post_batch_b_summary": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-f-live-20261123\\latest-complete\\part-b-summary.json",
+    "ingestion_evidence": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261123T100513Z-2d6ca665\\run.json"
+  },
+  "ingestion": {
+    "status": "completed",
+    "collection": "rahbar-pb-e792f0e2d58c46a0a044",
+    "first_run": {
+      "run_id": "b506b90883cd428aa1d926689868fc4d",
+      "total_stored": 5,
+      "chunks_embedded": 5,
+      "chunks_skipped": 0,
+      "chunks_removed": 0,
+      "summary": {
+        "discovered": 5,
+        "unchanged": 0,
+        "updated": 0,
+        "new": 5,
+        "deleted": 0,
+        "total_chunks_embedded": 5,
+        "total_chunks_skipped": 0,
+        "total_chunks_removed": 0
+      },
+      "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261123T100513Z-2d6ca665\\batch-b\\work\\state\\change-b506b90883cd428aa1d926689868fc4d.json"
+    },
+    "unchanged_rerun": {
+      "chunks_embedded": 0,
+      "chunks_skipped": 5
+    },
+    "verification_summary": {
+      "total": 12,
+      "index": 5,
+      "quarantine": 7,
+      "overall_decision": "quarantine_failures"
+    },
+    "quarantined_sources": [
+      "batch-academic-policy-2025.txt",
+      "batch-corrupt.txt",
+      "batch-exact-b.txt",
+      "batch-injection.txt",
+      "batch-missing-title.txt",
+      "batch-near-b.txt",
+      "batch-truncated.txt"
+    ],
+    "chunks_by_source": {
+      "batch-valid-attendance.txt": 1,
+      "batch-exact-a.txt": 1,
+      "batch-near-a.txt": 1,
+      "batch-academic-policy-2026.txt": 1,
+      "batch-scholarship.txt": 1
+    },
+    "live_user_collection_modified": false
+  },
+  "comparison": {
+    "module": {
+      "embedding_dimension": {
+        "baseline_run_1": 768,
+        "baseline_run_2": 768,
+        "baseline_mean": 768,
+        "candidate_run_1": 768,
+        "candidate_run_2": 768,
+        "candidate_mean": 768,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": 0.0
+      },
+      "embedding_time_mean_seconds": {
+        "baseline_run_1": 0.2962580616662308,
+        "baseline_run_2": 0.2766337016667724,
+        "baseline_mean": 0.28644588166650164,
+        "candidate_run_1": 0.1433195088834206,
+        "candidate_run_2": 0.04180423671678,
+        "candidate_mean": 0.0925618728001003,
+        "absolute_change_candidate_minus_baseline": -0.19388400886640134,
+        "relative_change_percentage": -67.68608706762045
+      },
+      "embedding_time_p95_seconds": {
+        "baseline_run_1": 0.3352520550010013,
+        "baseline_run_2": 0.3010000399979617,
+        "baseline_mean": 0.3181260474994815,
+        "candidate_run_1": 0.06697432484970704,
+        "candidate_run_2": 0.048952738800926446,
+        "candidate_mean": 0.057963531825316744,
+        "absolute_change_candidate_minus_baseline": -0.2601625156741647,
+        "relative_change_percentage": -81.77969635591967
+      },
+      "largest_determinism_difference": {
+        "baseline_run_1": 0.0,
+        "baseline_run_2": 0.0,
+        "baseline_mean": 0.0,
+        "candidate_run_1": 0.0,
+        "candidate_run_2": 0.0,
+        "candidate_mean": 0.0,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": null
+      },
+      "mean_paraphrase_cosine": {
+        "baseline_run_1": 0.8311255411599171,
+        "baseline_run_2": 0.8311255411599171,
+        "baseline_mean": 0.8311255411599171,
+        "candidate_run_1": 0.8311255411599171,
+        "candidate_run_2": 0.8311255411599171,
+        "candidate_mean": 0.8311255411599171,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": 0.0
+      },
+      "mean_unrelated_cosine": {
+        "baseline_run_1": 0.3618973254920409,
+        "baseline_run_2": 0.3618973254920409,
+        "baseline_mean": 0.3618973254920409,
+        "candidate_run_1": 0.3618973254920409,
+        "candidate_run_2": 0.3618973254920409,
+        "candidate_mean": 0.3618973254920409,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": 0.0
+      },
+      "paraphrase_minus_unrelated": {
+        "baseline_run_1": 0.4692282156678762,
+        "baseline_run_2": 0.4692282156678762,
+        "baseline_mean": 0.4692282156678762,
+        "candidate_run_1": 0.4692282156678762,
+        "candidate_run_2": 0.4692282156678762,
+        "candidate_mean": 0.4692282156678762,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": 0.0
+      },
+      "paraphrase_pair_count": {
+        "baseline_run_1": 15,
+        "baseline_run_2": 15,
+        "baseline_mean": 15,
+        "candidate_run_1": 15,
+        "candidate_run_2": 15,
+        "candidate_mean": 15,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": 0.0
+      },
+      "unrelated_pair_count": {
+        "baseline_run_1": 15,
+        "baseline_run_2": 15,
+        "baseline_mean": 15,
+        "candidate_run_1": 15,
+        "candidate_run_2": 15,
+        "candidate_mean": 15,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": 0.0
+      }
+    },
+    "component": {
+      "baseline_mrr": {
+        "baseline_run_1": 0.5659722222222222,
+        "baseline_run_2": 0.5659722222222222,
+        "baseline_mean": 0.5659722222222222,
+        "candidate_run_1": 0.6763888888888889,
+        "candidate_run_2": 0.6763888888888889,
+        "candidate_mean": 0.6763888888888889,
+        "absolute_change_candidate_minus_baseline": 0.11041666666666672,
+        "relative_change_percentage": 19.50920245398774
+      },
+      "baseline_ndcg_at_5": {
+        "baseline_run_1": 0.5913556693840128,
+        "baseline_run_2": 0.5913556693840128,
+        "baseline_mean": 0.5913556693840128,
+        "candidate_run_1": 0.7090349908632588,
+        "candidate_run_2": 0.7090349908632588,
+        "candidate_mean": 0.7090349908632588,
+        "absolute_change_candidate_minus_baseline": 0.11767932147924598,
+        "relative_change_percentage": 19.899922765909547
+      },
+      "baseline_recall_at_3": {
+        "baseline_run_1": 0.6,
+        "baseline_run_2": 0.6,
+        "baseline_mean": 0.6,
+        "candidate_run_1": 0.72,
+        "candidate_run_2": 0.72,
+        "candidate_mean": 0.72,
+        "absolute_change_candidate_minus_baseline": 0.12,
+        "relative_change_percentage": 20.0
+      },
+      "baseline_recall_at_5": {
+        "baseline_run_1": 0.64,
+        "baseline_run_2": 0.64,
+        "baseline_mean": 0.64,
+        "candidate_run_1": 0.8,
+        "candidate_run_2": 0.8,
+        "candidate_mean": 0.8,
+        "absolute_change_candidate_minus_baseline": 0.16000000000000003,
+        "relative_change_percentage": 25.000000000000004
+      },
+      "baseline_request_failures": {
+        "baseline_run_1": 0,
+        "baseline_run_2": 0,
+        "baseline_mean": 0,
+        "candidate_run_1": 0,
+        "candidate_run_2": 0,
+        "candidate_mean": 0,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": null
+      },
+      "typo_mrr": {
+        "baseline_run_1": 0.5381944444444444,
+        "baseline_run_2": 0.5381944444444444,
+        "baseline_mean": 0.5381944444444444,
+        "candidate_run_1": 0.6486111111111111,
+        "candidate_run_2": 0.6486111111111111,
+        "candidate_mean": 0.6486111111111111,
+        "absolute_change_candidate_minus_baseline": 0.11041666666666672,
+        "relative_change_percentage": 20.516129032258075
+      },
+      "typo_ndcg_at_5": {
+        "baseline_run_1": 0.5705223360506795,
+        "baseline_run_2": 0.5705223360506795,
+        "baseline_mean": 0.5705223360506795,
+        "candidate_run_1": 0.6882016575299255,
+        "candidate_run_2": 0.6882016575299255,
+        "candidate_mean": 0.6882016575299255,
+        "absolute_change_candidate_minus_baseline": 0.11767932147924598,
+        "relative_change_percentage": 20.626593218743416
+      },
+      "typo_recall_at_3": {
+        "baseline_run_1": 0.6,
+        "baseline_run_2": 0.6,
+        "baseline_mean": 0.6,
+        "candidate_run_1": 0.72,
+        "candidate_run_2": 0.72,
+        "candidate_mean": 0.72,
+        "absolute_change_candidate_minus_baseline": 0.12,
+        "relative_change_percentage": 20.0
+      },
+      "typo_recall_at_5": {
+        "baseline_run_1": 0.64,
+        "baseline_run_2": 0.64,
+        "baseline_mean": 0.64,
+        "candidate_run_1": 0.8,
+        "candidate_run_2": 0.8,
+        "candidate_mean": 0.8,
+        "absolute_change_candidate_minus_baseline": 0.16000000000000003,
+        "relative_change_percentage": 25.000000000000004
+      },
+      "typo_request_failures": {
+        "baseline_run_1": 0,
+        "baseline_run_2": 0,
+        "baseline_mean": 0,
+        "candidate_run_1": 0,
+        "candidate_run_2": 0,
+        "candidate_mean": 0,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": null
+      }
+    },
+    "end_to_end": {
+      "abstention_correctness_percentage": {
+        "baseline_run_1": 16.666666666666668,
+        "baseline_run_2": 16.666666666666668,
+        "baseline_mean": 16.666666666666668,
+        "candidate_run_1": 16.666666666666668,
+        "candidate_run_2": 16.666666666666668,
+        "candidate_mean": 16.666666666666668,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": 0.0
+      },
+      "citation_validity_percentage": {
+        "baseline_run_1": 100.0,
+        "baseline_run_2": 100.0,
+        "baseline_mean": 100.0,
+        "candidate_run_1": 100.0,
+        "candidate_run_2": 100.0,
+        "candidate_mean": 100.0,
+        "absolute_change_candidate_minus_baseline": 0.0,
+        "relative_change_percentage": 0.0
+      },
+      "faithfulness_percentage": {
+        "baseline_run_1": 91.66666666666667,
+        "baseline_run_2": 91.66666666666667,
+        "baseline_mean": 91.66666666666667,
+        "candidate_run_1": 95.83333333333333,
+        "candidate_run_2": 95.83333333333333,
+        "candidate_mean": 95.83333333333333,
+        "absolute_change_candidate_minus_baseline": 4.166666666666657,
+        "relative_change_percentage": 4.545454545454535
+      },
+      "latency_p50_seconds": {
+        "baseline_run_1": 0.07711399999971036,
+        "baseline_run_2": 0.0822153499993874,
+        "baseline_mean": 0.07966467499954888,
+        "candidate_run_1": 0.06364484200003062,
+        "candidate_run_2": 0.06347526700028538,
+        "candidate_mean": 0.063560054500158,
+        "absolute_change_candidate_minus_baseline": -0.016104620499390876,
+        "relative_change_percentage": -20.215510198820333
+      },
+      "latency_p95_seconds": {
+        "baseline_run_1": 3.3707773099988128,
+        "baseline_run_2": 2.3832175950008603,
+        "baseline_mean": 2.8769974524998365,
+        "candidate_run_1": 1.9771221293003693,
+        "candidate_run_2": 2.6029855370992667,
+        "candidate_mean": 2.290053833199818,
+        "absolute_change_candidate_minus_baseline": -0.5869436193000186,
+        "relative_change_percentage": -20.401256135629197
+      },
+      "request_failures": {
+        "baseline_run_1": 0,
+        "baseline_run_2": 0,
+        "baseline_mean": 0,
+        "candidate_run_1": 0,
+        "candidate_run_2": 0,
+        "candidate_mean": 0,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": null
+      },
+      "successful_requests": {
+        "baseline_run_1": 30,
+        "baseline_run_2": 30,
+        "baseline_mean": 30,
+        "candidate_run_1": 30,
+        "candidate_run_2": 30,
+        "candidate_mean": 30,
+        "absolute_change_candidate_minus_baseline": 0,
+        "relative_change_percentage": 0.0
+      }
+    }
+  },
+  "interpretation": "Verification accepted 5 Batch B documents and quarantined 7; accepted sources were batch-academic-policy-2026.txt, batch-exact-a.txt, batch-near-a.txt, batch-scholarship.txt, batch-valid-attendance.txt. Consequently, retrieval and answer changes can be traced to the added active chunks, while quarantined duplicate, corrupt, truncated, superseded, missing-metadata, and injection documents did not enter the evaluated collection. Recall@5 changed by +0.160000; faithfulness changed by +4.166667 percentage points, abstention by +0.000000 percentage points, citation validity by +0.000000 percentage points, and p95 latency by -0.586944 seconds. The direction and magnitude are observations, not claims of improvement; corpus composition and live LLM behavior are the primary controlled inputs recorded in the source runs."
+}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chunk-profile-c1s-candidate
+  namespace: rahbar-part-c1-c1s
+  labels:
+    rahbar.experiment: chunk-tuning
+    rahbar.profile: candidate
+data:
+  CHROMA_COLLECTION: rahbar-ct-c1s-candidate
+  CHUNK_SIZE: '800'
+  CHUNK_OVERLAP: '50'

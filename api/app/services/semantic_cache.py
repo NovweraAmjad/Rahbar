@@ -9,6 +9,7 @@ import re
 import uuid
 from collections.abc import Iterable
 from dataclasses import dataclass
+from time import perf_counter
 from typing import Any, Protocol
 
 from pydantic import ValidationError
@@ -57,6 +58,8 @@ class CacheLookup:
     response: AskResponse | None
     may_store: bool
     generation: str | None
+    status: str = "unknown"
+    embedding_latency_ms: float = 0.0
 
 
 def is_follow_up(question: str) -> bool:
@@ -110,14 +113,29 @@ class SemanticCache:
     def lookup(self, question: str) -> CacheLookup:
         if is_follow_up(question):
             CACHE_LOOKUPS.labels(result="bypass").inc()
-            return CacheLookup(embedding=None, response=None, may_store=False, generation=None)
+            return CacheLookup(
+                embedding=None,
+                response=None,
+                may_store=False,
+                generation=None,
+                status="bypass",
+            )
 
+        embedding_started = perf_counter()
         try:
             embedding = embed_query(question, self.settings)
         except (RuntimeError, ValueError) as exc:
             CACHE_LOOKUPS.labels(result="error").inc()
             log.warning("cache query embedding failed; bypassing cache", extra={"error": str(exc)})
-            return CacheLookup(embedding=None, response=None, may_store=False, generation=None)
+            return CacheLookup(
+                embedding=None,
+                response=None,
+                may_store=False,
+                generation=None,
+                status="error",
+                embedding_latency_ms=(perf_counter() - embedding_started) * 1000,
+            )
+        embedding_latency_ms = (perf_counter() - embedding_started) * 1000
 
         try:
             generation_value = self.client.get(self.generation_key)
@@ -161,6 +179,8 @@ class SemanticCache:
                         response=response,
                         may_store=False,
                         generation=generation,
+                        status="hit",
+                        embedding_latency_ms=embedding_latency_ms,
                     )
                 except (ValueError, TypeError, ValidationError):
                     log.warning("ignoring malformed semantic cache entry", extra={"key": str(key)})
@@ -170,11 +190,20 @@ class SemanticCache:
                 response=None,
                 may_store=True,
                 generation=generation,
+                status="miss",
+                embedding_latency_ms=embedding_latency_ms,
             )
         except (RedisError, OSError, ValueError) as exc:
             CACHE_LOOKUPS.labels(result="error").inc()
             log.warning("Redis lookup failed; continuing without cache", extra={"error": str(exc)})
-            return CacheLookup(embedding=embedding, response=None, may_store=False, generation=None)
+            return CacheLookup(
+                embedding=embedding,
+                response=None,
+                may_store=False,
+                generation=None,
+                status="error",
+                embedding_latency_ms=embedding_latency_ms,
+            )
 
     def store(
         self,

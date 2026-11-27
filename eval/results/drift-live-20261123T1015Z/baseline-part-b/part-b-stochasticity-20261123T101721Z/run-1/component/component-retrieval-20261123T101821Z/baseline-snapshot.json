@@ -1,0 +1,75 @@
+{
+  "evaluation_timestamp": "2026-11-23T10:20:07.860493+00:00",
+  "api_base_url": "http://127.0.0.1:18092",
+  "number_of_evaluated_questions": 30,
+  "successful_requests": 30,
+  "recall_at_3": 0.64,
+  "recall_at_5": 0.64,
+  "mrr": 0.576388888888889,
+  "ndcg_at_5": 0.5996995525297656,
+  "citation_validity_percentage": 100.0,
+  "citation_provenance_validity_percentage": 100.0,
+  "gold_evidence_relevance_percentage": 37.142857142857146,
+  "must_abstain_correctness_percentage": 66.66666666666667,
+  "per_category_metrics": {
+    "exact-term": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.5,
+      "ndcg_at_5": 0.5,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "hard": {
+      "questions": 5,
+      "successful_requests": 5,
+      "recall_at_3": 0.16666666666666666,
+      "recall_at_5": 0.16666666666666666,
+      "mrr": 0.2,
+      "ndcg_at_5": 0.2,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "must-abstain": {
+      "questions": 5,
+      "successful_requests": 5,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "mrr": null,
+      "ndcg_at_5": null,
+      "must_abstain_correctness_percentage": 80.0
+    },
+    "ordinary": {
+      "questions": 15,
+      "successful_requests": 15,
+      "recall_at_3": 0.8666666666666667,
+      "recall_at_5": 0.8666666666666667,
+      "mrr": 0.7222222222222222,
+      "ndcg_at_5": 0.7595192840476249,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "prompt-injection": {
+      "questions": 1,
+      "successful_requests": 1,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "mrr": null,
+      "ndcg_at_5": null,
+      "must_abstain_correctness_percentage": 0.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "successful_requests": 2,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "mrr": 0.5,
+      "ndcg_at_5": 0.5,
+      "must_abstain_correctness_percentage": 0.0
+    }
+  },
+  "evaluation_gate_passed": false,
+  "evaluation_gate_failures": [
+    "18 question(s) failed evaluation checks",
+    "must-abstain correctness is below 100%"
+  ]
+}

@@ -1,0 +1,31 @@
+FROM python:3.12-slim-bookworm
+
+WORKDIR /opt/rahbar
+
+COPY api/requirements.txt /opt/rahbar/api/requirements.txt
+COPY eval/requirements-c3.txt /opt/rahbar/eval/requirements-c3.txt
+RUN python -m pip install --no-cache-dir \
+    --requirement /opt/rahbar/api/requirements.txt \
+    --requirement /opt/rahbar/eval/requirements-c3.txt
+
+COPY api/app/ /opt/rahbar/api/app/
+COPY eval/run_part_b_suite.py /opt/rahbar/eval/run_part_b_suite.py
+COPY eval/run_k8s_eval.py /opt/rahbar/eval/run_k8s_eval.py
+COPY eval/run_release_gate.py /opt/rahbar/eval/run_release_gate.py
+COPY eval/run_module_embedding_eval.py /opt/rahbar/eval/run_module_embedding_eval.py
+COPY eval/run_component_retrieval_eval.py /opt/rahbar/eval/run_component_retrieval_eval.py
+COPY eval/run_end_to_end_eval.py /opt/rahbar/eval/run_end_to_end_eval.py
+COPY eval/run_eval.py /opt/rahbar/eval/run_eval.py
+COPY eval/golden_schema.py /opt/rahbar/eval/golden_schema.py
+COPY eval/module-embedding-pairs.yaml /opt/rahbar/eval/module-embedding-pairs.yaml
+COPY eval/golden.jsonl /opt/rahbar/eval/golden.jsonl
+COPY eval/results/c1s/baseline/part-b/part-b-stochasticity-20261122T110731Z/summary.json /opt/rahbar/eval/part-b-baseline-summary.json
+COPY corpus/MANIFEST.md /opt/rahbar/corpus/MANIFEST.md
+COPY corpus/batch-b/_index.json /opt/rahbar/corpus/batch-b/_index.json
+ENV PYTHONPATH=/opt/rahbar:/opt/rahbar/api
+
+RUN groupadd --system --gid 10001 rahbar \
+    && useradd --system --uid 10001 --gid rahbar --create-home --home-dir /home/rahbar rahbar
+USER 10001:10001
+
+ENTRYPOINT ["python"]

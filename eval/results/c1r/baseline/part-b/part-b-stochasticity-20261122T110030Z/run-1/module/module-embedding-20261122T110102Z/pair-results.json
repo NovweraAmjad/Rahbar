@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-22T11:01:02.767681+00:00",
+    "fixed_seed": 20261121,
+    "dataset": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\module-embedding-pairs.yaml",
+    "dataset_sha256": "20f18219bad9b7c78ee8efa4bde037e203be0d87e32f92cbf9da7b7db32a4c5c",
+    "runner_sha256": "6bd04a5c4b07336768a3d67ffa7886b2ab1e6789204968b9371ebcba64a34dfe",
+    "provider": "Ollama",
+    "ollama_url": "http://172.23.112.1:11434",
+    "embedding_model": "nomic-embed-text",
+    "embedding_model_identity": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "embedding_dimensions": 768,
+    "unique_chunk_count": 60,
+    "timing_method": "time.perf_counter() around each production embed_query(text, Settings) call",
+    "metric_definitions": {
+      "cosine_similarity": "dot(a,b)/(||a||*||b||)",
+      "mean_paraphrase_cosine": "mean cosine across 15+ labeled paraphrase pairs",
+      "mean_unrelated_cosine": "mean cosine across 15+ labeled unrelated pairs",
+      "paraphrase_minus_unrelated": "mean_paraphrase_cosine minus mean_unrelated_cosine",
+      "embedding_time_per_chunk": "one production Ollama embedding request for each unique text",
+      "largest_determinism_difference": "largest absolute component difference across identical text embedded twice"
+    }
+  },
+  "pairs": [
+    {
+      "id": "paraphrase-01",
+      "category": "paraphrase",
+      "left": "What attendance level is required in the June 2026 Academic Rules Handbook?",
+      "right": "How much class attendance must students maintain according to the June 2026 handbook?",
+      "cosine_similarity": 0.8841116974035668
+    },
+    {
+      "id": "paraphrase-02",
+      "category": "paraphrase",
+      "left": "How much absence may the Head of Department excuse for genuine reasons?",
+      "right": "What share of absences can the HoD condone when a valid reason exists?",
+      "cosine_similarity": 0.7448944418351735
+    },
+    {
+      "id": "paraphrase-03",
+      "category": "paraphrase",
+      "left": "What happens if a student fails course attendance requirements?",
+      "right": "What is the result of not meeting a course's attendance standard?",
+      "cosine_similarity": 0.8719268852563157
+    },
+    {
+      "id": "paraphrase-04",
+      "category": "paraphrase",
+      "left": "What CGPA is needed to avoid academic warning?",
+      "right": "Which minimum cumulative grade point average prevents an academic warning?",
+      "cosine_similarity": 0.8139067411423873
+    },
+    {
+      "id": "paraphrase-05",
+      "category": "paraphrase",
+      "left": "When does the academic-warning count become zero?",
+      "right": "Under what CGPA condition is the warning count reset?",
+      "cosine_similarity": 0.6694739501224931
+    },
+    {
+      "id": "paraphrase-06",
+      "category": "paraphrase",
+      "left": "Must a failed course from a previous semester be taken again?",
+      "right": "Should a student register a missed or failed course from an earlier semester?",
+      "cosine_similarity": 0.8395592369013661
+    },
+    {
+      "id": "paraphrase-07",
+      "category": "paraphrase",
+      "left": "May a course be repeated to raise CGPA?",
+      "right": "Can repeating a course improve a student's cumulative GPA?",
+      "cosine_similarity": 0.8071809889898657
+    },
+    {
+      "id": "paraphrase-08",
+      "category": "paraphrase",
+      "left": "How should Generative AI output be acknowledged in student work?",
+      "right": "What citation or acknowledgement is required for work produced with Generative AI?",
+      "cosine_similarity": 0.8441060514417522
+    },
+    {
+      "id": "paraphrase-09",
+      "category": "paraphrase",
+      "left": "How many faculty members appear in the 2019-20 annual report?",
+      "right": "What university-wide faculty total is shown for 2019-20?",
+      "cosine_similarity": 0.8390875508903783
+    },
+    {
+      "id": "paraphrase-10",
+      "category": "paraphrase",
+      "left": "What is the total faculty count in the 2023-24 annual report?",
+      "right": "How many faculty are reported university-wide for 2023-24?",
+      "cosine_similarity": 0.9132146203828603
+    },
+    {
+      "id": "paraphrase-11",
+      "category": "paraphrase",
+      "left": "Which rule clause specifies attendance?",
+      "right": "What clause number contains the attendance requirement?",
+      "cosine_similarity": 0.9025474765488979
+    },
+    {
+      "id": "paraphrase-12",
+      "category": "paraphrase",
+      "left": "What is the title of Section XII in the Student Handbook?",
+      "right": "How is the twelfth section of the Student Handbook named?",
+      "cosine_similarity": 0.8920975939437935
+    },
+    {
+      "id": "paraphrase-13",
+      "category": "paraphrase",
+      "left": "What grade point corresponds to an A+?",
+      "right": "What numeric grade point is assigned to an A+ letter grade?",
+      "cosine_similarity": 0.9126941880102799
+    },
+    {
+      "id": "paraphrase-14",
+      "category": "paraphrase",
+      "left": "What limits apply to a student on a second academic warning?",
+      "right": "What course-registration restriction follows a second academic warning?",
+      "cosine_similarity": 0.8315756518575615
+    },
+    {
+      "id": "paraphrase-15",
+      "category": "paraphrase",
+      "left": "What is the usual semester for registering FYP-I?",
+      "right": "When should students normally register for the final year project first phase?",
+      "cosine_similarity": 0.7005060426720652
+    },
+    {
+      "id": "unrelated-01",
+      "category": "unrelated",
+      "left": "What attendance level is required for an academic course?",
+      "right": "What is the menu of the university cafeteria?",
+      "cosine_similarity": 0.46239145183517116
+    },
+    {
+      "id": "unrelated-02",
+      "category": "unrelated",
+      "left": "How is cumulative GPA calculated?",
+      "right": "Which player won the cricket final?",
+      "cosine_similarity": 0.3852032043341854
+    },
+    {
+      "id": "unrelated-03",
+      "category": "unrelated",
+      "left": "How many faculty members work at the university?",
+      "right": "What operating system is used on Mars rovers?",
+      "cosine_similarity": 0.33010351808688165
+    },
+    {
+      "id": "unrelated-04",
+      "category": "unrelated",
+      "left": "What is the policy for repeating a failed course?",
+      "right": "How do I bake a chocolate cake?",
+      "cosine_similarity": 0.36278446623569227
+    },
+    {
+      "id": "unrelated-05",
+      "category": "unrelated",
+      "left": "How much absence is condoned for illness?",
+      "right": "What is the boiling point of liquid nitrogen?",
+      "cosine_similarity": 0.32858108295459787
+    },
+    {
+      "id": "unrelated-06",
+      "category": "unrelated",
+      "left": "What title names the Student Handbook generative-AI policy?",
+      "right": "When was the first photograph taken?",
+      "cosine_similarity": 0.414583761086023
+    },
+    {
+      "id": "unrelated-07",
+      "category": "unrelated",
+      "left": "How are annual-report faculty totals compiled?",
+      "right": "How does a four-stroke engine work?",
+      "cosine_similarity": 0.3302080742427227
+    },
+    {
+      "id": "unrelated-08",
+      "category": "unrelated",
+      "left": "What applies to a student on a second academic warning?",
+      "right": "Which language is spoken in Reykjavik?",
+      "cosine_similarity": 0.3491389481615941
+    },
+    {
+      "id": "unrelated-09",
+      "category": "unrelated",
+      "left": "Which clause governs attendance in lectures?",
+      "right": "What is the capital of Bhutan?",
+      "cosine_similarity": 0.3744957090899241
+    },
+    {
+      "id": "unrelated-10",
+      "category": "unrelated",
+      "left": "When must FYP-I be registered?",
+      "right": "How many planets orbit the sun?",
+      "cosine_similarity": 0.33220720264500353
+    },
+    {
+      "id": "unrelated-11",
+      "category": "unrelated",
+      "left": "What numeric grade point represents a failing grade?",
+      "right": "What species is a red kangaroo?",
+      "cosine_similarity": 0.38919671217636004
+    },
+    {
+      "id": "unrelated-12",
+      "category": "unrelated",
+      "left": "What does the university handbook say about Generative AI citations?",
+      "right": "How deep is the Mariana Trench?",
+      "cosine_similarity": 0.32420502275014945
+    },
+    {
+      "id": "unrelated-13",
+      "category": "unrelated",
+      "left": "What is the 2023-24 university-wide faculty total?",
+      "right": "How are solar eclipses predicted?",
+      "cosine_similarity": 0.37461928685083645
+    },
+    {
+      "id": "unrelated-14",
+      "category": "unrelated",
+      "left": "Can a student repeat a course for a better grade?",
+      "right": "What ingredients are used in ramen noodles?",
+      "cosine_similarity": 0.33813665640019197
+    },
+    {
+      "id": "unrelated-15",
+      "category": "unrelated",
+      "left": "What is the consequence of failing course attendance?",
+      "right": "Which constellation contains Polaris?",
+      "cosine_similarity": 0.33260478553127965
+    }
+  ]
+}

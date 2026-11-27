@@ -1,0 +1,18 @@
+{
+  "run_id": "808ee2174d154c5fb5ea9f1cc5224a7d",
+  "total_stored": 326,
+  "chunks_embedded": 326,
+  "chunks_skipped": 0,
+  "chunks_removed": 0,
+  "summary": {
+    "discovered": 3,
+    "unchanged": 0,
+    "updated": 0,
+    "new": 3,
+    "deleted": 0,
+    "total_chunks_embedded": 326,
+    "total_chunks_skipped": 0,
+    "total_chunks_removed": 0
+  },
+  "change_report_path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rahbar-batch-evidence-iavtx6or\\batch-a\\.indexer-state\\change-808ee2174d154c5fb5ea9f1cc5224a7d.json"
+}

@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "experiment": "assignment-03-part-a-chroma-integration",
+  "run_id": "20261122T115226Z-9bef15c9",
+  "status": "completed",
+  "started_at": "2026-11-22T11:52:26.872593+00:00",
+  "service_facts": {
+    "chroma": {
+      "host": "127.0.0.1",
+      "port": 18118,
+      "version": "1.0.0"
+    },
+    "embedding_provider": {
+      "url": "http://172.23.112.1:11434",
+      "model": "nomic-embed-text",
+      "model_tag": {
+        "name": "nomic-embed-text:latest",
+        "model": "nomic-embed-text:latest",
+        "modified_at": "2026-11-04T17:16:17.0838103+05:00",
+        "size": 274302450,
+        "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "nomic-bert",
+          "families": [
+            "nomic-bert"
+          ],
+          "parameter_size": "137M",
+          "quantization_level": "F16",
+          "context_length": 2048,
+          "embedding_length": 768,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "embedding"
+        ]
+      }
+    }
+  },
+  "scenarios": {
+    "batch_a": {
+      "collection": "rahbar-pa-cfc0dd6190e247f9a01b",
+      "initial_count": 186,
+      "unchanged_rerun": {
+        "chunks_embedded": 0,
+        "chunks_skipped": 186
+      },
+      "updated_and_deleted": {
+        "chunks_embedded": 2,
+        "chunks_removed": 1,
+        "changed_source_chunks": 1,
+        "deleted_source_chunk_count": 0,
+        "unrelated_sources_unchanged": true
+      },
+      "persistent_state_reloaded": true,
+      "final_collection_count": 185,
+      "final_chunks_by_source": {
+        "academic-rules-handbook-jun-2026.pdf": 97,
+        "part-a-integration-change.txt": 1,
+        "student-handbook-jun-2026.pdf": 87
+      }
+    },
+    "batch_b": {
+      "collection": "rahbar-pb-1fd25543c94e48f3a0d5",
+      "first_run": {
+        "run_id": "eb4b71b40daa4ce4b5c05d1e3383949f",
+        "total_stored": 4,
+        "chunks_embedded": 4,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 4,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 4,
+          "deleted": 0,
+          "total_chunks_embedded": 4,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\batch-b\\work\\state\\change-eb4b71b40daa4ce4b5c05d1e3383949f.json"
+      },
+      "unchanged_rerun": {
+        "chunks_embedded": 0,
+        "chunks_skipped": 4
+      },
+      "verification_summary": {
+        "total": 12,
+        "index": 4,
+        "quarantine": 8,
+        "overall_decision": "quarantine_failures"
+      },
+      "near_duplicate_similarity": 0.991956828522521,
+      "quarantined_sources": [
+        "batch-academic-policy-2025.txt",
+        "batch-academic-policy-2026.txt",
+        "batch-corrupt.txt",
+        "batch-exact-b.txt",
+        "batch-injection.txt",
+        "batch-missing-title.txt",
+        "batch-near-b.txt",
+        "batch-truncated.txt"
+      ],
+      "quarantine_actions": {
+        "batch-academic-policy-2025.txt": "moved_after_verified_copy",
+        "batch-academic-policy-2026.txt": "moved_after_verified_copy",
+        "batch-corrupt.txt": "moved_after_verified_copy",
+        "batch-exact-b.txt": "moved_after_verified_copy",
+        "batch-injection.txt": "moved_after_verified_copy",
+        "batch-missing-title.txt": "moved_after_verified_copy",
+        "batch-near-b.txt": "moved_after_verified_copy",
+        "batch-truncated.txt": "moved_after_verified_copy"
+      },
+      "archive_paths": [
+        "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\batch-b\\work\\archive\\batch-academic-policy-2025@2025.txt"
+      ],
+      "collection_count": 4,
+      "chunks_by_source": {
+        "batch-valid-attendance.txt": 1,
+        "batch-exact-a.txt": 1,
+        "batch-near-a.txt": 1,
+        "batch-scholarship.txt": 1
+      }
+    },
+    "superseded_restore": {
+      "collection": "rahbar-pr-3c2026a43e8143b6a6a0",
+      "initial_run": {
+        "run_id": "a4504bd5ea40414f8787bca142c2ac31",
+        "total_stored": 1,
+        "chunks_embedded": 1,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 1,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 1,
+          "deleted": 0,
+          "total_chunks_embedded": 1,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\state\\change-a4504bd5ea40414f8787bca142c2ac31.json"
+      },
+      "new_version_run": {
+        "run_id": "c9a5dfd2fcb342b981a2be9abf26e6ee",
+        "total_stored": 0,
+        "chunks_embedded": 0,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 0,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 0,
+          "deleted": 0,
+          "total_chunks_embedded": 0,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\state\\change-c9a5dfd2fcb342b981a2be9abf26e6ee.json"
+      },
+      "old_chunks_before_superseding": 1,
+      "old_chunks_after_superseding": 1,
+      "old_metadata_marked_superseded": true,
+      "retrieval_excluded_old_before_restore": true,
+      "archive_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\archive\\batch-academic-policy-2025@2025.txt",
+      "restore_result": {
+        "run_id": "a1d8e8a846064112b693dde8e466cba6",
+        "restored": "batch-academic-policy-2025.txt",
+        "previous_version": "2025",
+        "restored_version": "2025",
+        "total_stored": 1
+      },
+      "restored_state_version": "2025",
+      "retrieval_returned_restored_version": true,
+      "collection_count_after_restore": 1
+    }
+  },
+  "live_user_collection_modified": false,
+  "notes": [
+    "Each scenario uses a fresh UUID-named collection.",
+    "No Chroma collection is deleted by the evidence runner.",
+    "All corpus mutations occur only in copies under this timestamped result directory."
+  ],
+  "completed_at": "2026-11-22T11:54:50.316722+00:00"
+}

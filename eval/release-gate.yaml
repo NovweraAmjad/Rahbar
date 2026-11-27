@@ -1,0 +1,21 @@
+schema_version: 1
+
+# Thresholds are grounded in the completed C1 baseline mean from the c1s
+# two-run suite. See eval/results/c1s/baseline/part-b/
+# part-b-stochasticity-20261122T110731Z/summary.json.
+thresholds:
+  # A recall drop of 2 percentage points is the assignment's conservative
+  # retrieval-safety budget for this small 30-question suite.
+  max_recall_at_5_regression_percentage_points: 2.0
+
+  # Baseline mean faithfulness is 89.5833%. Requiring 70% keeps a substantial
+  # minimum while allowing for observed LLM run-to-run variance.
+  min_faithfulness_percentage: 70.0
+
+  # Baseline mean p95 is 2.4284 seconds. The 5-second cap leaves headroom for
+  # provider and cluster variance while remaining practical for interactive use.
+  max_p95_latency_seconds: 5.0
+
+  # The actual candidate mean must not be below the actual baseline mean
+  # (16.6667% in the measured baseline suite).
+  abstention_not_lower_than_baseline: true

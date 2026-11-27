@@ -1,0 +1,23 @@
+schema_version: 1
+experiment: chunk-size
+change:
+  variable: chunk_size
+  unit: whitespace_tokens
+  baseline:
+    name: baseline
+    chunk_size: 400
+    chunk_overlap: 50
+  candidate:
+    name: candidate
+    chunk_size: 450
+    chunk_overlap: 50
+held_constant:
+  RETRIEVER: chroma
+  LLM_PROVIDER: ollama-host
+  EMBED_MODEL: nomic-embed-text
+  TOP_K: "5"
+  RELEVANCE_FLOOR: "0.5"
+  CACHE_SIMILARITY_THRESHOLD: "0.95"
+  TEMPERATURE: "0.2"
+  LLM_MODEL: llama3.2:3b
+  OLLAMA_URL: http://172.23.112.1:11434

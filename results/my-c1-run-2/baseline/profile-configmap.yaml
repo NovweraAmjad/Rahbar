@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chunk-profile-my-c1-run-2-baseline
+  namespace: rahbar-part-c1-my-c1-run-2
+  labels:
+    rahbar.experiment: chunk-tuning
+    rahbar.profile: baseline
+data:
+  CHROMA_COLLECTION: rahbar-ct-my-c1-run-2-baseline
+  CHUNK_SIZE: '400'
+  CHUNK_OVERLAP: '50'
+  INDEXER_STATE_DIR: /var/lib/rahbar-data/my-c1-run-2/baseline/indexer-state
+  QUARANTINE_DIR: /var/lib/rahbar-data/my-c1-run-2/baseline/quarantine
+  VERIFICATION_REPORT_DIR: /var/lib/rahbar-data/my-c1-run-2/baseline/verification-reports
+  ARCHIVE_DIR: /var/lib/rahbar-data/my-c1-run-2/baseline/archive

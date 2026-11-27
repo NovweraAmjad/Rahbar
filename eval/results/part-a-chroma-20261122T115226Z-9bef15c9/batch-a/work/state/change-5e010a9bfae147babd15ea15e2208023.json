@@ -1,0 +1,35 @@
+{
+  "summary": {
+    "discovered": 3,
+    "unchanged": 2,
+    "updated": 1,
+    "new": 0,
+    "deleted": 1,
+    "total_chunks_embedded": 2,
+    "total_chunks_skipped": 184,
+    "total_chunks_removed": 1
+  },
+  "documents": [
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "classification": "unchanged",
+      "chunks_skipped": 97
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "classification": "unchanged",
+      "chunks_skipped": 87
+    },
+    {
+      "source": "part-a-integration-change.txt",
+      "classification": "updated",
+      "old_chunks": 1,
+      "new_chunks": 2
+    },
+    {
+      "source": "part-a-integration-delete.txt",
+      "classification": "deleted",
+      "chunks_removed": 1
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "run_id": "c9a5dfd2fcb342b981a2be9abf26e6ee",
+  "generated_at": "2026-11-22T11:54:48.250705+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 2,
+    "index": 0,
+    "quarantine": 2,
+    "overall_decision": "quarantine_failures"
+  },
+  "documents": [
+    {
+      "source": "batch-academic-policy-2025.txt",
+      "title": "Batch Academic Policy",
+      "doc_version": "2025",
+      "page_count": 1,
+      "raw_sha256": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0",
+      "text_sha256": "1fdf7c0de63742df3aaa02850d37b9ab69d69b4d301148bcae19fb3f939a2681",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "fail",
+          "reasons": [
+            "document is superseded; newer version exists: batch-academic-policy-2026.txt"
+          ],
+          "superseded": true
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "quarantine",
+      "archive_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\archive\\batch-academic-policy-2025@2025.txt",
+      "quarantine_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\quarantine\\batch-academic-policy-2025.txt",
+      "quarantine_action": "moved_after_verified_copy"
+    },
+    {
+      "source": "batch-academic-policy-2026.txt",
+      "title": "Batch Academic Policy",
+      "doc_version": "2026",
+      "page_count": 1,
+      "raw_sha256": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578",
+      "text_sha256": "fc54569202136c615fcd95366ec9dc79657c71f1dce9d63df6e9ff5773b75e48",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "fail",
+          "reasons": [
+            "no exact duplicate detected",
+            "near duplicate of batch-academic-policy-2025.txt at similarity 0.971166"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578"
+          },
+          "near_duplicate": {
+            "status": "fail",
+            "matching_document": "batch-academic-policy-2025.txt",
+            "similarity": 0.9711664156015567,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "quarantine",
+      "quarantine_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\quarantine\\batch-academic-policy-2026.txt",
+      "quarantine_action": "moved_after_verified_copy"
+    }
+  ]
+}

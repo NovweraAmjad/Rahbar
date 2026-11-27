@@ -1,0 +1,61 @@
+{
+  "run_id": "a4504bd5ea40414f8787bca142c2ac31",
+  "generated_at": "2026-11-22T11:54:45.650525+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 1,
+    "index": 1,
+    "quarantine": 0,
+    "overall_decision": "index_all"
+  },
+  "documents": [
+    {
+      "source": "batch-academic-policy-2025.txt",
+      "title": "Batch Academic Policy",
+      "doc_version": "2025",
+      "page_count": 1,
+      "raw_sha256": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0",
+      "text_sha256": "1fdf7c0de63742df3aaa02850d37b9ab69d69b4d301148bcae19fb3f939a2681",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    }
+  ]
+}

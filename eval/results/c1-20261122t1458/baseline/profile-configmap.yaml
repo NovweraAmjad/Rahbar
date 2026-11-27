@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chunk-profile-c1-20261122t1458-baseline
+  namespace: rahbar-part-c1-c1-20261122t1458
+  labels:
+    rahbar.experiment: chunk-tuning
+    rahbar.profile: baseline
+data:
+  CHROMA_COLLECTION: rahbar-ct-c1-20261122t1458-baseline
+  CHUNK_SIZE: '400'
+  CHUNK_OVERLAP: '50'

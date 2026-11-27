@@ -1,0 +1,98 @@
+# HELP python_gc_objects_collected_total Objects collected during gc
+# TYPE python_gc_objects_collected_total counter
+python_gc_objects_collected_total{generation="0"} 13324.0
+python_gc_objects_collected_total{generation="1"} 2178.0
+python_gc_objects_collected_total{generation="2"} 40.0
+# HELP python_gc_objects_uncollectable_total Uncollectable objects found during GC
+# TYPE python_gc_objects_uncollectable_total counter
+python_gc_objects_uncollectable_total{generation="0"} 0.0
+python_gc_objects_uncollectable_total{generation="1"} 0.0
+python_gc_objects_uncollectable_total{generation="2"} 0.0
+# HELP python_gc_collections_total Number of times this generation was collected
+# TYPE python_gc_collections_total counter
+python_gc_collections_total{generation="0"} 229.0
+python_gc_collections_total{generation="1"} 20.0
+python_gc_collections_total{generation="2"} 1.0
+# HELP python_info Python platform information
+# TYPE python_info gauge
+python_info{implementation="CPython",major="3",minor="12",patchlevel="16",version="3.12.16"} 1.0
+# HELP process_virtual_memory_bytes Virtual memory size in bytes.
+# TYPE process_virtual_memory_bytes gauge
+process_virtual_memory_bytes 9.6038912e+08
+# HELP process_resident_memory_bytes Resident memory size in bytes.
+# TYPE process_resident_memory_bytes gauge
+process_resident_memory_bytes 1.00646912e+08
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1.79543111321e+09
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+process_cpu_seconds_total 6.0
+# HELP process_open_fds Number of open file descriptors.
+# TYPE process_open_fds gauge
+process_open_fds 13.0
+# HELP process_max_fds Maximum number of open file descriptors.
+# TYPE process_max_fds gauge
+process_max_fds 1.048576e+06
+# HELP rahbar_cache_lookups_total Semantic cache lookups
+# TYPE rahbar_cache_lookups_total counter
+rahbar_cache_lookups_total{result="miss"} 1.0
+# HELP rahbar_cache_lookups_created Semantic cache lookups
+# TYPE rahbar_cache_lookups_created gauge
+rahbar_cache_lookups_created{result="miss"} 1.795431957758416e+09
+# HELP rahbar_requests_total HTTP requests
+# TYPE rahbar_requests_total counter
+rahbar_requests_total{path="/healthz",status="200"} 43.0
+rahbar_requests_total{path="/readyz",status="200"} 86.0
+rahbar_requests_total{path="/api/ask",status="200"} 1.0
+# HELP rahbar_requests_created HTTP requests
+# TYPE rahbar_requests_created gauge
+rahbar_requests_created{path="/healthz",status="200"} 1.7954311171165998e+09
+rahbar_requests_created{path="/readyz",status="200"} 1.7954311173512313e+09
+rahbar_requests_created{path="/api/ask",status="200"} 1.795431964228967e+09
+# HELP rahbar_request_seconds HTTP request latency
+# TYPE rahbar_request_seconds histogram
+rahbar_request_seconds_bucket{le="0.05",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="0.1",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="0.25",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="0.5",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="1.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="2.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="5.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="10.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="30.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="60.0",path="/healthz"} 43.0
+rahbar_request_seconds_bucket{le="+Inf",path="/healthz"} 43.0
+rahbar_request_seconds_count{path="/healthz"} 43.0
+rahbar_request_seconds_sum{path="/healthz"} 0.03634667500136857
+rahbar_request_seconds_bucket{le="0.05",path="/readyz"} 79.0
+rahbar_request_seconds_bucket{le="0.1",path="/readyz"} 82.0
+rahbar_request_seconds_bucket{le="0.25",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="0.5",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="1.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="2.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="5.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="10.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="30.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="60.0",path="/readyz"} 86.0
+rahbar_request_seconds_bucket{le="+Inf",path="/readyz"} 86.0
+rahbar_request_seconds_count{path="/readyz"} 86.0
+rahbar_request_seconds_sum{path="/readyz"} 3.184664811001312
+rahbar_request_seconds_bucket{le="0.05",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="0.1",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="0.25",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="0.5",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="1.0",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="2.0",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="5.0",path="/api/ask"} 0.0
+rahbar_request_seconds_bucket{le="10.0",path="/api/ask"} 1.0
+rahbar_request_seconds_bucket{le="30.0",path="/api/ask"} 1.0
+rahbar_request_seconds_bucket{le="60.0",path="/api/ask"} 1.0
+rahbar_request_seconds_bucket{le="+Inf",path="/api/ask"} 1.0
+rahbar_request_seconds_count{path="/api/ask"} 1.0
+rahbar_request_seconds_sum{path="/api/ask"} 6.5485583350000525
+# HELP rahbar_request_seconds_created HTTP request latency
+# TYPE rahbar_request_seconds_created gauge
+rahbar_request_seconds_created{path="/healthz"} 1.7954311171166232e+09
+rahbar_request_seconds_created{path="/readyz"} 1.7954311173512566e+09
+rahbar_request_seconds_created{path="/api/ask"} 1.7954319642289925e+09

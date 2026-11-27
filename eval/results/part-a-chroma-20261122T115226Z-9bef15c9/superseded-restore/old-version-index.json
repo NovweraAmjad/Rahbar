@@ -1,0 +1,18 @@
+{
+  "run_id": "a4504bd5ea40414f8787bca142c2ac31",
+  "total_stored": 1,
+  "chunks_embedded": 1,
+  "chunks_skipped": 0,
+  "chunks_removed": 0,
+  "summary": {
+    "discovered": 1,
+    "unchanged": 0,
+    "updated": 0,
+    "new": 1,
+    "deleted": 0,
+    "total_chunks_embedded": 1,
+    "total_chunks_skipped": 0,
+    "total_chunks_removed": 0
+  },
+  "change_report_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-a-chroma-20261122T115226Z-9bef15c9\\superseded-restore\\work\\state\\change-a4504bd5ea40414f8787bca142c2ac31.json"
+}

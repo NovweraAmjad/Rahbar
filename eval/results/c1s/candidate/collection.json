@@ -1,0 +1,10 @@
+{
+  "name": "rahbar-ct-c1s-candidate",
+  "count": 169,
+  "metadata": {
+    "dimension": 768,
+    "embed_model": "nomic-embed-text",
+    "hnsw:space": "cosine"
+  },
+  "corpus_sha256": "65d37ca13a9a9a2e864322f21cc376eefbf199ccf254e596f1b3d5fcdbf8b0d7"
+}

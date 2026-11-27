@@ -44,7 +44,7 @@ spec:
       containers:
         - name: api
           image: rahbar-api:dev
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
           envFrom:
             - configMapRef:
                 name: rahbar-config
@@ -55,6 +55,8 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: indexer-data
+              mountPath: /var/lib/rahbar-data
           resources:
             requests:
               cpu: 100m
@@ -93,3 +95,6 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: 64Mi
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: rahbar-indexer-data

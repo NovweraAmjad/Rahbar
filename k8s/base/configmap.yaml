@@ -19,6 +19,11 @@ data:
   LLM_MODEL: llama3.2:3b
   OLLAMA_URL: http://172.23.112.1:11434
   LOG_LEVEL: INFO
-  CORPUS_DIR: /corpus
+  CORPUS_DIR: /var/lib/rahbar-data/corpus
+  TRACE_FILE: /var/lib/rahbar-data/traces/queries.jsonl
+  INDEXER_STATE_DIR: /var/lib/rahbar-data/indexer-state
+  QUARANTINE_DIR: /var/lib/rahbar-data/quarantine
+  VERIFICATION_REPORT_DIR: /var/lib/rahbar-data/verification-reports
+  ARCHIVE_DIR: /var/lib/rahbar-data/archive
   CHUNK_SIZE: "400"
   CHUNK_OVERLAP: "50"

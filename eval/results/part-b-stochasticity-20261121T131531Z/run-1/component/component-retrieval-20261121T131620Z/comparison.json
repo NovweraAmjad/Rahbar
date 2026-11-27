@@ -1,0 +1,35 @@
+{
+  "evaluation_timestamp": "2026-11-21T13:20:07.102011+00:00",
+  "noise_method": "controlled-typos",
+  "noise_description": "A deterministic adjacent-character swap is applied to a pair of alphabetic characters in every evaluated question.",
+  "baseline_golden_file": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\golden.jsonl",
+  "api_base_url": "http://localhost:8080",
+  "metrics": {
+    "recall_at_3": {
+      "baseline": 0.56,
+      "noisy": null,
+      "absolute_change": null
+    },
+    "recall_at_5": {
+      "baseline": 0.56,
+      "noisy": null,
+      "absolute_change": null
+    },
+    "mrr": {
+      "baseline": 0.4930555555555556,
+      "noisy": null,
+      "absolute_change": null
+    },
+    "ndcg_at_5": {
+      "baseline": 0.5163662191964322,
+      "noisy": null,
+      "absolute_change": null
+    }
+  },
+  "baseline_request_failures": 0,
+  "noisy_request_failures": 1,
+  "baseline_answerable_questions": 24,
+  "noisy_answerable_questions": 24,
+  "baseline_result": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T131531Z\\run-1\\component\\component-retrieval-20261121T131620Z\\baseline.json",
+  "noisy_result": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T131531Z\\run-1\\component\\component-retrieval-20261121T131620Z\\controlled-typos.json"
+}

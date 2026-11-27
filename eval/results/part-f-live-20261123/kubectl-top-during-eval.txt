@@ -1,0 +1,8 @@
+NAME                      CPU(cores)   MEMORY(bytes)   
+api-655486dc54-9cckj      5m           99Mi            
+api-655486dc54-jx9lt      5m           52Mi            
+api-655486dc54-lx2ns      4m           52Mi            
+chroma-0                  1m           42Mi            
+part-b-evaluation-tv4wj   1m           39Mi            
+redis-5bd754677d-hnvzd    4m           4Mi             
+ui-7998f9765b-w4pdh       1m           2Mi             

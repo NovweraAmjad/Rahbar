@@ -1,0 +1,28 @@
+{
+  "total_questions": 30,
+  "successful_requests": 29,
+  "request_failures": 1,
+  "faithfulness": {
+    "method": "conservative_citation_context_check",
+    "answerable_count": 23,
+    "faithful_count": 9,
+    "unsupported_count": 0,
+    "not_answered_count": 14,
+    "percentage": null
+  },
+  "abstention_correctness": {
+    "unanswerable_count": 6,
+    "correct_count": 6,
+    "percentage": null
+  },
+  "citation_validity": {
+    "citation_count": 19,
+    "valid_citation_count": 19,
+    "percentage": null
+  },
+  "latency": {
+    "p50_seconds": 1.7341833999962546,
+    "p95_seconds": 4.916306499997156,
+    "request_count": 29
+  }
+}

@@ -12,6 +12,13 @@ from ...schemas import Answer, Citation, Passage
 class StubProvider:
     name = "stub"
 
+    def trace_payload(self, question: str, passages: list[Passage]) -> dict[str, object]:
+        return {
+            "status": "deterministic_stub",
+            "question": question,
+            "context": [passage.model_dump(mode="json") for passage in passages],
+        }
+
     def generate(self, question: str, passages: list[Passage]) -> Answer:
         if not passages:
             return Answer(

@@ -45,7 +45,14 @@ def _extract_pdf(path: Path, source: str) -> list[Page]:
     return pages
 
 
-def extract(path: str, doc_version: str, superseded: bool) -> Document:
+def extract(
+    path: str,
+    doc_version: str,
+    superseded: bool,
+    title: str = "",
+    source_url: str = "",
+    fetched_at: str = "",
+) -> Document:
     """Extract a document into pages, retaining its source and version metadata.
 
     PDF pages without a text layer are OCR'd when pytesseract and its Tesseract
@@ -54,23 +61,35 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
     """
     file_path = Path(path)
     source = file_path.name
-    document = Document(source=source, doc_version=doc_version, superseded=superseded)
+    document = Document(
+        source=source,
+        doc_version=doc_version,
+        superseded=superseded,
+        title=title,
+        source_url=source_url,
+        fetched_at=fetched_at,
+    )
 
     if file_path.suffix.lower() in {".txt", ".md"}:
         try:
             text = file_path.read_text(encoding="utf-8")
         except (OSError, UnicodeError) as exc:
             logger.warning("Unable to read %s: %s", source, exc)
+            document.extraction_error = f"Unable to read text file: {exc}"
             return document
         document.pages.append(Page(source=source, page=1, text=text))
+        document.page_count = 1
         return document
 
     if file_path.suffix.lower() != ".pdf":
         logger.warning("Unsupported document type: %s", source)
+        document.extraction_error = "Unsupported document type"
         return document
 
     try:
         document.pages = _extract_pdf(file_path, source)
+        document.page_count = len(document.pages)
     except (OSError, PDFException, PdfminerException, ValueError) as exc:
         logger.warning("Unable to extract PDF %s: %s", source, exc)
+        document.extraction_error = f"Unable to extract PDF: {exc}"
     return document

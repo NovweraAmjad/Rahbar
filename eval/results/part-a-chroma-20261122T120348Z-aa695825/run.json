@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "experiment": "assignment-03-part-a-chroma-integration",
+  "run_id": "20261122T120348Z-aa695825",
+  "status": "completed",
+  "started_at": "2026-11-22T12:03:48.637040+00:00",
+  "service_facts": {
+    "chroma": {
+      "host": "127.0.0.1",
+      "port": 18118,
+      "version": "1.0.0"
+    },
+    "embedding_provider": {
+      "url": "http://172.23.112.1:11434",
+      "model": "nomic-embed-text",
+      "model_tag": {
+        "name": "nomic-embed-text:latest",
+        "model": "nomic-embed-text:latest",
+        "modified_at": "2026-11-04T17:16:17.0838103+05:00",
+        "size": 274302450,
+        "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "nomic-bert",
+          "families": [
+            "nomic-bert"
+          ],
+          "parameter_size": "137M",
+          "quantization_level": "F16",
+          "context_length": 2048,
+          "embedding_length": 768,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "embedding"
+        ]
+      }
+    }
+  },
+  "scenarios": {
+    "batch_a": {
+      "collection": "rahbar-pa-fef8ad041ea34f22ab00",
+      "initial_count": 339,
+      "unchanged_rerun": {
+        "chunks_embedded": 0,
+        "chunks_skipped": 339
+      },
+      "updated_and_deleted": {
+        "chunks_embedded": 2,
+        "chunks_removed": 1,
+        "changed_source_chunks": 2,
+        "deleted_source_chunk_count": 0,
+        "unrelated_sources_unchanged": true
+      },
+      "persistent_state_reloaded": true,
+      "final_collection_count": 339,
+      "final_chunks_by_source": {
+        "academic-rules-handbook-jun-2026.pdf": 97,
+        "annual-report-2023-24.pdf": 142,
+        "part-a-integration-change.txt": 2,
+        "prospectus-2026-academic-rules-and-regulations.pdf": 11,
+        "student-handbook-jun-2026.pdf": 87
+      }
+    },
+    "batch_b": {
+      "collection": "rahbar-pb-2ffe7dd9740245438843",
+      "first_run": {
+        "run_id": "350c415d541f47a8b92f84e220a93e83",
+        "total_stored": 5,
+        "chunks_embedded": 5,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 5,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 5,
+          "deleted": 0,
+          "total_chunks_embedded": 5,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "eval\\results\\part-a-chroma-20261122T120348Z-aa695825\\batch-b\\work\\state\\change-350c415d541f47a8b92f84e220a93e83.json"
+      },
+      "unchanged_rerun": {
+        "chunks_embedded": 0,
+        "chunks_skipped": 5
+      },
+      "verification_summary": {
+        "total": 12,
+        "index": 5,
+        "quarantine": 7,
+        "overall_decision": "quarantine_failures"
+      },
+      "near_duplicate_similarity": 0.991956828522521,
+      "quarantined_sources": [
+        "batch-academic-policy-2025.txt",
+        "batch-corrupt.txt",
+        "batch-exact-b.txt",
+        "batch-injection.txt",
+        "batch-missing-title.txt",
+        "batch-near-b.txt",
+        "batch-truncated.txt"
+      ],
+      "quarantine_actions": {
+        "batch-academic-policy-2025.txt": "moved_after_verified_copy",
+        "batch-corrupt.txt": "moved_after_verified_copy",
+        "batch-exact-b.txt": "moved_after_verified_copy",
+        "batch-injection.txt": "moved_after_verified_copy",
+        "batch-missing-title.txt": "moved_after_verified_copy",
+        "batch-near-b.txt": "moved_after_verified_copy",
+        "batch-truncated.txt": "moved_after_verified_copy"
+      },
+      "archive_paths": [
+        "eval\\results\\part-a-chroma-20261122T120348Z-aa695825\\batch-b\\work\\archive\\batch-academic-policy-2025@2025.txt"
+      ],
+      "collection_count": 5,
+      "chunks_by_source": {
+        "batch-valid-attendance.txt": 1,
+        "batch-exact-a.txt": 1,
+        "batch-near-a.txt": 1,
+        "batch-academic-policy-2026.txt": 1,
+        "batch-scholarship.txt": 1
+      }
+    },
+    "superseded_restore": {
+      "collection": "rahbar-pr-48d13aec8b894391bb19",
+      "initial_run": {
+        "run_id": "f69b26cc84754ebc86887f3fc8921004",
+        "total_stored": 1,
+        "chunks_embedded": 1,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 1,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 1,
+          "deleted": 0,
+          "total_chunks_embedded": 1,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "eval\\results\\part-a-chroma-20261122T120348Z-aa695825\\superseded-restore\\work\\state\\change-f69b26cc84754ebc86887f3fc8921004.json"
+      },
+      "new_version_run": {
+        "run_id": "c34704e6a84e431093eb4a44bcb2a591",
+        "total_stored": 2,
+        "chunks_embedded": 1,
+        "chunks_skipped": 0,
+        "chunks_removed": 0,
+        "summary": {
+          "discovered": 1,
+          "unchanged": 0,
+          "updated": 0,
+          "new": 1,
+          "deleted": 0,
+          "total_chunks_embedded": 1,
+          "total_chunks_skipped": 0,
+          "total_chunks_removed": 0
+        },
+        "change_report_path": "eval\\results\\part-a-chroma-20261122T120348Z-aa695825\\superseded-restore\\work\\state\\change-c34704e6a84e431093eb4a44bcb2a591.json"
+      },
+      "old_chunks_before_superseding": 1,
+      "old_chunks_after_superseding": 1,
+      "old_metadata_marked_superseded": true,
+      "retrieval_excluded_old_before_restore": true,
+      "archive_path": "eval\\results\\part-a-chroma-20261122T120348Z-aa695825\\superseded-restore\\work\\archive\\batch-academic-policy-2025@2025.txt",
+      "restore_result": {
+        "run_id": "2ea924343ed642e7b2b84c250d3523c4",
+        "restored": "batch-academic-policy-2025.txt",
+        "previous_version": "2025",
+        "restored_version": "2025",
+        "total_stored": 2
+      },
+      "restored_state_version": "2025",
+      "new_version_marked_superseded_after_restore": true,
+      "restored_manifest_active": true,
+      "retrieval_returned_restored_version": true,
+      "collection_count_after_restore": 2
+    }
+  },
+  "live_user_collection_modified": false,
+  "notes": [
+    "Each scenario uses a fresh UUID-named collection.",
+    "No Chroma collection is deleted by the evidence runner.",
+    "All corpus mutations occur only in copies under this timestamped result directory."
+  ],
+  "completed_at": "2026-11-22T12:07:25.271133+00:00"
+}

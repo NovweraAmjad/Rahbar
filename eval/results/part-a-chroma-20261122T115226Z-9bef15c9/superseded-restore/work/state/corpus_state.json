@@ -1,0 +1,15 @@
+{
+  "generation": 2026,
+  "documents": {
+    "batch-academic-policy-2025.txt": {
+      "doc_version": "2025",
+      "content_hash": "1fdf7c0de63742df3aaa02850d37b9ab69d69b4d301148bcae19fb3f939a2681",
+      "file_hash": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0",
+      "chunk_ids": [
+        "batch-academic-policy-2025.txt:2025:1:1"
+      ],
+      "indexed_at": "2026-11-22T11:54:49.501894+00:00",
+      "archived": false
+    }
+  }
+}

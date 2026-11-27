@@ -1,0 +1,55 @@
+{
+  "generation": 0,
+  "documents": {
+    "batch-valid-attendance.txt": {
+      "doc_version": "2026-11",
+      "content_hash": "7f531704e89232236c531177ae13eacb93226d2f20fd631e604d208f9e09938b",
+      "file_hash": "f6eb5dc048ad5dcfb76b76b304842d557874777b7eee03507f42bc9a640842cc",
+      "chunk_ids": [
+        "batch-valid-attendance.txt:2026-11:1:1"
+      ],
+      "indexed_at": "2026-11-23T10:10:48.533704+00:00",
+      "archived": false
+    },
+    "batch-exact-a.txt": {
+      "doc_version": "2026-11",
+      "content_hash": "e95d5da5efaba9215f50b17be99c1b79d08a90b94ee18827610ac516e9aa01d6",
+      "file_hash": "e23cad307194ed7cf8e3e7bdbcb655e6d48e99582bf2c83fc5cfe5aa35f1b613",
+      "chunk_ids": [
+        "batch-exact-a.txt:2026-11:1:1"
+      ],
+      "indexed_at": "2026-11-23T10:10:48.533704+00:00",
+      "archived": false
+    },
+    "batch-near-a.txt": {
+      "doc_version": "2026-11",
+      "content_hash": "3159f9c071018fb2df570868095e994887744f53b46708900d952a1d687ec46d",
+      "file_hash": "a546b38a73d00efe188c05fc3b0e2455bfb0a9a29900a237e508922415aaf064",
+      "chunk_ids": [
+        "batch-near-a.txt:2026-11:1:1"
+      ],
+      "indexed_at": "2026-11-23T10:10:48.533704+00:00",
+      "archived": false
+    },
+    "batch-academic-policy-2026.txt": {
+      "doc_version": "2026",
+      "content_hash": "fc54569202136c615fcd95366ec9dc79657c71f1dce9d63df6e9ff5773b75e48",
+      "file_hash": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578",
+      "chunk_ids": [
+        "batch-academic-policy-2026.txt:2026:1:1"
+      ],
+      "indexed_at": "2026-11-23T10:10:48.533704+00:00",
+      "archived": false
+    },
+    "batch-scholarship.txt": {
+      "doc_version": "2026-11",
+      "content_hash": "6dcee765c10c50d249fd2c7573e49cc3998cb543b5749f3f9f4343c9f6c429bb",
+      "file_hash": "8a171b8d59703c33164255f804590509ff86801eb227acfbbd250ed03a23faaf",
+      "chunk_ids": [
+        "batch-scholarship.txt:2026-11:1:1"
+      ],
+      "indexed_at": "2026-11-23T10:10:48.533704+00:00",
+      "archived": false
+    }
+  }
+}

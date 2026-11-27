@@ -2,6 +2,7 @@
 pythonpath = ["."]
 testpaths = ["tests"]
 filterwarnings = ["ignore::DeprecationWarning:starlette.*"]
+markers = ["integration: requires a live Chroma HTTP service and Ollama provider"]
 
 [tool.ruff]
 line-length = 100

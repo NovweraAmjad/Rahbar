@@ -1,0 +1,35 @@
+{
+  "evaluation_timestamp": "2026-11-23T12:47:46.831489+00:00",
+  "noise_method": "controlled-typos",
+  "noise_description": "A deterministic adjacent-character swap is applied to a pair of alphabetic characters in every evaluated question.",
+  "baseline_golden_file": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\golden.pre-part-e.jsonl",
+  "api_base_url": "http://127.0.0.1:18093",
+  "metrics": {
+    "recall_at_3": {
+      "baseline": 0.6,
+      "noisy": 0.6,
+      "absolute_change": 0.0
+    },
+    "recall_at_5": {
+      "baseline": 0.64,
+      "noisy": 0.64,
+      "absolute_change": 0.0
+    },
+    "mrr": {
+      "baseline": 0.5659722222222222,
+      "noisy": 0.5381944444444444,
+      "absolute_change": -0.02777777777777779
+    },
+    "ndcg_at_5": {
+      "baseline": 0.5913556693840128,
+      "noisy": 0.5705223360506795,
+      "absolute_change": -0.02083333333333337
+    }
+  },
+  "baseline_request_failures": 0,
+  "noisy_request_failures": 0,
+  "baseline_answerable_questions": 24,
+  "noisy_answerable_questions": 24,
+  "baseline_result": "eval\\results\\drift-part-e-complete\\pre-batch-b\\part-b-stochasticity-20261123T124512Z\\run-2\\component\\component-retrieval-20261123T124720Z\\baseline.json",
+  "noisy_result": "eval\\results\\drift-part-e-complete\\pre-batch-b\\part-b-stochasticity-20261123T124512Z\\run-2\\component\\component-retrieval-20261123T124720Z\\controlled-typos.json"
+}

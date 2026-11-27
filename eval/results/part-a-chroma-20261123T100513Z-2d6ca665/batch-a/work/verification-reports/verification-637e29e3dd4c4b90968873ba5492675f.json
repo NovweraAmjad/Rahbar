@@ -1,0 +1,253 @@
+{
+  "run_id": "637e29e3dd4c4b90968873ba5492675f",
+  "generated_at": "2026-11-23T10:10:38.389896+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 5,
+    "index": 5,
+    "quarantine": 0,
+    "overall_decision": "index_all"
+  },
+  "documents": [
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "title": "Academic Rules Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 58,
+      "raw_sha256": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "text_sha256": "4cc81bfb97d88dac9b106bc781c86568c28c95d019efdcceafbe9b08bce8160c",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+      "title": "Prospectus 2026 - Academic Rules and Regulations",
+      "doc_version": "2026",
+      "page_count": 5,
+      "raw_sha256": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a",
+      "text_sha256": "6ab7c4f6701e46df00f18fa14639eac4d8d03b92c9ed4d155dc6700a0a1c863f",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "title": "Student Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 64,
+      "raw_sha256": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "text_sha256": "f96d2c95e8995cf2a54fd8723e46a03a3e917ee161b702ec1f94c3f8e9fe5a65",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "annual-report-2023-24.pdf",
+      "title": "Annual Report 2023-24",
+      "doc_version": "2023-24",
+      "page_count": 85,
+      "raw_sha256": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a",
+      "text_sha256": "3f41786f7e2296534cdd4a575a5108d8e9ee50e12b782230f7028d46a2d24651",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "part-a-integration-change.txt",
+      "title": "Part A Integration Change",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "9ccb15a7bbc42054ea2f9df9aeea7ef4c6b829fbf5ae686980696b729b162e24",
+      "text_sha256": "012959facd3d5693653a555ab15571d25f705a57844dca26457e61e302a0d488",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "9ccb15a7bbc42054ea2f9df9aeea7ef4c6b829fbf5ae686980696b729b162e24"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    }
+  ]
+}

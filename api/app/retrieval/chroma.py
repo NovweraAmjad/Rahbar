@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import math
+from time import perf_counter
 from typing import TYPE_CHECKING, Protocol, cast
+from uuid import UUID
 
 import httpx
 
 from ..config import Settings
 from ..embeddings import embed_query
 from ..schemas import Passage
+from .base import RetrievalResults
 
 if TYPE_CHECKING:
     from chromadb.api import ClientAPI
@@ -17,6 +20,66 @@ if TYPE_CHECKING:
 
 _SUPERSEDED_FILTER: Where = {"superseded": False}
 _CHROMA_TIMEOUT_SECONDS = 2.0
+def _requested_versions(question: str) -> list[str]:
+    import re
+
+    normalized = []
+    for match in re.findall(r"(?<!\d)((?:19|20)\d{2}(?:[-/]\d{2,4})?)", question):
+        value = match.replace("/", "-")
+        if value not in normalized:
+            normalized.append(value)
+    return normalized
+
+
+def _version_match(version: str | None, requested: str) -> bool:
+    if not version:
+        return False
+    normalized = version.strip().replace("/", "-")
+    if normalized == requested:
+        return True
+    return normalized.startswith(requested[:4]) and len(requested) == 4
+
+
+def _rerank_for_versions(question: str, passages: list[Passage], k: int) -> list[Passage]:
+    requested = _requested_versions(question)
+    if not requested:
+        return passages[:k]
+
+    ranked: list[tuple[float, Passage]] = []
+    for passage in passages:
+        exact = sum(_version_match(passage.doc_version, version) for version in requested)
+        score = passage.score
+        if exact:
+            score += 0.25
+        elif passage.doc_version:
+            score -= 0.05
+        ranked.append((score, passage))
+
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    selected: list[Passage] = []
+    selected_ids: set[str] = set()
+
+    if len(requested) > 1:
+        for version in requested:
+            match = next(
+                (
+                    (score, passage)
+                    for score, passage in ranked
+                    if _version_match(passage.doc_version, version)
+                ),
+                None,
+            )
+            if match is not None and match[1].chunk_id not in selected_ids:
+                selected.append(match[1])
+                selected_ids.add(match[1].chunk_id)
+
+    for _score, passage in ranked:
+        if passage.chunk_id not in selected_ids:
+            selected.append(passage)
+            selected_ids.add(passage.chunk_id)
+        if len(selected) >= k:
+            break
+    return selected[:k]
 
 
 class _ChromaHttpSession(Protocol):
@@ -101,23 +164,39 @@ class ChromaRetriever:
         if k < 0:
             raise ValueError("k must not be negative")
         if k == 0:
-            return []
+            return RetrievalResults([], {
+                "filters_applied": dict(_SUPERSEDED_FILTER),
+                "raw_ranked_order": [],
+                "reranked_order": [],
+                "embedding_latency_ms": 0.0,
+                "vector_query_latency_ms": 0.0,
+                "reranking_latency_ms": 0.0,
+                "collection_version": None,
+            })
+        embedding_started = perf_counter()
         embedding = (
             query_embedding
             if query_embedding is not None
             else embed_query(question, self.settings)
         )
+        embedding_latency_ms = (
+            0.0 if query_embedding is not None
+            else (perf_counter() - embedding_started) * 1000
+        )
 
         from chromadb.errors import ChromaError
 
         try:
+            query_started = perf_counter()
             collection = self.client.get_collection(name=self.settings.collection)
+            candidate_count = max(k, k * 3)
             results = collection.query(
                 query_embeddings=embedding,
-                n_results=k,
+                n_results=candidate_count,
                 where=_SUPERSEDED_FILTER,
                 include=["documents", "metadatas", "distances"],
             )
+            vector_query_latency_ms = (perf_counter() - query_started) * 1000
         except (ChromaError, OSError) as exc:
             raise RuntimeError(
                 f"Unable to query Chroma collection {self.settings.collection!r} "
@@ -131,6 +210,7 @@ class ChromaRetriever:
             page = metadata.get("page")
             doc_version = metadata.get("doc_version")
             superseded = metadata.get("superseded")
+            document_id = metadata.get("document_id", metadata.get("doc_id"))
 
             if not isinstance(source, str) or not source.strip():
                 raise RuntimeError(f"Chroma metadata for {chunk_id!r} has no valid source")
@@ -142,6 +222,10 @@ class ChromaRetriever:
                 raise RuntimeError(f"Chroma metadata for {chunk_id!r} has no valid doc_version")
             if not isinstance(superseded, bool):
                 raise RuntimeError(f"Chroma metadata for {chunk_id!r} has no valid superseded flag")
+            if document_id is not None and (
+                not isinstance(document_id, str) or not document_id.strip()
+            ):
+                raise RuntimeError(f"Chroma metadata for {chunk_id!r} has an invalid document ID")
             if superseded:
                 continue
 
@@ -155,6 +239,46 @@ class ChromaRetriever:
                     score=1.0 - distance,
                     doc_version=doc_version,
                     superseded=superseded,
+                    document_id=document_id,
                 )
             )
-        return passages
+        raw_ranked_order = [passage.chunk_id for passage in passages]
+        reranking_started = perf_counter()
+        reranked = _rerank_for_versions(question, passages, k)
+        reranking_latency_ms = (perf_counter() - reranking_started) * 1000
+        raw_collection_metadata = collection.metadata
+        collection_metadata = (
+            raw_collection_metadata if isinstance(raw_collection_metadata, dict) else {}
+        )
+        collection_version = collection_metadata.get(
+            "collection_version", collection_metadata.get("version")
+        )
+        collection_id = getattr(collection, "id", None)
+        if isinstance(collection_id, UUID):
+            collection_id = str(collection_id)
+        if not isinstance(collection_id, (str, int, float, bool)):
+            collection_id = None
+        collection_version_source = "collection_metadata"
+        if collection_version is None:
+            collection_version = collection_id
+            collection_version_source = "collection_id"
+        return RetrievalResults(
+            reranked,
+            {
+                "filters_applied": dict(_SUPERSEDED_FILTER),
+                "candidate_count": candidate_count,
+                "raw_ranked_order": raw_ranked_order,
+                "reranked_order": [passage.chunk_id for passage in reranked],
+                "embedding_latency_ms": embedding_latency_ms,
+                "vector_query_latency_ms": vector_query_latency_ms,
+                "reranking_latency_ms": reranking_latency_ms,
+                "collection_version": collection_version,
+                "collection_version_source": collection_version_source,
+                "collection_id": collection_id,
+                "collection_metadata": {
+                    key: value
+                    for key, value in collection_metadata.items()
+                    if isinstance(value, (str, int, float, bool))
+                },
+            },
+        )

@@ -1,0 +1,157 @@
+{
+  "run_id": "5e010a9bfae147babd15ea15e2208023",
+  "generated_at": "2026-11-22T11:54:34.275790+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 3,
+    "index": 3,
+    "quarantine": 0,
+    "overall_decision": "index_all"
+  },
+  "documents": [
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "title": "Academic Rules Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 58,
+      "raw_sha256": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "text_sha256": "4cc81bfb97d88dac9b106bc781c86568c28c95d019efdcceafbe9b08bce8160c",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "title": "Student Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 64,
+      "raw_sha256": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "text_sha256": "f96d2c95e8995cf2a54fd8723e46a03a3e917ee161b702ec1f94c3f8e9fe5a65",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "part-a-integration-change.txt",
+      "title": "Part A Integration Change",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "9ccb15a7bbc42054ea2f9df9aeea7ef4c6b829fbf5ae686980696b729b162e24",
+      "text_sha256": "012959facd3d5693653a555ab15571d25f705a57844dca26457e61e302a0d488",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "9ccb15a7bbc42054ea2f9df9aeea7ef4c6b829fbf5ae686980696b729b162e24"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    }
+  ]
+}

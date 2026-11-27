@@ -1,0 +1,649 @@
+{
+  "metadata": {
+    "schema_version": 1,
+    "generated_at": "2026-11-27T13:42:22.157182+00:00",
+    "queries_file": "/mnt/c/Users/lenovo/Desktop/sem5/SCD/rahbar-starter/eval/live_queries.yaml",
+    "queries_sha256": "bd7c63d754a5b582b6ab2c1b5a0bc347cde40ab95b765dd02f4e6b067d699228",
+    "golden_file": "/mnt/c/Users/lenovo/Desktop/sem5/SCD/rahbar-starter/eval/golden.jsonl",
+    "golden_sha256": "4e6d3c6bdd994387e85566a8de5a56af0b18d2a50d03a4a2b2fd162ddaaa0e55",
+    "embedding_ollama_url": "http://172.23.112.1:11434",
+    "embedding_model": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "similarity_threshold": 0.8,
+    "minimum_coverage_percentage": 85.0,
+    "threshold_rationale": "The 0.80 cosine floor is rounded down from the measured 0.8311 mean similarity for 15 production-provider paraphrase pairs in Part B, while remaining well above the measured 0.3619 unrelated-pair mean. The 85% minimum uses the paper's example that coverage below 85% flags a gap."
+  },
+  "summary": {
+    "total_queries": 40,
+    "covered_queries": 19,
+    "uncovered_queries": 21,
+    "coverage_percentage": 47.5,
+    "gate_passed": false,
+    "in_domain_queries": 28,
+    "out_of_domain_queries": 12
+  },
+  "matches": [
+    {
+      "id": "lq01",
+      "topic": "attendance",
+      "query": "I missed a few classes. What overall attendance percentage am I expected to keep?",
+      "golden_domain": true,
+      "nearest_golden_id": "q03",
+      "nearest_golden_question": "What is the consequence of failing to meet a course's attendance requirements?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7034861639431412,
+      "covered": false
+    },
+    {
+      "id": "lq02",
+      "topic": "attendance",
+      "query": "Can the head of department excuse some absences if I had a genuine reason?",
+      "golden_domain": true,
+      "nearest_golden_id": "q02",
+      "nearest_golden_question": "How much absence may the HoD condone for genuine reasons under clause 1.21?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.6881375728190432,
+      "covered": false
+    },
+    {
+      "id": "lq03",
+      "topic": "attendance",
+      "query": "What happens to my final exam eligibility when I fall below the attendance rule?",
+      "golden_domain": true,
+      "nearest_golden_id": "q18",
+      "nearest_golden_question": "According to Batch B, what attendance threshold is required to sit for the final examination?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.7961216512399384,
+      "covered": false
+    },
+    {
+      "id": "lq04",
+      "topic": "academic_warning",
+      "query": "At what CGPA does the university start putting a student on academic warning?",
+      "golden_domain": true,
+      "nearest_golden_id": "q04",
+      "nearest_golden_question": "What minimum CGPA is required to avoid academic warning in the June 2026 handbook?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8211305877377585,
+      "covered": true
+    },
+    {
+      "id": "lq05",
+      "topic": "academic_warning",
+      "query": "After getting a warning, how do I get the warning count cleared?",
+      "golden_domain": true,
+      "nearest_golden_id": "q05",
+      "nearest_golden_question": "When is the academic-warning count reset after a warning?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7711389763399159,
+      "covered": false
+    },
+    {
+      "id": "lq06",
+      "topic": "academic_warning",
+      "query": "Am I allowed to take a new course while I am on the second academic warning?",
+      "golden_domain": true,
+      "nearest_golden_id": "q22",
+      "nearest_golden_question": "What restriction applies to students on a second academic warning?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8243384744768563,
+      "covered": true
+    },
+    {
+      "id": "lq07",
+      "topic": "course_registration",
+      "query": "If I failed a course last semester, can I postpone registering for it?",
+      "golden_domain": true,
+      "nearest_golden_id": "q06",
+      "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7993422320525789,
+      "covered": false
+    },
+    {
+      "id": "lq08",
+      "topic": "course_repeat",
+      "query": "Can I register again for a passed course because I want a better CGPA?",
+      "golden_domain": true,
+      "nearest_golden_id": "q07",
+      "nearest_golden_question": "May a student repeat a course to improve CGPA under the June 2026 rules?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7814678957723872,
+      "covered": false
+    },
+    {
+      "id": "lq09",
+      "topic": "grading",
+      "query": "How many grade points are attached to an A+ and to an F?",
+      "golden_domain": true,
+      "nearest_golden_id": "q21",
+      "nearest_golden_question": "What are the grade points for A+ and F in the June 2026 handbook?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8069152874498106,
+      "covered": true
+    },
+    {
+      "id": "lq10",
+      "topic": "fyp",
+      "query": "When should an undergraduate normally enroll in FYP-I?",
+      "golden_domain": true,
+      "nearest_golden_id": "q23",
+      "nearest_golden_question": "In which semester must a student normally register for FYP-I?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8843296330857557,
+      "covered": true
+    },
+    {
+      "id": "lq11",
+      "topic": "theory_lab",
+      "query": "I passed the theory portion but failed the lab. Do I have to repeat both?",
+      "golden_domain": true,
+      "nearest_golden_id": "q24",
+      "nearest_golden_question": "If a student passes Theory but fails Lab, which component must be repeated?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8794657884242102,
+      "covered": true
+    },
+    {
+      "id": "lq12",
+      "topic": "theory_lab",
+      "query": "If one component of a course is passed, which failed component is repeated?",
+      "golden_domain": true,
+      "nearest_golden_id": "q24",
+      "nearest_golden_question": "If a student passes Theory but fails Lab, which component must be repeated?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8418530421924459,
+      "covered": true
+    },
+    {
+      "id": "lq13",
+      "topic": "generative_ai",
+      "query": "When I use a GenAI tool in an assignment, what disclosure does the handbook want?",
+      "golden_domain": true,
+      "nearest_golden_id": "q08",
+      "nearest_golden_question": "What does the Student Handbook require when students submit work containing Generative AI output?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7062924315624357,
+      "covered": false
+    },
+    {
+      "id": "lq14",
+      "topic": "generative_ai",
+      "query": "Does the student handbook permit ChatGPT-style output in a graded assessment?",
+      "golden_domain": true,
+      "nearest_golden_id": "q30",
+      "nearest_golden_question": "Are students allowed to use Generative AI for assessments under the 2026 Student Handbook?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7017831990638771,
+      "covered": false
+    },
+    {
+      "id": "lq15",
+      "topic": "generative_ai",
+      "query": "What is the official name of the student handbook section about AI-based tools?",
+      "golden_domain": true,
+      "nearest_golden_id": "q08",
+      "nearest_golden_question": "What does the Student Handbook require when students submit work containing Generative AI output?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7699849336724209,
+      "covered": false
+    },
+    {
+      "id": "lq16",
+      "topic": "annual_report_faculty",
+      "query": "How many faculty members did the university report for the 2023-24 year?",
+      "golden_domain": true,
+      "nearest_golden_id": "q25",
+      "nearest_golden_question": "How many faculty members are listed in the 2023-24 annual report faculty summary?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.9183013308968873,
+      "covered": true
+    },
+    {
+      "id": "lq17",
+      "topic": "annual_report_faculty",
+      "query": "What was the faculty headcount in the 2019-20 annual report?",
+      "golden_domain": true,
+      "nearest_golden_id": "q09",
+      "nearest_golden_question": "In the Annual Report 2019-20, how many faculty members are listed in the university-wide summary?",
+      "nearest_golden_category": "version-sensitive",
+      "similarity": 0.8625420023608944,
+      "covered": true
+    },
+    {
+      "id": "lq18",
+      "topic": "annual_report_faculty",
+      "query": "Compare the university-wide faculty totals in the 2019-20 and 2023-24 reports.",
+      "golden_domain": true,
+      "nearest_golden_id": "q10",
+      "nearest_golden_question": "In the Annual Report 2023-24, what is the university-wide faculty total?",
+      "nearest_golden_category": "version-sensitive",
+      "similarity": 0.9033215389354531,
+      "covered": true
+    },
+    {
+      "id": "lq19",
+      "topic": "attendance_clause",
+      "query": "Which numbered rule covers the June 2026 attendance requirement?",
+      "golden_domain": true,
+      "nearest_golden_id": "q11",
+      "nearest_golden_question": "Which clause number in the June 2026 Academic Rules Handbook contains the attendance requirement?",
+      "nearest_golden_category": "exact-term",
+      "similarity": 0.8859580669048727,
+      "covered": true
+    },
+    {
+      "id": "lq20",
+      "topic": "scholarship",
+      "query": "What cumulative CGPA do I need for the scholarship rule in Batch B?",
+      "golden_domain": true,
+      "nearest_golden_id": "q19",
+      "nearest_golden_question": "What CGPA and credit-hours requirement appears in the Batch B scholarship eligibility record?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.8333613993702211,
+      "covered": true
+    },
+    {
+      "id": "lq21",
+      "topic": "scholarship",
+      "query": "How many credit hours must a scholarship applicant complete during the year?",
+      "golden_domain": true,
+      "nearest_golden_id": "q19",
+      "nearest_golden_question": "What CGPA and credit-hours requirement appears in the Batch B scholarship eligibility record?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.7452686729224771,
+      "covered": false
+    },
+    {
+      "id": "lq22",
+      "topic": "batch_b_attendance",
+      "query": "What minimum class attendance is written in the valid attendance record from the second batch?",
+      "golden_domain": true,
+      "nearest_golden_id": "q18",
+      "nearest_golden_question": "According to Batch B, what attendance threshold is required to sit for the final examination?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.7551160589671705,
+      "covered": false
+    },
+    {
+      "id": "lq23",
+      "topic": "policy_drift",
+      "query": "The Batch B attendance note says 75%, while the handbook says something else. Which value is in the latest indexed policy?",
+      "golden_domain": true,
+      "nearest_golden_id": "q01",
+      "nearest_golden_question": "What attendance level does the June 2026 Academic Rules Handbook require?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7411118571340828,
+      "covered": false
+    },
+    {
+      "id": "lq24",
+      "topic": "batch_b_policy",
+      "query": "What CGPA must be maintained for continuation under the 2026 Batch B academic policy?",
+      "golden_domain": true,
+      "nearest_golden_id": "q20",
+      "nearest_golden_question": "What CGPA continuation requirement is stated in the Batch B 2026 academic policy?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.9480013053428747,
+      "covered": true
+    },
+    {
+      "id": "lq25",
+      "topic": "document_versioning",
+      "query": "Why should the 2025 Batch B academic policy be excluded after the 2026 copy arrives?",
+      "golden_domain": true,
+      "nearest_golden_id": "q20",
+      "nearest_golden_question": "What CGPA continuation requirement is stated in the Batch B 2026 academic policy?",
+      "nearest_golden_category": "hard",
+      "similarity": 0.7298247930386226,
+      "covered": false
+    },
+    {
+      "id": "lq26",
+      "topic": "course_repeat",
+      "query": "I was absent from a registered course last term. When do I need to take it again?",
+      "golden_domain": true,
+      "nearest_golden_id": "q06",
+      "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7576431951650358,
+      "covered": false
+    },
+    {
+      "id": "lq27",
+      "topic": "academic_warning",
+      "query": "What academic performance threshold prevents a warning in the June handbook?",
+      "golden_domain": true,
+      "nearest_golden_id": "q04",
+      "nearest_golden_question": "What minimum CGPA is required to avoid academic warning in the June 2026 handbook?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.8118592463942937,
+      "covered": true
+    },
+    {
+      "id": "lq28",
+      "topic": "generative_ai",
+      "query": "If submitted work includes AI-generated text, should I cite the tool or the original source?",
+      "golden_domain": true,
+      "nearest_golden_id": "q29",
+      "nearest_golden_question": "Under the Student Handbook, how should Generative AI use be acknowledged in submitted work?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.7076439512422065,
+      "covered": false
+    },
+    {
+      "id": "lq29",
+      "topic": "campus_transport",
+      "query": "What time does the Islamabad campus shuttle leave for the Blue Area in the evening?",
+      "golden_domain": false,
+      "nearest_golden_id": "q31",
+      "nearest_golden_question": "What route schedule does the Islamabad campus shuttle follow in the evening?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.8540978686347086,
+      "covered": true
+    },
+    {
+      "id": "lq30",
+      "topic": "admissions_deadline",
+      "query": "When is the undergraduate admissions application deadline for the next intake?",
+      "golden_domain": false,
+      "nearest_golden_id": "q32",
+      "nearest_golden_question": "When is the application deadline for the next undergraduate admissions intake?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.9926060340726756,
+      "covered": true
+    },
+    {
+      "id": "lq31",
+      "topic": "tuition_fees",
+      "query": "What is the semester fee for a first-year BS computer science student?",
+      "golden_domain": false,
+      "nearest_golden_id": "q33",
+      "nearest_golden_question": "What semester tuition fee applies to a first-year BS computer science student?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.9669069616746342,
+      "covered": true
+    },
+    {
+      "id": "lq32",
+      "topic": "placement_services",
+      "query": "How can I register for software engineering internships through the placement office?",
+      "golden_domain": false,
+      "nearest_golden_id": "q34",
+      "nearest_golden_question": "Which office handles software engineering internship placement and registration?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.8675842992470075,
+      "covered": true
+    },
+    {
+      "id": "lq33",
+      "topic": "sports_trials",
+      "query": "When are football team trials held and who is eligible to attend?",
+      "golden_domain": false,
+      "nearest_golden_id": "q32",
+      "nearest_golden_question": "When is the application deadline for the next undergraduate admissions intake?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.5902022408108489,
+      "covered": false
+    },
+    {
+      "id": "lq34",
+      "topic": "library_hours",
+      "query": "Until what time is the Islamabad campus library open on Fridays?",
+      "golden_domain": false,
+      "nearest_golden_id": "q35",
+      "nearest_golden_question": "Until what time is the Islamabad campus library open on Fridays?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 1.0000000000000002,
+      "covered": true
+    },
+    {
+      "id": "lq35",
+      "topic": "campus_wifi",
+      "query": "How do I reset my campus Wi-Fi password if I forgot it?",
+      "golden_domain": false,
+      "nearest_golden_id": "q06",
+      "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.5701618927406468,
+      "covered": false
+    },
+    {
+      "id": "lq36",
+      "topic": "student_counseling",
+      "query": "Can a student book a confidential counseling session on campus?",
+      "golden_domain": false,
+      "nearest_golden_id": "q23",
+      "nearest_golden_question": "In which semester must a student normally register for FYP-I?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.5413473935228528,
+      "covered": false
+    },
+    {
+      "id": "lq37",
+      "topic": "health_services",
+      "query": "Is there a student medical clinic, and is it open during the weekend?",
+      "golden_domain": false,
+      "nearest_golden_id": "q36",
+      "nearest_golden_question": "What are the weekend opening hours for the campus student medical clinic?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.8884984776048404,
+      "covered": true
+    },
+    {
+      "id": "lq38",
+      "topic": "transcript_services",
+      "query": "Where do graduates submit a request for an official transcript?",
+      "golden_domain": false,
+      "nearest_golden_id": "q26",
+      "nearest_golden_question": "What are the final-examination dates for every program next semester?",
+      "nearest_golden_category": "must-abstain",
+      "similarity": 0.590078838279811,
+      "covered": false
+    },
+    {
+      "id": "lq39",
+      "topic": "campus_parking",
+      "query": "Do students need a parking sticker, and where is visitor parking?",
+      "golden_domain": false,
+      "nearest_golden_id": "q11",
+      "nearest_golden_question": "Which clause number in the June 2026 Academic Rules Handbook contains the attendance requirement?",
+      "nearest_golden_category": "exact-term",
+      "similarity": 0.5925593693153764,
+      "covered": false
+    },
+    {
+      "id": "lq40",
+      "topic": "alumni_services",
+      "query": "How can an alumnus request a replacement degree-verification letter?",
+      "golden_domain": false,
+      "nearest_golden_id": "q06",
+      "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+      "nearest_golden_category": "ordinary",
+      "similarity": 0.5933246405338283,
+      "covered": false
+    }
+  ],
+  "uncovered_by_topic": {
+    "academic_warning": [
+      {
+        "id": "lq05",
+        "query": "After getting a warning, how do I get the warning count cleared?",
+        "nearest_golden_id": "q05",
+        "nearest_golden_question": "When is the academic-warning count reset after a warning?",
+        "similarity": 0.7711389763399159
+      }
+    ],
+    "alumni_services": [
+      {
+        "id": "lq40",
+        "query": "How can an alumnus request a replacement degree-verification letter?",
+        "nearest_golden_id": "q06",
+        "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+        "similarity": 0.5933246405338283
+      }
+    ],
+    "attendance": [
+      {
+        "id": "lq01",
+        "query": "I missed a few classes. What overall attendance percentage am I expected to keep?",
+        "nearest_golden_id": "q03",
+        "nearest_golden_question": "What is the consequence of failing to meet a course's attendance requirements?",
+        "similarity": 0.7034861639431412
+      },
+      {
+        "id": "lq02",
+        "query": "Can the head of department excuse some absences if I had a genuine reason?",
+        "nearest_golden_id": "q02",
+        "nearest_golden_question": "How much absence may the HoD condone for genuine reasons under clause 1.21?",
+        "similarity": 0.6881375728190432
+      },
+      {
+        "id": "lq03",
+        "query": "What happens to my final exam eligibility when I fall below the attendance rule?",
+        "nearest_golden_id": "q18",
+        "nearest_golden_question": "According to Batch B, what attendance threshold is required to sit for the final examination?",
+        "similarity": 0.7961216512399384
+      }
+    ],
+    "batch_b_attendance": [
+      {
+        "id": "lq22",
+        "query": "What minimum class attendance is written in the valid attendance record from the second batch?",
+        "nearest_golden_id": "q18",
+        "nearest_golden_question": "According to Batch B, what attendance threshold is required to sit for the final examination?",
+        "similarity": 0.7551160589671705
+      }
+    ],
+    "campus_parking": [
+      {
+        "id": "lq39",
+        "query": "Do students need a parking sticker, and where is visitor parking?",
+        "nearest_golden_id": "q11",
+        "nearest_golden_question": "Which clause number in the June 2026 Academic Rules Handbook contains the attendance requirement?",
+        "similarity": 0.5925593693153764
+      }
+    ],
+    "campus_wifi": [
+      {
+        "id": "lq35",
+        "query": "How do I reset my campus Wi-Fi password if I forgot it?",
+        "nearest_golden_id": "q06",
+        "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+        "similarity": 0.5701618927406468
+      }
+    ],
+    "course_registration": [
+      {
+        "id": "lq07",
+        "query": "If I failed a course last semester, can I postpone registering for it?",
+        "nearest_golden_id": "q06",
+        "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+        "similarity": 0.7993422320525789
+      }
+    ],
+    "course_repeat": [
+      {
+        "id": "lq08",
+        "query": "Can I register again for a passed course because I want a better CGPA?",
+        "nearest_golden_id": "q07",
+        "nearest_golden_question": "May a student repeat a course to improve CGPA under the June 2026 rules?",
+        "similarity": 0.7814678957723872
+      },
+      {
+        "id": "lq26",
+        "query": "I was absent from a registered course last term. When do I need to take it again?",
+        "nearest_golden_id": "q06",
+        "nearest_golden_question": "What must a student do with a failed or missed course from a previous semester?",
+        "similarity": 0.7576431951650358
+      }
+    ],
+    "document_versioning": [
+      {
+        "id": "lq25",
+        "query": "Why should the 2025 Batch B academic policy be excluded after the 2026 copy arrives?",
+        "nearest_golden_id": "q20",
+        "nearest_golden_question": "What CGPA continuation requirement is stated in the Batch B 2026 academic policy?",
+        "similarity": 0.7298247930386226
+      }
+    ],
+    "generative_ai": [
+      {
+        "id": "lq13",
+        "query": "When I use a GenAI tool in an assignment, what disclosure does the handbook want?",
+        "nearest_golden_id": "q08",
+        "nearest_golden_question": "What does the Student Handbook require when students submit work containing Generative AI output?",
+        "similarity": 0.7062924315624357
+      },
+      {
+        "id": "lq14",
+        "query": "Does the student handbook permit ChatGPT-style output in a graded assessment?",
+        "nearest_golden_id": "q30",
+        "nearest_golden_question": "Are students allowed to use Generative AI for assessments under the 2026 Student Handbook?",
+        "similarity": 0.7017831990638771
+      },
+      {
+        "id": "lq15",
+        "query": "What is the official name of the student handbook section about AI-based tools?",
+        "nearest_golden_id": "q08",
+        "nearest_golden_question": "What does the Student Handbook require when students submit work containing Generative AI output?",
+        "similarity": 0.7699849336724209
+      },
+      {
+        "id": "lq28",
+        "query": "If submitted work includes AI-generated text, should I cite the tool or the original source?",
+        "nearest_golden_id": "q29",
+        "nearest_golden_question": "Under the Student Handbook, how should Generative AI use be acknowledged in submitted work?",
+        "similarity": 0.7076439512422065
+      }
+    ],
+    "policy_drift": [
+      {
+        "id": "lq23",
+        "query": "The Batch B attendance note says 75%, while the handbook says something else. Which value is in the latest indexed policy?",
+        "nearest_golden_id": "q01",
+        "nearest_golden_question": "What attendance level does the June 2026 Academic Rules Handbook require?",
+        "similarity": 0.7411118571340828
+      }
+    ],
+    "scholarship": [
+      {
+        "id": "lq21",
+        "query": "How many credit hours must a scholarship applicant complete during the year?",
+        "nearest_golden_id": "q19",
+        "nearest_golden_question": "What CGPA and credit-hours requirement appears in the Batch B scholarship eligibility record?",
+        "similarity": 0.7452686729224771
+      }
+    ],
+    "sports_trials": [
+      {
+        "id": "lq33",
+        "query": "When are football team trials held and who is eligible to attend?",
+        "nearest_golden_id": "q32",
+        "nearest_golden_question": "When is the application deadline for the next undergraduate admissions intake?",
+        "similarity": 0.5902022408108489
+      }
+    ],
+    "student_counseling": [
+      {
+        "id": "lq36",
+        "query": "Can a student book a confidential counseling session on campus?",
+        "nearest_golden_id": "q23",
+        "nearest_golden_question": "In which semester must a student normally register for FYP-I?",
+        "similarity": 0.5413473935228528
+      }
+    ],
+    "transcript_services": [
+      {
+        "id": "lq38",
+        "query": "Where do graduates submit a request for an official transcript?",
+        "nearest_golden_id": "q26",
+        "nearest_golden_question": "What are the final-examination dates for every program next semester?",
+        "similarity": 0.590078838279811
+      }
+    ]
+  }
+}

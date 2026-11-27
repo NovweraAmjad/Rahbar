@@ -1,0 +1,93 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: part-b-evaluation
+  namespace: rahbar
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 5400
+  template:
+    metadata:
+      labels:
+        app: part-b-evaluation
+    spec:
+      serviceAccountName: api
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: evaluator
+          image: rahbar-eval:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -u
+            - /opt/rahbar/eval/run_k8s_eval.py
+          args:
+            - --api
+            - http://api:8000
+            - --api-image
+            - docker.io/library/rahbar-api@sha256:73da6dcefcccb44b641779cfd13d8e8e3be3b253a29368b78bdd88726a00ac2f
+            - --host
+            - rahbar.local
+            - --golden
+            - /opt/rahbar/eval/golden.jsonl
+            - --out-root
+            - /results/part-b
+            - --baseline
+            - /opt/rahbar/eval/part-b-baseline-summary.json
+            - --thresholds
+            - /gate/release-gate.yaml
+            - --ollama-url
+            - http://172.23.112.1:11434
+            - --embedding-model
+            - nomic-embed-text
+            - --chroma-url
+            - http://chroma:8000
+            - --preflight-timeout
+            - "5"
+          envFrom:
+            - configMapRef:
+                name: rahbar-config
+          env:
+            - name: PYTHONHASHSEED
+              value: "20261121"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: results
+              mountPath: /results
+            - name: release-gate
+              mountPath: /gate
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: results
+          persistentVolumeClaim:
+            claimName: rahbar-evaluation-results
+        - name: release-gate
+          configMap:
+            name: rahbar-release-gate
+        - name: tmp
+          emptyDir:
+            sizeLimit: 128Mi

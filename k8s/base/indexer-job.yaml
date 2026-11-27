@@ -19,13 +19,53 @@ spec:
         runAsUser: 10001
         runAsGroup: 10001
         fsGroup: 10001
+      initContainers:
+        - name: corpus-sync
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -c
+            - |
+              from pathlib import Path
+              import shutil
+              source = Path("/corpus-source")
+              destination = Path("/var/lib/rahbar-data/corpus")
+              temporary = Path("/var/lib/rahbar-data/.corpus-sync")
+              if temporary.exists():
+                  shutil.rmtree(temporary)
+              shutil.copytree(source, temporary)
+              if destination.exists():
+                  shutil.rmtree(destination)
+              temporary.rename(destination)
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: corpus-source
+              mountPath: /corpus-source
+              readOnly: true
+            - name: indexer-data
+              mountPath: /var/lib/rahbar-data
       containers:
         - name: indexer
           image: rahbar-indexer:dev
           imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -m
+            - pipeline.run
           envFrom:
             - configMapRef:
                 name: rahbar-config
+          args:
+            - --incremental
           resources:
             requests:
               cpu: 500m
@@ -43,16 +83,18 @@ spec:
               drop:
                 - ALL
           volumeMounts:
-            - name: corpus
-              mountPath: /corpus
-              readOnly: true
+            - name: indexer-data
+              mountPath: /var/lib/rahbar-data
             - name: tmp
               mountPath: /tmp
       volumes:
-        - name: corpus
+        - name: corpus-source
           hostPath:
             path: /mnt/rahbar-corpus
             type: Directory
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: rahbar-indexer-data
         - name: tmp
           emptyDir:
             sizeLimit: 1Gi

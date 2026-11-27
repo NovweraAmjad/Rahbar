@@ -3,6 +3,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - configmap.yaml
+  - indexer-data-pvc.yaml
+  - evaluation-results-pvc.yaml
+  - release-gate-configmap.yaml
   - chroma.yaml
   - redis.yaml
   - api.yaml

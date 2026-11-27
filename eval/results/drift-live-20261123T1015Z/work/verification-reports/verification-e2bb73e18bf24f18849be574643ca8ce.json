@@ -1,0 +1,356 @@
+{
+  "run_id": "e2bb73e18bf24f18849be574643ca8ce",
+  "generated_at": "2026-11-23T10:15:27.600478+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 7,
+    "index": 4,
+    "quarantine": 3,
+    "overall_decision": "quarantine_failures"
+  },
+  "documents": [
+    {
+      "source": "undergraduate-academic-rules-aug-2023.pdf",
+      "title": "Undergraduate Academic Rules (Aug 2023)",
+      "doc_version": "2023-08",
+      "page_count": 26,
+      "raw_sha256": "cddfe1f5e9770132e27d686abd1c2e6742ef4732f0c2f431ed514bc1691d2004",
+      "text_sha256": "8ce9627791cbdfffddfe0a3a1712f794237842b14b4bd117a1cbb7e379ed6db6",
+      "checks": {
+        "quality": {
+          "status": "fail",
+          "reasons": [
+            "garbled text detected: 1 control characters, 0 replacement characters"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "fail",
+          "reasons": [
+            "document is superseded; newer version exists: a newer version"
+          ],
+          "superseded": true
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "cddfe1f5e9770132e27d686abd1c2e6742ef4732f0c2f431ed514bc1691d2004"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "quarantine",
+      "archive_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\drift-live-20261123T1015Z\\work\\archive\\undergraduate-academic-rules-aug-2023@2023-08.pdf",
+      "quarantine_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\drift-live-20261123T1015Z\\work\\quarantine\\undergraduate-academic-rules-aug-2023.pdf",
+      "quarantine_action": "moved_after_verified_copy"
+    },
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "title": "Academic Rules Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 58,
+      "raw_sha256": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "text_sha256": "4cc81bfb97d88dac9b106bc781c86568c28c95d019efdcceafbe9b08bce8160c",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+      "title": "Prospectus 2026 - Academic Rules and Regulations",
+      "doc_version": "2026",
+      "page_count": 5,
+      "raw_sha256": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a",
+      "text_sha256": "6ab7c4f6701e46df00f18fa14639eac4d8d03b92c9ed4d155dc6700a0a1c863f",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "title": "Student Handbook (Jun 2026)",
+      "doc_version": "2026-06",
+      "page_count": 64,
+      "raw_sha256": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "text_sha256": "f96d2c95e8995cf2a54fd8723e46a03a3e917ee161b702ec1f94c3f8e9fe5a65",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "annual-report-2019-20.pdf",
+      "title": "Annual Report 2019-20",
+      "doc_version": "2019-20",
+      "page_count": 33,
+      "raw_sha256": "4d1961e340b13273bb039805ab5fd5e2c7bd0144a5bd5870f2ce4da13becd650",
+      "text_sha256": "6bf96729734d8eefc29831107e9b7dabdf60290ef8c8ca7361eaf038562515d8",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "fail",
+          "reasons": [
+            "newer version exists: annual-report-2023-24.pdf (version (2023, 24))"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "4d1961e340b13273bb039805ab5fd5e2c7bd0144a5bd5870f2ce4da13becd650"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "quarantine",
+      "quarantine_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\drift-live-20261123T1015Z\\work\\quarantine\\annual-report-2019-20.pdf",
+      "quarantine_action": "moved_after_verified_copy"
+    },
+    {
+      "source": "annual-report-2023-24.pdf",
+      "title": "Annual Report 2023-24",
+      "doc_version": "2023-24",
+      "page_count": 85,
+      "raw_sha256": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a",
+      "text_sha256": "3f41786f7e2296534cdd4a575a5108d8e9ee50e12b782230f7028d46a2d24651",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "faculty-entrepreneurship-and-technical-start-ups-policy.pdf",
+      "title": "Faculty Entrepreneurship and Technical Start-ups Policy",
+      "doc_version": "2022-05",
+      "page_count": 8,
+      "raw_sha256": "c2d5c7648d1593daf34d5c0596ede476e8984b0551830cc1690017e6e22f1359",
+      "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "checks": {
+        "quality": {
+          "status": "fail",
+          "reasons": [
+            "extracted text is empty"
+          ]
+        },
+        "completeness": {
+          "status": "fail",
+          "reasons": [
+            "text is suspiciously truncated relative to the PDF file size"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "c2d5c7648d1593daf34d5c0596ede476e8984b0551830cc1690017e6e22f1359"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "quarantine",
+      "quarantine_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\drift-live-20261123T1015Z\\work\\quarantine\\faculty-entrepreneurship-and-technical-start-ups-policy.pdf",
+      "quarantine_action": "moved_after_verified_copy"
+    }
+  ]
+}

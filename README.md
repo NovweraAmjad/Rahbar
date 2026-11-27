@@ -35,6 +35,27 @@ Implementation details and limitations are in
 [docs/PIPELINE.md](docs/PIPELINE.md), [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md),
 and [docs/CORPUS.md](docs/CORPUS.md).
 
+## Document verification
+
+Verification runs automatically after extraction and before cleaning/chunking.
+Every run writes a JSON report and failing documents are copied to the quarantine
+directory. Quarantined documents are never cleaned, chunked, embedded for indexing,
+or stored in Chroma.
+
+```powershell
+# Verify a corpus without chunking or updating Chroma
+cd indexer
+python -m pipeline.run --verify-only --corpus-dir ..\corpus\raw --quarantine-dir ..\verification\quarantine --report-dir ..\verification\reports --archive-dir ..\verification\archive
+
+# Run the normal ingestion pipeline with verification enabled
+python -m pipeline.run --corpus-dir ..\corpus\raw
+```
+
+The similarity threshold is `NEAR_DUPLICATE_THRESHOLD` (default `0.95`) and can
+also be set with `--near-duplicate-threshold`. Report and quarantine locations
+default to `VERIFICATION_REPORT_DIR=/verification-reports` and
+`QUARANTINE_DIR=/quarantine`; `ARCHIVE_DIR` defaults to `/archive`.
+
 ## Clean-clone local path
 
 The following is the supported local sequence from the repository root. It uses
@@ -77,6 +98,25 @@ NetworkPolicies, and HPA. The dev and prod overlays both build this base.
 For a local question, use `make ask Q="What CGPA puts a student on academic warning?"`
 after obtaining the Minikube ingress address.
 
+## Assignment 03 RAGOps: Parts A–F
+
+Complete walkthrough commands for the RAGOps assignment are in [ASSIGNMENT-03-DEMO-COMMANDS.md](ASSIGNMENT-03-DEMO-COMMANDS.md).
+Verification checklist showing implementation status and evidence paths: [ASSIGNMENT-03-VERIFICATION.md](ASSIGNMENT-03-VERIFICATION.md).
+Final report with results, tables, and analysis: [ASSIGNMENT-03-REPORT.md](ASSIGNMENT-03-REPORT.md).
+
+**Quick reference:**
+
+| Part | Focus | Main Command |
+|---|---|---|
+| **A** | Verification & incremental indexing | `python -m pipeline.run --verify-only` |
+| **B** | Golden dataset & offline testing | `python eval/run_part_b_suite.py --show-summary` |
+| **C** | Release gates & chunk-size experiment | `cat eval/release-gate.yaml` |
+| **D** | Traceability & trace inspection | `python eval/trace_inspect.py --trace-id=[id]` |
+| **E** | Drift & coverage analysis | `python eval/run_coverage_eval.py` |
+| **F** | Kubernetes deployment | `export KUBECONFIG=/tmp/minikube-admin.conf; kubectl get pods -n rahbar` |
+
+All evidence (traces, results, Kubernetes manifests) is committed. Live Kubernetes demo requires running cluster.
+
 ## API contract
 
 | Method | Path | Purpose | Dependency behavior |
@@ -96,6 +136,11 @@ make ask Q="What is the minimum CGPA required to avoid academic warning?"
 
 The committed evaluation artifacts are
 [eval/results.json](eval/results.json) and [eval/baseline.json](eval/baseline.json).
+Assignment 03 Part E commands for live-query coverage, safe Batch B ingestion,
+and pre/post-Batch-B drift comparison are documented in
+[eval/README.md](eval/README.md). Coverage uses the real configured Ollama
+embedding provider and preserves timestamped before/after evidence under
+`eval/results/`.
 The latest verified CD run is
 [run 42486743569](https://github.com/NovweraAmjad/Rahbar/actions/runs/42486743569)
 for commit `43923d0a75d51fe16b78836a3fb6d4662bbc72d7`; its test/evaluation,

@@ -1,0 +1,49 @@
+{
+  "embedding_mode": "deterministic_test_vectors",
+  "accepted_by_verify_only": 5,
+  "batch_b_first_incremental": {
+    "run_id": "801d0ab9bda1484fa8ddc3aaa74f1453",
+    "total_stored": 5,
+    "chunks_embedded": 5,
+    "chunks_skipped": 0,
+    "chunks_removed": 0,
+    "summary": {
+      "discovered": 5,
+      "unchanged": 0,
+      "updated": 0,
+      "new": 5,
+      "deleted": 0,
+      "total_chunks_embedded": 5,
+      "total_chunks_skipped": 0,
+      "total_chunks_removed": 0
+    },
+    "change_report_path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rahbar-batch-evidence-iavtx6or\\batch-b\\.indexer-state\\change-801d0ab9bda1484fa8ddc3aaa74f1453.json"
+  },
+  "batch_b_second_incremental": {
+    "run_id": "d4d9499289a24ff2992c4fb6387a58ad",
+    "total_stored": 0,
+    "chunks_embedded": 0,
+    "chunks_skipped": 5,
+    "chunks_removed": 0,
+    "summary": {
+      "discovered": 5,
+      "unchanged": 5,
+      "updated": 0,
+      "new": 0,
+      "deleted": 0,
+      "total_chunks_embedded": 0,
+      "total_chunks_skipped": 5,
+      "total_chunks_removed": 0
+    },
+    "change_report_path": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rahbar-batch-evidence-iavtx6or\\batch-b\\.indexer-state\\change-d4d9499289a24ff2992c4fb6387a58ad.json"
+  },
+  "verification_summary": {
+    "total": 12,
+    "index": 5,
+    "quarantine": 7,
+    "overall_decision": "quarantine_failures"
+  },
+  "superseded_archived": true,
+  "superseded_restore_verified": true,
+  "restored_sha256": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0"
+}

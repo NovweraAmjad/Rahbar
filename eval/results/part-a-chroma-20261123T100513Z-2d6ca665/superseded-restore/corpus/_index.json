@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Batch Academic Policy",
+    "url": "https://example.test/original/batch-academic-policy-2025.txt",
+    "file": "batch-academic-policy-2025.txt",
+    "bytes": 154,
+    "sha256": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0",
+    "content_type": "text/plain",
+    "fetched_at": "2026-11-21",
+    "doc_version": "2025",
+    "superseded": false,
+    "intended_issue": "superseded_old_version",
+    "expected_verification_outcome": "quarantine"
+  },
+  {
+    "name": "Batch Academic Policy",
+    "url": "https://example.test/original/batch-academic-policy-2026.txt",
+    "file": "batch-academic-policy-2026.txt",
+    "bytes": 158,
+    "sha256": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578",
+    "content_type": "text/plain",
+    "fetched_at": "2026-11-21",
+    "doc_version": "2026",
+    "superseded": true,
+    "intended_issue": "newer_version",
+    "expected_verification_outcome": "index"
+  }
+]

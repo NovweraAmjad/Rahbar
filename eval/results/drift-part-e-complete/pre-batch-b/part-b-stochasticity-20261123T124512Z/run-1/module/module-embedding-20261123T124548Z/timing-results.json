@@ -1,0 +1,270 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-23T12:45:48.008106+00:00",
+    "fixed_seed": 20261121,
+    "dataset": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\module-embedding-pairs.yaml",
+    "dataset_sha256": "20f18219bad9b7c78ee8efa4bde037e203be0d87e32f92cbf9da7b7db32a4c5c",
+    "runner_sha256": "6bd04a5c4b07336768a3d67ffa7886b2ab1e6789204968b9371ebcba64a34dfe",
+    "provider": "Ollama",
+    "ollama_url": "http://127.0.0.1:11434",
+    "embedding_model": "nomic-embed-text",
+    "embedding_model_identity": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "embedding_dimensions": 768,
+    "unique_chunk_count": 60,
+    "timing_method": "time.perf_counter() around each production embed_query(text, Settings) call",
+    "metric_definitions": {
+      "cosine_similarity": "dot(a,b)/(||a||*||b||)",
+      "mean_paraphrase_cosine": "mean cosine across 15+ labeled paraphrase pairs",
+      "mean_unrelated_cosine": "mean cosine across 15+ labeled unrelated pairs",
+      "paraphrase_minus_unrelated": "mean_paraphrase_cosine minus mean_unrelated_cosine",
+      "embedding_time_per_chunk": "one production Ollama embedding request for each unique text",
+      "largest_determinism_difference": "largest absolute component difference across identical text embedded twice"
+    }
+  },
+  "timings": [
+    {
+      "text_sha256": "96b467fd665961915b9c7caefa32cc1940b0b0158dcc88effa6ea0b7b7baff81",
+      "embedding_seconds": 0.880345200002921
+    },
+    {
+      "text_sha256": "a8b9869438308741cb25be716f9b402a503bd45f403be4c7257607ad7bb62997",
+      "embedding_seconds": 0.28561220000119647
+    },
+    {
+      "text_sha256": "718caf78a18708ab7730c8d8afbf86887b680117d1ecda3b67445437c0a59ff3",
+      "embedding_seconds": 0.3072725999991235
+    },
+    {
+      "text_sha256": "e83eaf66747fd1bd4f521f44c3c7c257bf877b48745b3d3394ae1a1f70ab7558",
+      "embedding_seconds": 0.2891358999986551
+    },
+    {
+      "text_sha256": "540148a209503a4d5fca3ab72f83e385b0da061995f6a5ed7a3aea05d47cbbab",
+      "embedding_seconds": 0.32625869999901624
+    },
+    {
+      "text_sha256": "50b143bfc5969fbb8f3aafcab9e9b76ad8c1562cb6608d80f1acffdcb7ff009a",
+      "embedding_seconds": 0.2714470999999321
+    },
+    {
+      "text_sha256": "a2e02d3649a0c80f1dc57ac4c19ff3b4f48a46a4d60d056ef76f3f18c3829fcf",
+      "embedding_seconds": 0.2754921000014292
+    },
+    {
+      "text_sha256": "6f0831d39983731fa1ddcf2f9eacfaeb8562445aa5e9265e47a5169eca17fa7a",
+      "embedding_seconds": 0.30232799999794224
+    },
+    {
+      "text_sha256": "5b4d660090aa0a4105c8da6d1b79a8458c04bad10801c6e8352ff68c405f3571",
+      "embedding_seconds": 0.34070799999972223
+    },
+    {
+      "text_sha256": "caf24498e538df9eb16b67b48c2952cecbbcf0187c8a18d2ccf75b67276ab9df",
+      "embedding_seconds": 0.2970217000001867
+    },
+    {
+      "text_sha256": "77efa0908db0105e36a753ad21ec1c2cac099fa60163a1258379429d82bf4fa1",
+      "embedding_seconds": 0.2931503999971028
+    },
+    {
+      "text_sha256": "8a1dddc5562b45f8ef899fe5bc4f6f32e12078d920cd1ac2b72073bb2addd2d7",
+      "embedding_seconds": 0.27969149999989895
+    },
+    {
+      "text_sha256": "acda6fcf2c99a53d6e93ed45be496b203233bfde3e1b83229ab14a5d39019d55",
+      "embedding_seconds": 0.26715750000221306
+    },
+    {
+      "text_sha256": "51ad99ab7ee199a245bac5f91a7c9aca7ff8f7515f5bf25f88b2eff5f347e814",
+      "embedding_seconds": 0.28286169999773847
+    },
+    {
+      "text_sha256": "9e4002e503a79540a366427c5c80b80bba0e3a1cfb82fe93e7e21e211878350d",
+      "embedding_seconds": 0.2896510999999009
+    },
+    {
+      "text_sha256": "66d9e926ee078ffad425c00b96ab5aacd66f823134527bee678069fb0fbdadfa",
+      "embedding_seconds": 0.2999268000021402
+    },
+    {
+      "text_sha256": "102a0f9624ef089c7958935e9beb261957021d1f7a70f54f8e0f42188eacfbeb",
+      "embedding_seconds": 0.2989000000015949
+    },
+    {
+      "text_sha256": "f928699dd302d971dddb01fb4dca6cab593f956d28818d99955803862c68e3a6",
+      "embedding_seconds": 0.2779417999990983
+    },
+    {
+      "text_sha256": "516b005653eefae7a8076df6c6fc18074cbb2a9c72d8b9e2867a7149785b063b",
+      "embedding_seconds": 0.26586889999816776
+    },
+    {
+      "text_sha256": "a2de520c82b25f40e80e11341688f1fd25fe4f737da415a756d98c9fbab37458",
+      "embedding_seconds": 0.28153089999977965
+    },
+    {
+      "text_sha256": "e7b7fa35233c3b38ff637a52f841c77830d365b1dd050fb2016a8e20c83c0b44",
+      "embedding_seconds": 0.2870738000019628
+    },
+    {
+      "text_sha256": "4db8bcb862c233d4b8971767d517c84d08bf080c78676d154fe3f3b256a02c7a",
+      "embedding_seconds": 0.2615239999977348
+    },
+    {
+      "text_sha256": "0184b4e5aeacd8a5c690989966de20fa3af5d222bf7c5c26f76c05f9447fbf9e",
+      "embedding_seconds": 0.2678316999990784
+    },
+    {
+      "text_sha256": "d95b89e90736952b58b2dc8d12bf11d398d18b5c7a7fcf54cd6eeae94dc11a43",
+      "embedding_seconds": 0.27489090000017313
+    },
+    {
+      "text_sha256": "4be4669786c36d905c70f47d71ccefdab6193f3c29e2552b2ec86d81e41662ef",
+      "embedding_seconds": 0.263292999999976
+    },
+    {
+      "text_sha256": "188046fa50119f0813c9db638607cccac0711139249a488e142181f7fd918dba",
+      "embedding_seconds": 0.2547651999993832
+    },
+    {
+      "text_sha256": "917301e6718f2faeb97fbb886f82ce257f78a1f5aab9e607523e0f9cd1a574e1",
+      "embedding_seconds": 0.2889221000004909
+    },
+    {
+      "text_sha256": "146d64f1690548e37dd892c195143a22f5975226375071b429fe4100fcc8ca6b",
+      "embedding_seconds": 0.2613758000006783
+    },
+    {
+      "text_sha256": "ad71201aad72686fa07728603dac7e2d1c8a8ec88e4f45074b1eddd3db1e9104",
+      "embedding_seconds": 0.2644799999980023
+    },
+    {
+      "text_sha256": "15fc813599ead2b4298e284cce7daaee7caae104377ef8b355ccd464434cd6b4",
+      "embedding_seconds": 0.2597000999994634
+    },
+    {
+      "text_sha256": "ff6236bb3d50361b902179e63b1b69b745e6a0ae9496e99c4e48cba2619e9a5e",
+      "embedding_seconds": 0.3007794000004651
+    },
+    {
+      "text_sha256": "4ed5f38988291db268686a16c0581bfda3073f0c0c0bee79dfef834f22d65705",
+      "embedding_seconds": 0.27982949999932316
+    },
+    {
+      "text_sha256": "68c710a4cefc4db5d062c7d0317863af8bbb0dbe0e72ca95b0b42bdc19dbafb0",
+      "embedding_seconds": 0.28628549999848474
+    },
+    {
+      "text_sha256": "8717064cd73c8e6a652fd84f81cc9562fade1a0589e34f69bc0d3c25dc6a431c",
+      "embedding_seconds": 0.2675722999993013
+    },
+    {
+      "text_sha256": "77de6d8b9137ec9d03faeb5411e512860f10aa7a737407bdda5c720f5a5cfecb",
+      "embedding_seconds": 0.2924652000001515
+    },
+    {
+      "text_sha256": "86c8a3c5286952d7f65e905b75a6187324afe6b06824fb61ec5df4695f11c917",
+      "embedding_seconds": 0.27664199999708217
+    },
+    {
+      "text_sha256": "8f06fb09c3337b78fc1e5858933d2adf4877f7540201a1c537c790058828a1b0",
+      "embedding_seconds": 0.2586016999994172
+    },
+    {
+      "text_sha256": "af1e4a3669cf13efe2cc9a755d8263ac0e18065da3c3e05d4a06410ab9b7375c",
+      "embedding_seconds": 0.3046915999984776
+    },
+    {
+      "text_sha256": "be1a18ccceea4d26f09fcc3a33604436085dd14b021841641c530ec6e963f0c3",
+      "embedding_seconds": 0.2931527000000642
+    },
+    {
+      "text_sha256": "60d72882486f24dba9113c615e4e525efe3d88446a1bf3c50572e8bd75616101",
+      "embedding_seconds": 0.3349649000010686
+    },
+    {
+      "text_sha256": "e40f1668d63ff78ac75e9330eb8b5427ccf7d95eaf419c29c5b86eef65ea8223",
+      "embedding_seconds": 0.27768319999813684
+    },
+    {
+      "text_sha256": "f8e2c8d071efd677bcabeb7b85ce181460f56cc5b465e1cc3918200c892fd6ac",
+      "embedding_seconds": 0.27554959999906714
+    },
+    {
+      "text_sha256": "6bfbfd94875351ae105c0dcce697fa5ea06517c1f2be7fef34c975d7ca0428fc",
+      "embedding_seconds": 0.2629423999969731
+    },
+    {
+      "text_sha256": "5e997a82bc0bc45ff39070d06003d4acb5b2916964eb2a042bce55aba7e82e21",
+      "embedding_seconds": 0.27051709999796003
+    },
+    {
+      "text_sha256": "fe953609676d479ef0995ec05e9549b6e79a3a262aa63d7b0f493f8c9fa0718a",
+      "embedding_seconds": 0.3342549999979383
+    },
+    {
+      "text_sha256": "cbcab84ca7a222988f0c43e35d8476cfb19850932927460b07e7cb9f200582fe",
+      "embedding_seconds": 0.2652520999981789
+    },
+    {
+      "text_sha256": "9856d38db431d61fa6b64a1e3dc899d6de577e213576632560cc3abdc88473f6",
+      "embedding_seconds": 0.27973019999990356
+    },
+    {
+      "text_sha256": "a1744b92fdf34938aa95ddbf9495e008472e670105f3e636d856c1adcb6093d4",
+      "embedding_seconds": 0.28380100000140374
+    },
+    {
+      "text_sha256": "bcb60592dadcd88af84959f299b322e6b4157b08121d8e84453dd4b3299e4bec",
+      "embedding_seconds": 0.27101519999996526
+    },
+    {
+      "text_sha256": "d9ae308cc9409dc784a6015d595ec767ac76de96b7df90bf414a7b23401f787c",
+      "embedding_seconds": 0.285788400000456
+    },
+    {
+      "text_sha256": "f3d29b9dc27cc5ec691c453000a0b8dc91b59d70380a33a9f87367100303cb2e",
+      "embedding_seconds": 0.2833394000008411
+    },
+    {
+      "text_sha256": "a2314ada03dd2df7a861b5318906acf98d96fa1e73692cc6a28c2e65b50d92a8",
+      "embedding_seconds": 0.36684239999885904
+    },
+    {
+      "text_sha256": "81dae97671a4b9779b87daa194e779f4f967b20d9a5ef67c595bdd3327a44529",
+      "embedding_seconds": 0.2925519999989774
+    },
+    {
+      "text_sha256": "6057af295d378f7739b74c91e21533288c825f73cf72288f8df7a3e0fb17e075",
+      "embedding_seconds": 0.323051100000157
+    },
+    {
+      "text_sha256": "2fd23b6712d48c3dc65e6973e4b946ec6d6fa2b8966027a759ea838b775afa47",
+      "embedding_seconds": 0.32293209999988903
+    },
+    {
+      "text_sha256": "193a86515b45e34b139e05c5672b4e3d9305ef11f2e6cafa21ee5db42eccaa5b",
+      "embedding_seconds": 0.28271849999873666
+    },
+    {
+      "text_sha256": "529b81bb0cca0f626e42655591da820f3e0e254d6110baf9720e52eebcc50871",
+      "embedding_seconds": 0.2753673000006529
+    },
+    {
+      "text_sha256": "2cec91656dbbb07cb5f1387aa0a1795df869bfe8c2436afa7d0bc4d275cdb787",
+      "embedding_seconds": 0.2573448000002827
+    },
+    {
+      "text_sha256": "a4d001b93d2f5bc910b4221fbee2ec3b62229c30eb6144683bee18e9957ac67e",
+      "embedding_seconds": 0.28623659999720985
+    },
+    {
+      "text_sha256": "d4b8e8c336ff57f9d448261ad09bf893dab91d1fc8d8dcfdabd606f981fc173e",
+      "embedding_seconds": 0.28742179999971995
+    }
+  ]
+}

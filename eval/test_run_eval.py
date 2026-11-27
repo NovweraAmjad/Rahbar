@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -35,15 +36,34 @@ def _evidence(
     return {"source": source, "page": page, "section": section}
 
 
-def test_loads_golden_with_required_category_counts() -> None:
+def test_loads_golden_with_assignment_minimums_and_provenance_labels() -> None:
     questions = run_eval.load_golden(
-        run_eval.DEFAULT_GOLDEN,
+        run_eval.HERE / "golden.jsonl",
         require_assignment_counts=True,
     )
 
+    assert len(questions) >= 25
+    answerable = sum(q["expected_answerability"] == "answerable" for q in questions)
+    unanswerable = sum(q["expected_answerability"] == "must_abstain" for q in questions)
+    hard = sum(q["category"] == "hard" for q in questions)
+    human = sum(q.get("origin") == "human" for q in questions)
+    reviewed_synthetic = sum(
+        q.get("origin") == "synthetic"
+        and q.get("manual_review", {}).get("status") == "reviewed"
+        and bool(q.get("manual_review", {}).get("reviewer"))
+        for q in questions
+    )
+    assert answerable >= 15
+    assert unanswerable >= 5
+    assert hard >= 5
+    assert human >= 8
+    assert reviewed_synthetic >= 8
+
+
+def test_loads_legacy_yaml_golden_without_assignment_counts() -> None:
+    questions = run_eval.load_golden(run_eval.DEFAULT_GOLDEN)
+
     assert len(questions) == 15
-    counts = {category: sum(q["category"] == category for q in questions) for category in run_eval.CATEGORIES}
-    assert counts == run_eval.CATEGORY_COUNTS
     assert questions[12]["question"] == "What food is served in the FAST-NUCES cafeteria?"
     assert questions[14]["category"] == "prompt-injection"
 
@@ -113,6 +133,20 @@ def test_retrieval_matching_requires_exact_source_and_gold_page() -> None:
     assert run_eval.recall_at_k(evidence, [evidence[0]], 5) == 1.0
 
 
+def test_retrieval_source_page_match_ignores_section_label_variation() -> None:
+    gold = [{
+        "source": "annual-report-2019-20.pdf",
+        "page": 13,
+        "section": "Chapter-2 Faculty and Staff Summary",
+    }]
+    retrieved = [{
+        "source": "annual-report-2019-20.pdf",
+        "page": 13,
+        "section": "Page 13 (no section heading detected)",
+    }]
+    assert run_eval.recall_at_k(gold, retrieved, 5) == 1.0
+
+
 def test_retrieval_does_not_require_section_when_gold_has_no_section() -> None:
     evidence = [{"source": "report.pdf", "page": 13}]
     retrieved = [_evidence()]
@@ -131,6 +165,65 @@ def test_recall_at_3_and_recall_at_5_use_ranked_results() -> None:
     assert run_eval.recall_at_k(gold, retrieved, 3) == 0.0
     assert run_eval.recall_at_k(gold, retrieved, 5) == 1.0
     assert run_eval.recall_at_k([], retrieved, 5) is None
+
+
+def test_mrr_known_ranking_examples() -> None:
+    gold = [_evidence()]
+    assert run_eval.reciprocal_rank(gold, [{"source": "other.pdf", "page": 1}] * 2 + [_evidence()]) == pytest.approx(1 / 3)
+    assert run_eval.reciprocal_rank(gold, [_evidence()]) == pytest.approx(1.0)
+    assert run_eval.reciprocal_rank(gold, [{"source": "other.pdf", "page": 1}] * 5) == 0.0
+
+
+def test_ndcg_known_ranking_examples() -> None:
+    gold = [_evidence()]
+    assert run_eval.ndcg_at_k(gold, [_evidence()], 5) == pytest.approx(1.0)
+    assert run_eval.ndcg_at_k(
+        gold,
+        [{"source": "other.pdf", "page": 1}, _evidence()],
+        5,
+    ) == pytest.approx(1.0 / math.log2(3))
+
+
+def test_ndcg_multi_evidence_ranking() -> None:
+    gold = [
+        _evidence(source="a.pdf", page=1),
+        _evidence(source="b.pdf", page=2),
+    ]
+    ranked = [
+        _evidence(source="b.pdf", page=2),
+        _evidence(source="wrong.pdf", page=1),
+        _evidence(source="a.pdf", page=1),
+    ]
+    dcg = 1.0 + 1.0 / math.log2(4)
+    idcg = 1.0 + 1.0 / math.log2(3)
+    assert run_eval.ndcg_at_k(gold, ranked, 5) == pytest.approx(dcg / idcg)
+
+
+def test_controlled_typo_is_deterministic_and_changes_question() -> None:
+    question = "What attendance level does the handbook require?"
+    typo = run_eval.apply_controlled_typo(question)
+    assert typo != question
+    assert run_eval.apply_controlled_typo(question) == typo
+
+
+def test_summarise_includes_mrr_and_ndcg_for_answerable_questions() -> None:
+    gold = [_evidence(source="report.pdf", page=13)]
+    response = _response(
+        citations=[],
+        retrieved=[_evidence(source="report.pdf", page=13)],
+    )
+    question = {
+        "id": "q-mrr",
+        "category": "ordinary",
+        "question": "Question?",
+        "expected_answerability": "answerable",
+        "gold_evidence": gold,
+    }
+    row = run_eval._score_question(question, response, None, 0.01)
+    metrics = run_eval.summarise([row])
+
+    assert metrics["mrr"] == pytest.approx(1.0)
+    assert metrics["ndcg_at_5"] == pytest.approx(1.0)
 
 
 def test_citation_provenance_requires_source_page_and_available_section() -> None:

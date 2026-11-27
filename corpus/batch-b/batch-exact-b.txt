@@ -1,0 +1,4 @@
+# Batch Exact Duplicate
+
+The examination office requires students to submit medical documentation within
+five working days for an absence to be considered excused.

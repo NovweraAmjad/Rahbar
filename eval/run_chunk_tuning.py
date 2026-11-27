@@ -66,6 +66,10 @@ LOCKED_SETTINGS = {
     "LLM_MODEL": "llama3.2:3b",
     "OLLAMA_URL": "http://172.23.112.1:11434",
     "LOG_LEVEL": "INFO",
+    "INDEXER_STATE_DIR": "/var/lib/rahbar-data/indexer-state",
+    "QUARANTINE_DIR": "/var/lib/rahbar-data/quarantine",
+    "VERIFICATION_REPORT_DIR": "/var/lib/rahbar-data/verification-reports",
+    "ARCHIVE_DIR": "/var/lib/rahbar-data/archive",
 }
 _RUN_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,20}$")
 _SUPPORTED_CORPUS_SUFFIXES = {".pdf", ".md", ".html", ".txt"}
@@ -564,6 +568,16 @@ def _profile_config_map(profile: ChunkProfile, run_id: str) -> tuple[str, dict[s
             "CHROMA_COLLECTION": collection,
             "CHUNK_SIZE": str(profile.chunk_size),
             "CHUNK_OVERLAP": str(profile.chunk_overlap),
+            "INDEXER_STATE_DIR": (
+                f"/var/lib/rahbar-data/{run_id}/{profile.name}/indexer-state"
+            ),
+            "QUARANTINE_DIR": (
+                f"/var/lib/rahbar-data/{run_id}/{profile.name}/quarantine"
+            ),
+            "VERIFICATION_REPORT_DIR": (
+                f"/var/lib/rahbar-data/{run_id}/{profile.name}/verification-reports"
+            ),
+            "ARCHIVE_DIR": f"/var/lib/rahbar-data/{run_id}/{profile.name}/archive",
         },
     }
     return name, document

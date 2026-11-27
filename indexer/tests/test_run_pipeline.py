@@ -8,15 +8,19 @@ import pytest
 
 from pipeline.config import get_settings
 from pipeline.models import Chunk, Document, Page
-from pipeline.run import run_pipeline
+from pipeline.run import discover, run_incremental_pipeline, run_pipeline
 
 
 def _settings(corpus_dir: Path):
     return replace(
         get_settings(),
         corpus_dir=str(corpus_dir),
+        indexer_state_dir=str(corpus_dir / ".indexer-state"),
         chunk_size=10,
         chunk_overlap=2,
+        quarantine_dir=str(corpus_dir.parent / "quarantine"),
+        verification_report_dir=str(corpus_dir.parent / "verification-reports"),
+        archive_dir=str(corpus_dir.parent / "archive"),
     )
 
 
@@ -27,6 +31,8 @@ def _document(path: str, version: str, superseded: bool) -> Document:
         doc_version=version,
         superseded=superseded,
         pages=[Page(source=source, page=1, text="Example extracted policy text.")],
+        title="Example Policy",
+        page_count=1,
     )
 
 
@@ -46,6 +52,17 @@ def _corpus(tmp_path: Path) -> Path:
     root = tmp_path / "corpus"
     root.mkdir()
     (root / "policy.txt").write_text("source text", encoding="utf-8")
+    (root / "_index.json").write_text(
+        json.dumps(
+            [{
+                "name": "Example Policy",
+                "file": "policy.txt",
+                "doc_version": "2026",
+                "superseded": False,
+            }]
+        ),
+        encoding="utf-8",
+    )
     return root
 
 
@@ -53,17 +70,22 @@ def test_run_pipeline_executes_all_stages_in_order_and_logs(monkeypatch, tmp_pat
     root = _corpus(tmp_path)
     (root / "_index.json").write_text(
         json.dumps(
-            [{"file": "policy.txt", "doc_version": "2024", "superseded": True}]
+            [{
+                "name": "Example Policy",
+                "file": "policy.txt",
+                "doc_version": "2024",
+                "superseded": False,
+            }]
         ),
         encoding="utf-8",
     )
     calls: list[str] = []
-    document = _document(str(root / "policy.txt"), "2024", True)
-    piece = _chunk("policy.txt", version="2024", superseded=True)
+    document = _document(str(root / "policy.txt"), "2024", False)
+    piece = _chunk("policy.txt", version="2024", superseded=False)
 
     def fake_extract(path: str, version: str, superseded: bool) -> Document:
         calls.append("extract")
-        assert (version, superseded) == ("2024", True)
+        assert (version, superseded) == ("2024", False)
         return _document(path, version, superseded)
 
     def fake_clean(doc: Document) -> Document:
@@ -74,7 +96,7 @@ def test_run_pipeline_executes_all_stages_in_order_and_logs(monkeypatch, tmp_pat
         calls.append("chunk")
         assert (size, overlap) == (10, 2)
         assert doc.source == document.source
-        assert (doc.doc_version, doc.superseded) == ("2024", True)
+        assert (doc.doc_version, doc.superseded) == ("2024", False)
         return [piece]
 
     def fake_embed(texts: list[str], settings) -> list[list[float]]:
@@ -87,7 +109,7 @@ def test_run_pipeline_executes_all_stages_in_order_and_logs(monkeypatch, tmp_pat
         calls.append("store")
         assert chunks == [piece]
         assert (chunks[0].source, chunks[0].page) == ("policy.txt", 1)
-        assert (chunks[0].doc_version, chunks[0].superseded) == ("2024", True)
+        assert (chunks[0].doc_version, chunks[0].superseded) == ("2024", False)
         assert vectors == [[0.1, 0.2]]
         assert settings.corpus_dir == str(root)
         assert prune_stale is True
@@ -101,7 +123,7 @@ def test_run_pipeline_executes_all_stages_in_order_and_logs(monkeypatch, tmp_pat
 
     assert run_pipeline(_settings(root)) == 1
 
-    assert calls == ["extract", "clean", "chunk", "embed", "store"]
+    assert calls == ["extract", "embed", "clean", "chunk", "embed", "store"]
     output = capsys.readouterr().out
     for event in (
         "documents discovered",
@@ -127,7 +149,7 @@ def test_run_pipeline_reports_missing_corpus_directory(tmp_path) -> None:
         run_pipeline(_settings(tmp_path / "missing"))
 
 
-def test_run_pipeline_fails_on_extraction_failure_before_embedding_or_storage(
+def test_run_pipeline_quarantines_extraction_failure_before_embedding_or_storage(
     monkeypatch, tmp_path
 ) -> None:
     root = _corpus(tmp_path)
@@ -156,7 +178,7 @@ def test_run_pipeline_fails_on_extraction_failure_before_embedding_or_storage(
         record_store,
     )
 
-    with pytest.raises(RuntimeError, match="extract stage failed for policy.txt"):
+    with pytest.raises(RuntimeError, match="no chunks generated"):
         run_pipeline(_settings(root))
     assert calls == ["extract"]
 
@@ -174,7 +196,7 @@ def test_run_pipeline_does_not_store_when_extraction_returns_no_pages(
         lambda *_args, **_kwargs: pytest.fail("store should not be called"),
     )
 
-    with pytest.raises(RuntimeError, match="extraction produced no pages"):
+    with pytest.raises(RuntimeError, match="no chunks generated"):
         run_pipeline(_settings(root))
 
 
@@ -230,7 +252,7 @@ def test_run_pipeline_reports_embedding_failure_without_storing(monkeypatch, tmp
         lambda *_args, **_kwargs: pytest.fail("store should not be called"),
     )
 
-    with pytest.raises(RuntimeError, match="embedding stage failed: Ollama unavailable"):
+    with pytest.raises(RuntimeError, match="no chunks generated"):
         run_pipeline(_settings(root))
 
 
@@ -254,6 +276,79 @@ def test_run_pipeline_reports_storage_failure(monkeypatch, tmp_path) -> None:
 
     with pytest.raises(RuntimeError, match="storage stage failed: Chroma unavailable"):
         run_pipeline(_settings(root))
+
+
+def test_incremental_replacement_does_not_delete_reused_chunk_ids(
+    monkeypatch, tmp_path: Path
+) -> None:
+    root = _corpus(tmp_path)
+    stored_ids: list[list[str]] = []
+    deleted_ids: list[str] = []
+
+    def extract(path: str, version: str, superseded: bool) -> Document:
+        text = Path(path).read_text(encoding="utf-8")
+        return Document(
+            source=Path(path).name,
+            doc_version=version,
+            superseded=superseded,
+            pages=[Page(source=Path(path).name, page=1, text=text)],
+            title="Example Policy",
+            page_count=1,
+        )
+
+    def chunk(doc: Document, _size: int, _overlap: int) -> list[Chunk]:
+        shared = Chunk(
+            id=f"{doc.source}:{doc.doc_version}:1:1",
+            text=doc.pages[0].text,
+            source=doc.source,
+            section="",
+            page=1,
+            doc_version=doc.doc_version,
+            superseded=False,
+        )
+        if doc.pages[0].text == "updated policy text":
+            extra = Chunk(
+                id=f"{doc.source}:{doc.doc_version}:1:2",
+                text="additional current text",
+                source=doc.source,
+                section="",
+                page=1,
+                doc_version=doc.doc_version,
+                superseded=False,
+            )
+            return [shared, extra]
+        return [shared]
+
+    monkeypatch.setattr("pipeline.extract.extract", extract)
+    monkeypatch.setattr("pipeline.clean.clean", lambda doc: doc)
+    monkeypatch.setattr("pipeline.chunk.chunk", chunk)
+    monkeypatch.setattr(
+        "pipeline.embed.embed",
+        lambda texts, _settings: [[float(index), 1.0] for index, _ in enumerate(texts)],
+    )
+    monkeypatch.setattr(
+        "pipeline.store.store",
+        lambda chunks, _vectors, _settings, **_kwargs: (
+            stored_ids.append([item.id for item in chunks]) or len(chunks)
+        ),
+    )
+    monkeypatch.setattr("pipeline.cache.invalidate_semantic_cache", lambda _settings: 0)
+    monkeypatch.setattr(
+        "pipeline.chroma_ops.delete_chunks_by_ids",
+        lambda _settings, ids: deleted_ids.extend(ids) or len(ids),
+    )
+
+    first = run_incremental_pipeline(_settings(root))
+    (root / "policy.txt").write_text("updated policy text", encoding="utf-8")
+    second = run_incremental_pipeline(_settings(root))
+
+    assert first["summary"]["new"] == 1
+    assert second["summary"]["updated"] == 1
+    assert stored_ids[1] == [
+        "policy.txt:2026:1:1",
+        "policy.txt:2026:1:2",
+    ]
+    assert deleted_ids == []
 
 
 def test_run_pipeline_invalidates_cache_before_storage(monkeypatch, tmp_path) -> None:
@@ -311,6 +406,39 @@ def test_run_pipeline_does_not_store_if_cache_invalidation_fails(
 
     with pytest.raises(RuntimeError, match="cache unavailable"):
         run_pipeline(replace(_settings(root), redis_url="redis://redis:6379/0"))
+
+
+def test_discover_combines_raw_and_batch_b_indexes(tmp_path: Path) -> None:
+    root = tmp_path / "corpus"
+    raw = root / "raw"
+    batch = root / "batch-b"
+    raw.mkdir(parents=True)
+    batch.mkdir()
+    (raw / "raw.pdf").write_bytes(b"%PDF-test")
+    (batch / "batch.txt").write_text("Batch evidence", encoding="utf-8")
+    (raw / "_index.json").write_text(
+        json.dumps([{
+            "file": "raw.pdf",
+            "doc_version": "2026",
+            "superseded": False,
+        }]),
+        encoding="utf-8",
+    )
+    (batch / "_index.json").write_text(
+        json.dumps([{
+            "file": "batch.txt",
+            "doc_version": "2026-11",
+            "superseded": False,
+        }]),
+        encoding="utf-8",
+    )
+
+    found = discover(str(root))
+
+    assert {(path.name, version) for path, version, _ in found} == {
+        ("raw.pdf", "2026"),
+        ("batch.txt", "2026-11"),
+    }
 
 
 def test_main_returns_nonzero_and_logs_pipeline_failure(monkeypatch, tmp_path, capsys) -> None:

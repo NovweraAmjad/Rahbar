@@ -1,0 +1,189 @@
+{
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+        "creationTimestamp": "2026-11-23T11:00:21Z",
+        "generation": 1,
+        "labels": {
+            "app": "part-b-evaluation",
+            "batch.kubernetes.io/controller-uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f",
+            "batch.kubernetes.io/job-name": "part-b-evaluation",
+            "controller-uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f",
+            "job-name": "part-b-evaluation"
+        },
+        "name": "part-b-evaluation",
+        "namespace": "rahbar",
+        "resourceVersion": "5384",
+        "uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f"
+    },
+    "spec": {
+        "backoffLimit": 0,
+        "completionMode": "NonIndexed",
+        "completions": 1,
+        "manualSelector": false,
+        "parallelism": 1,
+        "podReplacementPolicy": "TerminatingOrFailed",
+        "selector": {
+            "matchLabels": {
+                "batch.kubernetes.io/controller-uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f"
+            }
+        },
+        "suspend": false,
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "part-b-evaluation",
+                    "batch.kubernetes.io/controller-uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f",
+                    "batch.kubernetes.io/job-name": "part-b-evaluation",
+                    "controller-uid": "8a2fe011-e990-47d5-a0ec-fa930b45627f",
+                    "job-name": "part-b-evaluation"
+                }
+            },
+            "spec": {
+                "automountServiceAccountToken": false,
+                "containers": [
+                    {
+                        "args": [
+                            "--api",
+                            "http://api:8000",
+                            "--api-image",
+                            "docker.io/library/rahbar-api@sha256:22bfa3c1f7cfdf78d6d7d42b97cebfabfa80be3da47c594622e6097419b1396f",
+                            "--host",
+                            "rahbar.local",
+                            "--golden",
+                            "/opt/rahbar/eval/golden.jsonl",
+                            "--out-root",
+                            "/results/part-b",
+                            "--baseline",
+                            "/opt/rahbar/eval/part-b-baseline-summary.json",
+                            "--thresholds",
+                            "/gate/release-gate.yaml",
+                            "--ollama-url",
+                            "http://172.23.112.1:11434",
+                            "--embedding-model",
+                            "nomic-embed-text"
+                        ],
+                        "command": [
+                            "python",
+                            "/opt/rahbar/eval/run_k8s_eval.py"
+                        ],
+                        "env": [
+                            {
+                                "name": "PYTHONHASHSEED",
+                                "value": "20261121"
+                            }
+                        ],
+                        "envFrom": [
+                            {
+                                "configMapRef": {
+                                    "name": "rahbar-config"
+                                }
+                            }
+                        ],
+                        "image": "rahbar-eval:dev",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "evaluator",
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "2Gi"
+                            },
+                            "requests": {
+                                "cpu": "250m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true,
+                            "runAsGroup": 10001,
+                            "runAsNonRoot": true,
+                            "runAsUser": 10001
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/results",
+                                "name": "results"
+                            },
+                            {
+                                "mountPath": "/gate",
+                                "name": "release-gate",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "tmp"
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": false,
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 10001,
+                    "runAsGroup": 10001,
+                    "runAsNonRoot": true,
+                    "runAsUser": 10001
+                },
+                "serviceAccount": "api",
+                "serviceAccountName": "api",
+                "terminationGracePeriodSeconds": 30,
+                "volumes": [
+                    {
+                        "name": "results",
+                        "persistentVolumeClaim": {
+                            "claimName": "rahbar-evaluation-results"
+                        }
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "rahbar-release-gate"
+                        },
+                        "name": "release-gate"
+                    },
+                    {
+                        "emptyDir": {
+                            "sizeLimit": "128Mi"
+                        },
+                        "name": "tmp"
+                    }
+                ]
+            }
+        }
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastProbeTime": "2026-11-23T11:00:32Z",
+                "lastTransitionTime": "2026-11-23T11:00:32Z",
+                "message": "Job has reached the specified backoff limit",
+                "reason": "BackoffLimitExceeded",
+                "status": "True",
+                "type": "FailureTarget"
+            },
+            {
+                "lastProbeTime": "2026-11-23T11:00:32Z",
+                "lastTransitionTime": "2026-11-23T11:00:32Z",
+                "message": "Job has reached the specified backoff limit",
+                "reason": "BackoffLimitExceeded",
+                "status": "True",
+                "type": "Failed"
+            }
+        ],
+        "failed": 1,
+        "ready": 0,
+        "startTime": "2026-11-23T11:00:21Z",
+        "terminating": 0,
+        "uncountedTerminatedPods": {}
+    }
+}

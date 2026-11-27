@@ -1,0 +1,18 @@
+{
+  "run_id": "969d20865adb4047b2280df949b5fce0",
+  "total_stored": 0,
+  "chunks_embedded": 0,
+  "chunks_skipped": 5,
+  "chunks_removed": 0,
+  "summary": {
+    "discovered": 5,
+    "unchanged": 5,
+    "updated": 0,
+    "new": 0,
+    "deleted": 0,
+    "total_chunks_embedded": 0,
+    "total_chunks_skipped": 5,
+    "total_chunks_removed": 0
+  },
+  "change_report_path": "eval\\results\\part-a-chroma-20261122T120850Z-4dcc3be0\\batch-b\\work\\state\\change-969d20865adb4047b2280df949b5fce0.json"
+}

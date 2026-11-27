@@ -9,7 +9,15 @@ from __future__ import annotations
 from fastapi import APIRouter, Response
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 
+from ..metrics import ANSWERS, INJECTION_ATTEMPTS, STAGE_LATENCY, TOP1_SIMILARITY
+
 router = APIRouter()
+_PIPELINE_METRICS = (
+    ANSWERS,
+    INJECTION_ATTEMPTS,
+    STAGE_LATENCY,
+    TOP1_SIMILARITY,
+)
 
 REQUESTS = Counter("rahbar_requests_total", "HTTP requests", ["path", "status"])
 LATENCY = Histogram(

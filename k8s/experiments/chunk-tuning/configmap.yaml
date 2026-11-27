@@ -19,3 +19,7 @@ data:
   LLM_MODEL: llama3.2:3b
   OLLAMA_URL: http://172.23.112.1:11434
   LOG_LEVEL: INFO
+  INDEXER_STATE_DIR: /var/lib/rahbar-data/indexer-state
+  QUARANTINE_DIR: /var/lib/rahbar-data/quarantine
+  VERIFICATION_REPORT_DIR: /var/lib/rahbar-data/verification-reports
+  ARCHIVE_DIR: /var/lib/rahbar-data/archive

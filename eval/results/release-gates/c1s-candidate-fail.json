@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-22T11:32:48.057229+00:00",
+  "decision": "FAIL",
+  "baseline_result": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\baseline\\part-b\\part-b-stochasticity-20261122T110731Z\\summary.json",
+  "candidate_result": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\c1s\\candidate\\part-b\\part-b-stochasticity-20261122T111404Z\\summary.json",
+  "threshold_config": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\release-gate.yaml",
+  "thresholds": {
+    "max_recall_at_5_regression_percentage_points": 2.0,
+    "min_faithfulness_percentage": 70.0,
+    "max_p95_latency_seconds": 5.0,
+    "abstention_not_lower_than_baseline": true
+  },
+  "baseline_metrics": {
+    "recall_at_5": 64.0,
+    "faithfulness": 89.58333333333333,
+    "p95_latency_seconds": 2.428375990004861,
+    "abstention_correctness": 16.666666666666668
+  },
+  "candidate_metrics": {
+    "recall_at_5": 60.0,
+    "faithfulness": 85.41666666666667,
+    "p95_latency_seconds": 3.5696541100056494,
+    "abstention_correctness": 16.666666666666668
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "metric": "recall_at_5_regression",
+        "passed": false,
+        "baseline": 64.0,
+        "candidate": 60.0,
+        "value": 4.0,
+        "threshold": 2.0,
+        "reason": "Recall@5 regression is 4.000000 percentage points (limit 2.000000)."
+      },
+      {
+        "metric": "faithfulness",
+        "passed": true,
+        "baseline": 89.58333333333333,
+        "candidate": 85.41666666666667,
+        "value": 85.41666666666667,
+        "threshold": 70.0,
+        "reason": "Faithfulness is 85.416667% (minimum 70.000000%)."
+      },
+      {
+        "metric": "p95_latency",
+        "passed": true,
+        "baseline": 2.428375990004861,
+        "candidate": 3.5696541100056494,
+        "value": 3.5696541100056494,
+        "threshold": 5.0,
+        "reason": "p95 latency is 3.569654s (maximum 5.000000s)."
+      },
+      {
+        "metric": "abstention_correctness",
+        "passed": true,
+        "baseline": 16.666666666666668,
+        "candidate": 16.666666666666668,
+        "value": 16.666666666666668,
+        "threshold": 16.666666666666668,
+        "reason": "Abstention correctness is 16.666667% versus baseline 16.666667%."
+      }
+    ],
+    "failed_checks": [
+      "recall_at_5_regression"
+    ]
+  }
+}

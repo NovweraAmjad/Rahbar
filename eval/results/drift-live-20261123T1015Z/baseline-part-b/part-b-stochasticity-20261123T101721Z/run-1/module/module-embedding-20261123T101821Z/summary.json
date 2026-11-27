@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-23T10:18:21.153880+00:00",
+    "fixed_seed": 20261121,
+    "dataset": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\module-embedding-pairs.yaml",
+    "dataset_sha256": "20f18219bad9b7c78ee8efa4bde037e203be0d87e32f92cbf9da7b7db32a4c5c",
+    "runner_sha256": "6bd04a5c4b07336768a3d67ffa7886b2ab1e6789204968b9371ebcba64a34dfe",
+    "provider": "Ollama",
+    "ollama_url": "http://127.0.0.1:11434",
+    "embedding_model": "nomic-embed-text",
+    "embedding_model_identity": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f"
+    },
+    "embedding_dimensions": 768,
+    "unique_chunk_count": 60,
+    "timing_method": "time.perf_counter() around each production embed_query(text, Settings) call",
+    "metric_definitions": {
+      "cosine_similarity": "dot(a,b)/(||a||*||b||)",
+      "mean_paraphrase_cosine": "mean cosine across 15+ labeled paraphrase pairs",
+      "mean_unrelated_cosine": "mean cosine across 15+ labeled unrelated pairs",
+      "paraphrase_minus_unrelated": "mean_paraphrase_cosine minus mean_unrelated_cosine",
+      "embedding_time_per_chunk": "one production Ollama embedding request for each unique text",
+      "largest_determinism_difference": "largest absolute component difference across identical text embedded twice"
+    }
+  },
+  "metrics": {
+    "embedding_dimension": 768,
+    "mean_paraphrase_cosine": 0.8311255411599171,
+    "mean_unrelated_cosine": 0.3618973254920409,
+    "paraphrase_minus_unrelated": 0.4692282156678762,
+    "paraphrase_pair_count": 15,
+    "unrelated_pair_count": 15,
+    "embedding_time_per_chunk_mean_seconds": 0.48482847666649226,
+    "embedding_time_per_chunk_median_seconds": 0.5153990500002692,
+    "embedding_time_per_chunk_p95_seconds": 0.5843526499989821,
+    "largest_determinism_difference": 0.0,
+    "determinism_comparison": "same text embedded twice using the production provider"
+  }
+}

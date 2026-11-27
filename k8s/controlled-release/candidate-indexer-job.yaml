@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: indexer-candidate
+  namespace: rahbar
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: indexer-candidate
+    spec:
+      serviceAccountName: indexer
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: indexer
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -m
+            - pipeline.run
+          envFrom:
+            - configMapRef:
+                name: rahbar-candidate-config
+          args:
+            - --incremental
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 3Gi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: corpus
+              mountPath: /corpus
+              readOnly: true
+            - name: indexer-data
+              mountPath: /var/lib/rahbar-data
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: corpus
+          hostPath:
+            path: /mnt/rahbar-corpus
+            type: Directory
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: rahbar-indexer-data
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi

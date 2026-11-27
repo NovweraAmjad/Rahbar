@@ -1,0 +1,5 @@
+# Batch Valid Attendance Policy
+
+A student is eligible to sit for the final examination when attendance is at least
+75 percent across all enrolled courses. Approved leave may be documented before
+the absence, and attendance disputes must be submitted to the department office.

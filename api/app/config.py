@@ -27,6 +27,7 @@ class Settings:
 
     # The embedding pin (section 4.4). The indexer reads the same ConfigMap key.
     embed_model: str = "nomic-embed-text"
+    embed_model_version: str = ""
 
     # Vector store
     chroma_host: str = "chroma"
@@ -41,18 +42,23 @@ class Settings:
     cache_similarity_threshold: float = 0.95
     temperature: float = 0.2
     llm_model: str = "llama3.2:3b"
+    llm_model_version: str = ""
     ollama_url: str = "http://host.minikube.internal:11434"
     hosted_base_url: str = ""        # e.g. an OpenAI-compatible endpoint
     llm_api_key: str = field(default="", repr=False)   # from the Secret; never log it
 
     log_level: str = "INFO"
+    trace_file: str = ""
 
 
 def get_settings() -> Settings:
+    embed_model = os.environ.get("EMBED_MODEL", "nomic-embed-text")
+    llm_model = os.environ.get("LLM_MODEL", "llama3.2:3b")
     return Settings(
         retriever=os.environ.get("RETRIEVER", "stub"),
         llm_provider=os.environ.get("LLM_PROVIDER", "stub"),
-        embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
+        embed_model=embed_model,
+        embed_model_version=os.environ.get("EMBED_MODEL_VERSION", embed_model),
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
         chroma_port=_int("CHROMA_PORT", 8000),
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),
@@ -62,9 +68,11 @@ def get_settings() -> Settings:
         cache_prefix=os.environ.get("CACHE_PREFIX", "rahbar:semantic-cache"),
         cache_similarity_threshold=_float("CACHE_SIMILARITY_THRESHOLD", 0.95),
         temperature=_float("TEMPERATURE", 0.2),
-        llm_model=os.environ.get("LLM_MODEL", "llama3.2:3b"),
+        llm_model=llm_model,
+        llm_model_version=os.environ.get("LLM_MODEL_VERSION", llm_model),
         ollama_url=os.environ.get("OLLAMA_URL", "http://host.minikube.internal:11434"),
         hosted_base_url=os.environ.get("HOSTED_BASE_URL", ""),
         llm_api_key=os.environ.get("LLM_API_KEY", ""),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
+        trace_file=os.environ.get("TRACE_FILE", ""),
     )

@@ -1,0 +1,162 @@
+schema_version: 1
+queries:
+  - id: lq01
+    topic: attendance
+    golden_domain: true
+    query: "I missed a few classes. What overall attendance percentage am I expected to keep?"
+  - id: lq02
+    topic: attendance
+    golden_domain: true
+    query: "Can the head of department excuse some absences if I had a genuine reason?"
+  - id: lq03
+    topic: attendance
+    golden_domain: true
+    query: "What happens to my final exam eligibility when I fall below the attendance rule?"
+  - id: lq04
+    topic: academic_warning
+    golden_domain: true
+    query: "At what CGPA does the university start putting a student on academic warning?"
+  - id: lq05
+    topic: academic_warning
+    golden_domain: true
+    query: "After getting a warning, how do I get the warning count cleared?"
+  - id: lq06
+    topic: academic_warning
+    golden_domain: true
+    query: "Am I allowed to take a new course while I am on the second academic warning?"
+  - id: lq07
+    topic: course_registration
+    golden_domain: true
+    query: "If I failed a course last semester, can I postpone registering for it?"
+  - id: lq08
+    topic: course_repeat
+    golden_domain: true
+    query: "Can I register again for a passed course because I want a better CGPA?"
+  - id: lq09
+    topic: grading
+    golden_domain: true
+    query: "How many grade points are attached to an A+ and to an F?"
+  - id: lq10
+    topic: fyp
+    golden_domain: true
+    query: "When should an undergraduate normally enroll in FYP-I?"
+  - id: lq11
+    topic: theory_lab
+    golden_domain: true
+    query: "I passed the theory portion but failed the lab. Do I have to repeat both?"
+  - id: lq12
+    topic: theory_lab
+    golden_domain: true
+    query: "If one component of a course is passed, which failed component is repeated?"
+  - id: lq13
+    topic: generative_ai
+    golden_domain: true
+    query: "When I use a GenAI tool in an assignment, what disclosure does the handbook want?"
+  - id: lq14
+    topic: generative_ai
+    golden_domain: true
+    query: "Does the student handbook permit ChatGPT-style output in a graded assessment?"
+  - id: lq15
+    topic: generative_ai
+    golden_domain: true
+    query: "What is the official name of the student handbook section about AI-based tools?"
+  - id: lq16
+    topic: annual_report_faculty
+    golden_domain: true
+    query: "How many faculty members did the university report for the 2023-24 year?"
+  - id: lq17
+    topic: annual_report_faculty
+    golden_domain: true
+    query: "What was the faculty headcount in the 2019-20 annual report?"
+  - id: lq18
+    topic: annual_report_faculty
+    golden_domain: true
+    query: "Compare the university-wide faculty totals in the 2019-20 and 2023-24 reports."
+  - id: lq19
+    topic: attendance_clause
+    golden_domain: true
+    query: "Which numbered rule covers the June 2026 attendance requirement?"
+  - id: lq20
+    topic: scholarship
+    golden_domain: true
+    query: "What cumulative CGPA do I need for the scholarship rule in Batch B?"
+  - id: lq21
+    topic: scholarship
+    golden_domain: true
+    query: "How many credit hours must a scholarship applicant complete during the year?"
+  - id: lq22
+    topic: batch_b_attendance
+    golden_domain: true
+    query: "What minimum class attendance is written in the valid attendance record from the second batch?"
+  - id: lq23
+    topic: policy_drift
+    golden_domain: true
+    query: "The Batch B attendance note says 75%, while the handbook says something else. Which value is in the latest indexed policy?"
+  - id: lq24
+    topic: batch_b_policy
+    golden_domain: true
+    query: "What CGPA must be maintained for continuation under the 2026 Batch B academic policy?"
+  - id: lq25
+    topic: document_versioning
+    golden_domain: true
+    query: "Why should the 2025 Batch B academic policy be excluded after the 2026 copy arrives?"
+  - id: lq26
+    topic: course_repeat
+    golden_domain: true
+    query: "I was absent from a registered course last term. When do I need to take it again?"
+  - id: lq27
+    topic: academic_warning
+    golden_domain: true
+    query: "What academic performance threshold prevents a warning in the June handbook?"
+  - id: lq28
+    topic: generative_ai
+    golden_domain: true
+    query: "If submitted work includes AI-generated text, should I cite the tool or the original source?"
+  - id: lq29
+    topic: campus_transport
+    golden_domain: false
+    query: "What time does the Islamabad campus shuttle leave for the Blue Area in the evening?"
+  - id: lq30
+    topic: admissions_deadline
+    golden_domain: false
+    query: "When is the undergraduate admissions application deadline for the next intake?"
+  - id: lq31
+    topic: tuition_fees
+    golden_domain: false
+    query: "What is the semester fee for a first-year BS computer science student?"
+  - id: lq32
+    topic: placement_services
+    golden_domain: false
+    query: "How can I register for software engineering internships through the placement office?"
+  - id: lq33
+    topic: sports_trials
+    golden_domain: false
+    query: "When are football team trials held and who is eligible to attend?"
+  - id: lq34
+    topic: library_hours
+    golden_domain: false
+    query: "Until what time is the Islamabad campus library open on Fridays?"
+  - id: lq35
+    topic: campus_wifi
+    golden_domain: false
+    query: "How do I reset my campus Wi-Fi password if I forgot it?"
+  - id: lq36
+    topic: student_counseling
+    golden_domain: false
+    query: "Can a student book a confidential counseling session on campus?"
+  - id: lq37
+    topic: health_services
+    golden_domain: false
+    query: "Is there a student medical clinic, and is it open during the weekend?"
+  - id: lq38
+    topic: transcript_services
+    golden_domain: false
+    query: "Where do graduates submit a request for an official transcript?"
+  - id: lq39
+    topic: campus_parking
+    golden_domain: false
+    query: "Do students need a parking sticker, and where is visitor parking?"
+  - id: lq40
+    topic: alumni_services
+    golden_domain: false
+    query: "How can an alumnus request a replacement degree-verification letter?"

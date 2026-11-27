@@ -57,6 +57,9 @@ spec:
         - podSelector:
             matchLabels:
               app: ui
+        - podSelector:
+            matchLabels:
+              app: part-b-evaluation
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx
@@ -83,6 +86,9 @@ spec:
         - podSelector:
             matchLabels:
               app: indexer
+        - podSelector:
+            matchLabels:
+              app: part-b-evaluation
       ports:
         - protocol: TCP
           port: 8000
@@ -136,6 +142,35 @@ spec:
       ports:
         - protocol: TCP
           port: 6379
+    - to:
+        - ipBlock:
+            cidr: 172.23.112.1/32
+      ports:
+        - protocol: TCP
+          port: 11434
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-evaluation-egress
+  namespace: rahbar
+spec:
+  podSelector:
+    matchLabels:
+      app: part-b-evaluation
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: api
+        - podSelector:
+            matchLabels:
+              app: chroma
+      ports:
+        - protocol: TCP
+          port: 8000
     - to:
         - ipBlock:
             cidr: 172.23.112.1/32

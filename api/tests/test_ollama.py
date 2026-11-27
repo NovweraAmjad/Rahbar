@@ -83,6 +83,34 @@ def test_generate_returns_validated_answer_and_sends_configured_request(
     assert "What attendance is required?" in prompt
 
 
+def test_prompt_uses_matching_document_version_for_q04(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    passage = Passage(
+        chunk_id="academic-rules-handbook-jun-2026.pdf:2026-06:24:52",
+        text="Minimum CGPA required to avoid academic warning is 2.00 for all undergraduate programs.",
+        source="academic-rules-handbook-jun-2026.pdf",
+        section="Academic Warning/Probation",
+        page=24,
+        score=0.85,
+        doc_version="2026-06",
+    )
+    post = _mock_post(monkeypatch)
+    provider = OllamaProvider(_settings())
+
+    provider.generate(
+        "What minimum CGPA is required to avoid academic warning in the June 2026 handbook?",
+        [passage],
+    )
+
+    prompt = post.call_args.kwargs["json"]["messages"][0]["content"]
+    user_prompt = post.call_args.kwargs["json"]["messages"][1]["content"]
+    assert "doc_version" in prompt
+    assert "do not claim that the version is unspecified" in prompt
+    assert '"doc_version": "2026-06"' in user_prompt
+    assert "2.00" in user_prompt
+
+
 def test_ollama_provider_is_selected_by_existing_factory() -> None:
     provider = get_provider(replace(_settings(), llm_provider="ollama-host"))
 

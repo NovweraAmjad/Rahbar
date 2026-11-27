@@ -14,6 +14,10 @@ class InvalidAnswerError(RuntimeError):
 class LLMProvider(Protocol):
     name: str
 
+    def trace_payload(self, question: str, passages: list[Passage]) -> dict[str, object]:
+        """Return the exact outbound payload, without secrets, when available."""
+        ...
+
     def generate(self, question: str, passages: list[Passage]) -> Answer:
         """Answer the question from the passages, as an `Answer`."""
         ...

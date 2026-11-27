@@ -119,6 +119,41 @@ def test_collection_and_semantic_cache_scope_are_isolated_per_profile_and_run() 
     ]
 
 
+def test_each_profile_uses_isolated_paths_on_the_persistent_indexer_pvc() -> None:
+    profiles = tuning.load_profiles(tuning.DEFAULT_PROFILES)
+    generated = [
+        tuning._profile_config_map(profile, "run-one")[1]["data"]
+        for profile in profiles
+    ]
+    path_keys = (
+        "INDEXER_STATE_DIR",
+        "QUARANTINE_DIR",
+        "VERIFICATION_REPORT_DIR",
+        "ARCHIVE_DIR",
+    )
+
+    for key in path_keys:
+        paths = [item[key] for item in generated]
+        assert len(set(paths)) == len(profiles)
+        assert all(path.startswith("/var/lib/rahbar-data/run-one/") for path in paths)
+
+    job = yaml.safe_load(
+        (tuning.EXPERIMENT_DIR / "indexer-job-template.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+    pod_spec = job["spec"]["template"]["spec"]
+    volume = next(item for item in pod_spec["volumes"] if item["name"] == "indexer-data")
+    mount = next(
+        item
+        for item in pod_spec["containers"][0]["volumeMounts"]
+        if item["name"] == "indexer-data"
+    )
+    assert volume["persistentVolumeClaim"]["claimName"] == "chunk-tuning-indexer-data"
+    assert mount["mountPath"] == "/var/lib/rahbar-data"
+    assert not mount.get("readOnly", False)
+
+
 def test_collection_inspection_uses_chroma_http_api_without_pod_exec(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -361,6 +396,14 @@ def test_generated_profile_config_and_job_use_run_specific_collection() -> None:
         "CHROMA_COLLECTION": "rahbar-ct-run-test-small",
         "CHUNK_SIZE": "200",
         "CHUNK_OVERLAP": "25",
+        "INDEXER_STATE_DIR": (
+            "/var/lib/rahbar-data/run-test/small/indexer-state"
+        ),
+        "QUARANTINE_DIR": "/var/lib/rahbar-data/run-test/small/quarantine",
+        "VERIFICATION_REPORT_DIR": (
+            "/var/lib/rahbar-data/run-test/small/verification-reports"
+        ),
+        "ARCHIVE_DIR": "/var/lib/rahbar-data/run-test/small/archive",
     }
     refs = job["spec"]["template"]["spec"]["containers"][0]["envFrom"]
     assert refs[0]["configMapRef"]["name"] == "chunk-tuning-common"

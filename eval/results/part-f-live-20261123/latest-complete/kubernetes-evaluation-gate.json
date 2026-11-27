@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-23T12:11:05.672852+00:00",
+  "decision": "PASS",
+  "baseline_result": "/opt/rahbar/eval/part-b-baseline-summary.json",
+  "candidate_result": "/results/part-b/part-b-stochasticity-20261123T120933Z/summary.json",
+  "threshold_config": "/gate/..2026_11_23_12_09_31.2957061563/release-gate.yaml",
+  "thresholds": {
+    "max_recall_at_5_regression_percentage_points": 2.0,
+    "min_faithfulness_percentage": 70.0,
+    "max_p95_latency_seconds": 5.0,
+    "abstention_not_lower_than_baseline": true
+  },
+  "baseline_metrics": {
+    "recall_at_5": 64.0,
+    "faithfulness": 89.58333333333333,
+    "p95_latency_seconds": 2.428375990004861,
+    "abstention_correctness": 16.666666666666668,
+    "successful_requests": 30.0
+  },
+  "candidate_metrics": {
+    "recall_at_5": 80.0,
+    "faithfulness": 95.83333333333333,
+    "p95_latency_seconds": 2.290053833199818,
+    "abstention_correctness": 16.666666666666668,
+    "successful_requests": 30.0
+  },
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "metric": "recall_at_5_regression",
+        "passed": true,
+        "baseline": 64.0,
+        "candidate": 80.0,
+        "value": -16.0,
+        "threshold": 2.0,
+        "reason": "Recall@5 regression is -16.000000 percentage points (limit 2.000000)."
+      },
+      {
+        "metric": "faithfulness",
+        "passed": true,
+        "baseline": 89.58333333333333,
+        "candidate": 95.83333333333333,
+        "value": 95.83333333333333,
+        "threshold": 70.0,
+        "reason": "Faithfulness is 95.833333% (minimum 70.000000%)."
+      },
+      {
+        "metric": "p95_latency",
+        "passed": true,
+        "baseline": 2.428375990004861,
+        "candidate": 2.290053833199818,
+        "value": 2.290053833199818,
+        "threshold": 5.0,
+        "reason": "p95 latency is 2.290054s (maximum 5.000000s)."
+      },
+      {
+        "metric": "abstention_correctness",
+        "passed": true,
+        "baseline": 16.666666666666668,
+        "candidate": 16.666666666666668,
+        "value": 16.666666666666668,
+        "threshold": 16.666666666666668,
+        "reason": "Abstention correctness is 16.666667% versus baseline 16.666667%."
+      }
+    ],
+    "failed_checks": []
+  }
+}

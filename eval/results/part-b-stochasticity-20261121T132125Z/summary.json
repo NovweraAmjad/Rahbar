@@ -1,0 +1,211 @@
+{
+  "metadata": {
+    "generated_at": "2026-11-21T13:21:25.728122+00:00",
+    "golden_file": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\golden.jsonl",
+    "api_base_url": "http://localhost:8080",
+    "host": "rahbar.local",
+    "embedding_model": "nomic-embed-text",
+    "embedding_ollama_url": "http://172.23.112.1:11434",
+    "llm_model": "llama3.2:3b",
+    "llm_temperature": 0.2,
+    "seeds": {
+      "python_random": 20261121,
+      "python_hash_seed": 20261121,
+      "numpy": 20261121,
+      "dataset": 20261121
+    },
+    "remaining_variation": "The module embedding path uses fixed dataset and provider settings. Component retrieval is deterministic when the live corpus and returned rankings are unchanged. End-to-end LLM text may vary because the provider uses temperature 0.2; provider restarts, cache behavior, model revisions, request failures, and live retrieval state can also affect results."
+  },
+  "run_paths": {
+    "1": {
+      "module": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-1\\module\\module-embedding-20261121T132157Z",
+      "component": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-1\\component\\component-retrieval-20261121T132157Z",
+      "end_to_end": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-1\\end-to-end\\end-to-end-20261121T132348Z"
+    },
+    "2": {
+      "module": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-2\\module\\module-embedding-20261121T132514Z",
+      "component": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-2\\component\\component-retrieval-20261121T132514Z",
+      "end_to_end": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\results\\part-b-stochasticity-20261121T132125Z\\run-2\\end-to-end\\end-to-end-20261121T132853Z"
+    }
+  },
+  "runs": {
+    "1": {
+      "module": {
+        "mean_paraphrase_cosine": 0.8311255411599171,
+        "mean_unrelated_cosine": 0.3618973254920409,
+        "paraphrase_minus_unrelated": 0.4692282156678762,
+        "embedding_time_mean_seconds": 0.261149063333869,
+        "embedding_time_p95_seconds": 0.2804187849964364,
+        "largest_determinism_difference": 0.0,
+        "embedding_dimension": 768
+      },
+      "component": {
+        "baseline_recall_at_3": 0.56,
+        "baseline_recall_at_5": 0.56,
+        "baseline_mrr": 0.4930555555555556,
+        "baseline_ndcg_at_5": 0.5163662191964322,
+        "typo_recall_at_3": 0.52,
+        "typo_recall_at_5": 0.56,
+        "typo_mrr": 0.4548611111111111,
+        "typo_ndcg_at_5": 0.48718900271734616
+      },
+      "end_to_end": {
+        "faithfulness_percentage": 45.833333333333336,
+        "abstention_correctness_percentage": 100.0,
+        "citation_validity_percentage": 100.0,
+        "latency_p50_seconds": 1.5972070999996504,
+        "latency_p95_seconds": 4.121847640005581,
+        "successful_requests": 30,
+        "request_failures": 0
+      }
+    },
+    "2": {
+      "module": {
+        "mean_paraphrase_cosine": 0.8311255411599171,
+        "mean_unrelated_cosine": 0.3618973254920409,
+        "paraphrase_minus_unrelated": 0.4692282156678762,
+        "embedding_time_mean_seconds": 0.24370620000069418,
+        "embedding_time_p95_seconds": 0.2762722399871564,
+        "largest_determinism_difference": 0.0,
+        "embedding_dimension": 768
+      },
+      "component": {
+        "baseline_recall_at_3": null,
+        "baseline_recall_at_5": null,
+        "baseline_mrr": null,
+        "baseline_ndcg_at_5": null,
+        "typo_recall_at_3": 0.52,
+        "typo_recall_at_5": 0.56,
+        "typo_mrr": 0.4548611111111111,
+        "typo_ndcg_at_5": 0.48718900271734616
+      },
+      "end_to_end": {
+        "faithfulness_percentage": null,
+        "abstention_correctness_percentage": 100.0,
+        "citation_validity_percentage": 100.0,
+        "latency_p50_seconds": 1.2850297999975737,
+        "latency_p95_seconds": 3.7884592399932453,
+        "successful_requests": 29,
+        "request_failures": 1
+      }
+    }
+  },
+  "comparison": {
+    "component": {
+      "baseline_mrr": {
+        "run_1": 0.4930555555555556,
+        "run_2": null,
+        "absolute_difference": null
+      },
+      "baseline_ndcg_at_5": {
+        "run_1": 0.5163662191964322,
+        "run_2": null,
+        "absolute_difference": null
+      },
+      "baseline_recall_at_3": {
+        "run_1": 0.56,
+        "run_2": null,
+        "absolute_difference": null
+      },
+      "baseline_recall_at_5": {
+        "run_1": 0.56,
+        "run_2": null,
+        "absolute_difference": null
+      },
+      "typo_mrr": {
+        "run_1": 0.4548611111111111,
+        "run_2": 0.4548611111111111,
+        "absolute_difference": 0.0
+      },
+      "typo_ndcg_at_5": {
+        "run_1": 0.48718900271734616,
+        "run_2": 0.48718900271734616,
+        "absolute_difference": 0.0
+      },
+      "typo_recall_at_3": {
+        "run_1": 0.52,
+        "run_2": 0.52,
+        "absolute_difference": 0.0
+      },
+      "typo_recall_at_5": {
+        "run_1": 0.56,
+        "run_2": 0.56,
+        "absolute_difference": 0.0
+      }
+    },
+    "end_to_end": {
+      "abstention_correctness_percentage": {
+        "run_1": 100.0,
+        "run_2": 100.0,
+        "absolute_difference": 0.0
+      },
+      "citation_validity_percentage": {
+        "run_1": 100.0,
+        "run_2": 100.0,
+        "absolute_difference": 0.0
+      },
+      "faithfulness_percentage": {
+        "run_1": 45.833333333333336,
+        "run_2": null,
+        "absolute_difference": null
+      },
+      "latency_p50_seconds": {
+        "run_1": 1.5972070999996504,
+        "run_2": 1.2850297999975737,
+        "absolute_difference": -0.312177300002
+      },
+      "latency_p95_seconds": {
+        "run_1": 4.121847640005581,
+        "run_2": 3.7884592399932453,
+        "absolute_difference": -0.333388400012
+      },
+      "request_failures": {
+        "run_1": 0,
+        "run_2": 1,
+        "absolute_difference": 1
+      },
+      "successful_requests": {
+        "run_1": 30,
+        "run_2": 29,
+        "absolute_difference": -1
+      }
+    },
+    "module": {
+      "embedding_dimension": {
+        "run_1": 768,
+        "run_2": 768,
+        "absolute_difference": 0
+      },
+      "embedding_time_mean_seconds": {
+        "run_1": 0.261149063333869,
+        "run_2": 0.24370620000069418,
+        "absolute_difference": -0.017442863333
+      },
+      "embedding_time_p95_seconds": {
+        "run_1": 0.2804187849964364,
+        "run_2": 0.2762722399871564,
+        "absolute_difference": -0.004146545009
+      },
+      "largest_determinism_difference": {
+        "run_1": 0.0,
+        "run_2": 0.0,
+        "absolute_difference": 0.0
+      },
+      "mean_paraphrase_cosine": {
+        "run_1": 0.8311255411599171,
+        "run_2": 0.8311255411599171,
+        "absolute_difference": 0.0
+      },
+      "mean_unrelated_cosine": {
+        "run_1": 0.3618973254920409,
+        "run_2": 0.3618973254920409,
+        "absolute_difference": 0.0
+      },
+      "paraphrase_minus_unrelated": {
+        "run_1": 0.4692282156678762,
+        "run_2": 0.4692282156678762,
+        "absolute_difference": 0.0
+      }
+    }
+  }
+}

@@ -236,6 +236,7 @@ def test_redis_failure_fails_open_and_disables_cache_write(
 
 def test_cache_hit_skips_retrieval_and_generation_and_uses_current_request_id(
     monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     cache, _, _ = _cache(monkeypatch)
     _store(cache)
@@ -243,20 +244,24 @@ def test_cache_hit_skips_retrieval_and_generation_and_uses_current_request_id(
     provider = Mock()
     token = request_id_var.set("current-request")
     try:
-        result = answer_question(
-            "What attendance is required?",
-            retriever,
-            provider,
-            _settings(),
-            cache,
-        )
+        with caplog.at_level("INFO", logger="rahbar.answer"):
+            result = answer_question(
+                "What attendance is required?",
+                retriever,
+                provider,
+                _settings(),
+                cache,
+            )
     finally:
         request_id_var.reset(token)
 
+    trace = next(record for record in caplog.records if record.getMessage() == "query_trace")
     assert result.request_id == "current-request"
     assert result.answer == _response().answer
     retriever.retrieve.assert_not_called()
     provider.generate.assert_not_called()
+    assert trace.cache["status"] == "hit"
+    assert trace.cache["source_trace_id"] == "previous-request"
 
 
 def test_cache_miss_reuses_query_embedding_and_stores_grounded_answer(

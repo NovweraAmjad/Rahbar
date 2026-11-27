@@ -1,0 +1,253 @@
+{
+  "run_id": "604f55217b9e40dfade4fcde2d41d2f5",
+  "generated_at": "2026-11-23T10:10:59.391164+00:00",
+  "near_duplicate_threshold": 0.95,
+  "summary": {
+    "total": 5,
+    "index": 5,
+    "quarantine": 0,
+    "overall_decision": "index_all"
+  },
+  "documents": [
+    {
+      "source": "batch-valid-attendance.txt",
+      "title": "Batch Valid Attendance Policy",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "f6eb5dc048ad5dcfb76b76b304842d557874777b7eee03507f42bc9a640842cc",
+      "text_sha256": "7f531704e89232236c531177ae13eacb93226d2f20fd631e604d208f9e09938b",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "f6eb5dc048ad5dcfb76b76b304842d557874777b7eee03507f42bc9a640842cc"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "batch-exact-a.txt",
+      "title": "Batch Exact Duplicate A",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "e23cad307194ed7cf8e3e7bdbcb655e6d48e99582bf2c83fc5cfe5aa35f1b613",
+      "text_sha256": "e95d5da5efaba9215f50b17be99c1b79d08a90b94ee18827610ac516e9aa01d6",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "e23cad307194ed7cf8e3e7bdbcb655e6d48e99582bf2c83fc5cfe5aa35f1b613"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "batch-near-a.txt",
+      "title": "Batch Near Duplicate A",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "a546b38a73d00efe188c05fc3b0e2455bfb0a9a29900a237e508922415aaf064",
+      "text_sha256": "3159f9c071018fb2df570868095e994887744f53b46708900d952a1d687ec46d",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "a546b38a73d00efe188c05fc3b0e2455bfb0a9a29900a237e508922415aaf064"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "batch-academic-policy-2026.txt",
+      "title": "Batch Academic Policy",
+      "doc_version": "2026",
+      "page_count": 1,
+      "raw_sha256": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578",
+      "text_sha256": "fc54569202136c615fcd95366ec9dc79657c71f1dce9d63df6e9ff5773b75e48",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    },
+    {
+      "source": "batch-scholarship.txt",
+      "title": "Batch Scholarship Eligibility",
+      "doc_version": "2026-11",
+      "page_count": 1,
+      "raw_sha256": "8a171b8d59703c33164255f804590509ff86801eb227acfbbd250ed03a23faaf",
+      "text_sha256": "6dcee765c10c50d249fd2c7573e49cc3998cb543b5749f3f9f4343c9f6c429bb",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reasons": [
+            "extracted text is non-empty and readable"
+          ]
+        },
+        "completeness": {
+          "status": "pass",
+          "reasons": [
+            "required metadata and text completeness verified"
+          ]
+        },
+        "recency": {
+          "status": "pass",
+          "reasons": [
+            "no newer version of this document was identified"
+          ],
+          "superseded": false
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reasons": [
+            "no exact duplicate detected",
+            "no near duplicate detected"
+          ],
+          "exact_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "content_hash": "8a171b8d59703c33164255f804590509ff86801eb227acfbbd250ed03a23faaf"
+          },
+          "near_duplicate": {
+            "status": "pass",
+            "matching_document": null,
+            "similarity": null,
+            "threshold": 0.95
+          }
+        }
+      },
+      "decision": "index"
+    }
+  ]
+}

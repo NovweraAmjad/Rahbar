@@ -16,6 +16,13 @@ class HostedProvider:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings   # hosted_base_url, llm_model, llm_api_key, temperature
 
+    def trace_payload(self, question: str, passages: list[Passage]) -> dict[str, object]:
+        return {
+            "status": "not_sent",
+            "reason": "HostedProvider.generate is not implemented",
+            "model": self.settings.llm_model,
+        }
+
     def generate(self, question: str, passages: list[Passage]) -> Answer:
         # STARTER-TODO(3.4): same contract as the Ollama provider, over the hosted API.
         # Many free tiers are OpenAI-compatible: POST {hosted_base_url}/chat/completions.

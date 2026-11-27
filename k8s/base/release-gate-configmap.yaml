@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rahbar-release-gate
+  namespace: rahbar
+data:
+  release-gate.yaml: |
+    schema_version: 1
+    thresholds:
+      max_recall_at_5_regression_percentage_points: 2.0
+      min_faithfulness_percentage: 70.0
+      max_p95_latency_seconds: 5.0
+      abstention_not_lower_than_baseline: true

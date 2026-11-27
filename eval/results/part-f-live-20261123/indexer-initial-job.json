@@ -1,0 +1,204 @@
+{
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"indexer\",\"namespace\":\"rahbar\"},\"spec\":{\"backoffLimit\":6,\"template\":{\"metadata\":{\"labels\":{\"app\":\"indexer\"}},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"args\":[\"--incremental\"],\"command\":[\"python\",\"-m\",\"pipeline.run\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"rahbar-config\"}}],\"image\":\"rahbar-indexer:dev\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"indexer\",\"resources\":{\"limits\":{\"cpu\":\"2\",\"memory\":\"3Gi\"},\"requests\":{\"cpu\":\"500m\",\"memory\":\"1Gi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true,\"runAsGroup\":10001,\"runAsNonRoot\":true,\"runAsUser\":10001},\"volumeMounts\":[{\"mountPath\":\"/var/lib/rahbar-data\",\"name\":\"indexer-data\"},{\"mountPath\":\"/tmp\",\"name\":\"tmp\"}]}],\"enableServiceLinks\":false,\"initContainers\":[{\"command\":[\"python\",\"-c\",\"from pathlib import Path\\nimport shutil\\nsource = Path(\\\"/corpus-source\\\")\\ndestination = Path(\\\"/var/lib/rahbar-data/corpus\\\")\\ntemporary = Path(\\\"/var/lib/rahbar-data/.corpus-sync\\\")\\nif temporary.exists():\\n    shutil.rmtree(temporary)\\nshutil.copytree(source, temporary)\\nif destination.exists():\\n    shutil.rmtree(destination)\\ntemporary.rename(destination)\\n\"],\"image\":\"rahbar-indexer:dev\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"corpus-sync\",\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true,\"runAsGroup\":10001,\"runAsNonRoot\":true,\"runAsUser\":10001},\"volumeMounts\":[{\"mountPath\":\"/corpus-source\",\"name\":\"corpus-source\",\"readOnly\":true},{\"mountPath\":\"/var/lib/rahbar-data\",\"name\":\"indexer-data\"}]}],\"restartPolicy\":\"OnFailure\",\"securityContext\":{\"fsGroup\":10001,\"runAsGroup\":10001,\"runAsNonRoot\":true,\"runAsUser\":10001},\"serviceAccountName\":\"indexer\",\"volumes\":[{\"hostPath\":{\"path\":\"/mnt/rahbar-corpus\",\"type\":\"Directory\"},\"name\":\"corpus-source\"},{\"name\":\"indexer-data\",\"persistentVolumeClaim\":{\"claimName\":\"rahbar-indexer-data\"}},{\"emptyDir\":{\"sizeLimit\":\"1Gi\"},\"name\":\"tmp\"}]}}}}\n"
+        },
+        "creationTimestamp": "2026-11-23T10:46:00Z",
+        "generation": 1,
+        "labels": {
+            "app": "indexer",
+            "batch.kubernetes.io/controller-uid": "ff8241f2-e450-4004-b403-5299653ce6b9",
+            "batch.kubernetes.io/job-name": "indexer",
+            "controller-uid": "ff8241f2-e450-4004-b403-5299653ce6b9",
+            "job-name": "indexer"
+        },
+        "name": "indexer",
+        "namespace": "rahbar",
+        "resourceVersion": "4292",
+        "uid": "ff8241f2-e450-4004-b403-5299653ce6b9"
+    },
+    "spec": {
+        "backoffLimit": 6,
+        "completionMode": "NonIndexed",
+        "completions": 1,
+        "manualSelector": false,
+        "parallelism": 1,
+        "podReplacementPolicy": "TerminatingOrFailed",
+        "selector": {
+            "matchLabels": {
+                "batch.kubernetes.io/controller-uid": "ff8241f2-e450-4004-b403-5299653ce6b9"
+            }
+        },
+        "suspend": false,
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "indexer",
+                    "batch.kubernetes.io/controller-uid": "ff8241f2-e450-4004-b403-5299653ce6b9",
+                    "batch.kubernetes.io/job-name": "indexer",
+                    "controller-uid": "ff8241f2-e450-4004-b403-5299653ce6b9",
+                    "job-name": "indexer"
+                }
+            },
+            "spec": {
+                "automountServiceAccountToken": false,
+                "containers": [
+                    {
+                        "args": [
+                            "--incremental"
+                        ],
+                        "command": [
+                            "python",
+                            "-m",
+                            "pipeline.run"
+                        ],
+                        "envFrom": [
+                            {
+                                "configMapRef": {
+                                    "name": "rahbar-config"
+                                }
+                            }
+                        ],
+                        "image": "rahbar-indexer:dev",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "indexer",
+                        "resources": {
+                            "limits": {
+                                "cpu": "2",
+                                "memory": "3Gi"
+                            },
+                            "requests": {
+                                "cpu": "500m",
+                                "memory": "1Gi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true,
+                            "runAsGroup": 10001,
+                            "runAsNonRoot": true,
+                            "runAsUser": 10001
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/lib/rahbar-data",
+                                "name": "indexer-data"
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "tmp"
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": false,
+                "initContainers": [
+                    {
+                        "command": [
+                            "python",
+                            "-c",
+                            "from pathlib import Path\nimport shutil\nsource = Path(\"/corpus-source\")\ndestination = Path(\"/var/lib/rahbar-data/corpus\")\ntemporary = Path(\"/var/lib/rahbar-data/.corpus-sync\")\nif temporary.exists():\n    shutil.rmtree(temporary)\nshutil.copytree(source, temporary)\nif destination.exists():\n    shutil.rmtree(destination)\ntemporary.rename(destination)\n"
+                        ],
+                        "image": "rahbar-indexer:dev",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "corpus-sync",
+                        "resources": {},
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true,
+                            "runAsGroup": 10001,
+                            "runAsNonRoot": true,
+                            "runAsUser": 10001
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/corpus-source",
+                                "name": "corpus-source",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/lib/rahbar-data",
+                                "name": "indexer-data"
+                            }
+                        ]
+                    }
+                ],
+                "restartPolicy": "OnFailure",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 10001,
+                    "runAsGroup": 10001,
+                    "runAsNonRoot": true,
+                    "runAsUser": 10001
+                },
+                "serviceAccount": "indexer",
+                "serviceAccountName": "indexer",
+                "terminationGracePeriodSeconds": 30,
+                "volumes": [
+                    {
+                        "hostPath": {
+                            "path": "/mnt/rahbar-corpus",
+                            "type": "Directory"
+                        },
+                        "name": "corpus-source"
+                    },
+                    {
+                        "name": "indexer-data",
+                        "persistentVolumeClaim": {
+                            "claimName": "rahbar-indexer-data"
+                        }
+                    },
+                    {
+                        "emptyDir": {
+                            "sizeLimit": "1Gi"
+                        },
+                        "name": "tmp"
+                    }
+                ]
+            }
+        }
+    },
+    "status": {
+        "completionTime": "2026-11-23T10:49:00Z",
+        "conditions": [
+            {
+                "lastProbeTime": "2026-11-23T10:49:00Z",
+                "lastTransitionTime": "2026-11-23T10:49:00Z",
+                "message": "Reached expected number of succeeded pods",
+                "reason": "CompletionsReached",
+                "status": "True",
+                "type": "SuccessCriteriaMet"
+            },
+            {
+                "lastProbeTime": "2026-11-23T10:49:00Z",
+                "lastTransitionTime": "2026-11-23T10:49:00Z",
+                "message": "Reached expected number of succeeded pods",
+                "reason": "CompletionsReached",
+                "status": "True",
+                "type": "Complete"
+            }
+        ],
+        "ready": 0,
+        "startTime": "2026-11-23T10:46:00Z",
+        "succeeded": 1,
+        "terminating": 0,
+        "uncountedTerminatedPods": {}
+    }
+}

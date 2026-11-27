@@ -28,6 +28,7 @@ class Passage(BaseModel):
     score: float = Field(description="Similarity, higher is closer (1 - cosine distance).")
     doc_version: str | None = None
     superseded: bool = False
+    document_id: str | None = None
 
 
 class Citation(BaseModel):

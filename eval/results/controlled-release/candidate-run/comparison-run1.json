@@ -1,0 +1,35 @@
+{
+  "evaluation_timestamp": "2026-11-23T12:58:23.205440+00:00",
+  "noise_method": "controlled-typos",
+  "noise_description": "A deterministic adjacent-character swap is applied to a pair of alphabetic characters in every evaluated question.",
+  "baseline_golden_file": "/opt/rahbar/eval/golden.jsonl",
+  "api_base_url": "http://api-candidate:8000",
+  "metrics": {
+    "recall_at_3": {
+      "baseline": null,
+      "noisy": 0.72,
+      "absolute_change": null
+    },
+    "recall_at_5": {
+      "baseline": null,
+      "noisy": 0.8,
+      "absolute_change": null
+    },
+    "mrr": {
+      "baseline": null,
+      "noisy": 0.6694444444444444,
+      "absolute_change": null
+    },
+    "ndcg_at_5": {
+      "baseline": null,
+      "noisy": 0.703579584464448,
+      "absolute_change": null
+    }
+  },
+  "baseline_request_failures": 1,
+  "noisy_request_failures": 0,
+  "baseline_answerable_questions": 24,
+  "noisy_answerable_questions": 24,
+  "baseline_result": "/results/part-b-candidate/part-b-stochasticity-20261123T125410Z/run-1/component/component-retrieval-20261123T125416Z/baseline.json",
+  "noisy_result": "/results/part-b-candidate/part-b-stochasticity-20261123T125410Z/run-1/component/component-retrieval-20261123T125416Z/controlled-typos.json"
+}

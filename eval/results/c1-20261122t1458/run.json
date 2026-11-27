@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "experiment": "assignment-03-part-c1",
+  "status": "failed",
+  "started_at": "2026-11-22T10:03:31.438100+00:00",
+  "run_id": "c1-20261122t1458",
+  "namespace": "rahbar-part-c1-c1-20261122t1458",
+  "git_commit": "07bbd3b8673cb2a076909a517ae9f7b910444121",
+  "config_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\part-c1.yaml",
+  "config_sha256": "76d8bab8bf70d96b06b6c81fb070e32befb9fdf726b75c96bdaa82a13b9318a9",
+  "config": {
+    "schema_version": 1,
+    "experiment": "chunk-size",
+    "change": {
+      "variable": "chunk_size",
+      "unit": "whitespace_tokens",
+      "baseline": {
+        "name": "baseline",
+        "chunk_size": 400,
+        "chunk_overlap": 50
+      },
+      "candidate": {
+        "name": "candidate",
+        "chunk_size": 800,
+        "chunk_overlap": 50
+      }
+    },
+    "held_constant": {
+      "RETRIEVER": "chroma",
+      "LLM_PROVIDER": "ollama-host",
+      "EMBED_MODEL": "nomic-embed-text",
+      "TOP_K": "5",
+      "RELEVANCE_FLOOR": "0.5",
+      "CACHE_SIMILARITY_THRESHOLD": "0.95",
+      "TEMPERATURE": "0.2",
+      "LLM_MODEL": "llama3.2:3b",
+      "OLLAMA_URL": "http://172.23.112.1:11434"
+    }
+  },
+  "golden_path": "C:\\Users\\lenovo\\Desktop\\sem5\\SCD\\rahbar-starter\\eval\\golden.jsonl",
+  "golden_sha256": "0dae3da1fcb30c64e650a066fe350458d6787860b4cab867f7eb666e2ba73f7f",
+  "corpus": {
+    "sha256": "65d37ca13a9a9a2e864322f21cc376eefbf199ccf254e596f1b3d5fcdbf8b0d7",
+    "document_count": 19,
+    "files": {
+      "batch-b/_index.json": "450c1bd722ffe89089c4344734a31284563f00b4be7acc3c3573edb250dae1eb",
+      "batch-b/batch-valid-attendance.txt": "f6eb5dc048ad5dcfb76b76b304842d557874777b7eee03507f42bc9a640842cc",
+      "batch-b/batch-exact-a.txt": "e23cad307194ed7cf8e3e7bdbcb655e6d48e99582bf2c83fc5cfe5aa35f1b613",
+      "batch-b/batch-exact-b.txt": "e23cad307194ed7cf8e3e7bdbcb655e6d48e99582bf2c83fc5cfe5aa35f1b613",
+      "batch-b/batch-near-a.txt": "a546b38a73d00efe188c05fc3b0e2455bfb0a9a29900a237e508922415aaf064",
+      "batch-b/batch-near-b.txt": "8ba7f8370bd9c53b66586dd6ef6b266b8444911e01451981695de10a0826ecc5",
+      "batch-b/batch-truncated.txt": "62982abeab1185a4b8869e73ed512233eba6d44a84af5fe94f783552b8d7a753",
+      "batch-b/batch-missing-title.txt": "58fde95e719935336bfd99aae5f1e697aebadfc8042ae52ad7078744c7487ac4",
+      "batch-b/batch-corrupt.txt": "6134b7f3e122f0b3506c29d2e362222092708d47f8dc45c9fa4766813696ad91",
+      "batch-b/batch-academic-policy-2025.txt": "ad71fc927f6b51c4192b8a09d93f27324e2239d7e7be3593673350961823f7e0",
+      "batch-b/batch-academic-policy-2026.txt": "93a15d31e969ce1e6240673997935f750e194a27665aa58d4aad54e124fdf578",
+      "batch-b/batch-injection.txt": "5cfa681fbd6743570a2911e8b57f72eedef558767eb1498f675e45356a5b5106",
+      "batch-b/batch-scholarship.txt": "8a171b8d59703c33164255f804590509ff86801eb227acfbbd250ed03a23faaf",
+      "raw/_index.json": "0eb552d0746549ee6fe7f2e1c486f1959ea5097e5c581c4a67d7c7a9199240cd",
+      "raw/undergraduate-academic-rules-aug-2023.pdf": "cddfe1f5e9770132e27d686abd1c2e6742ef4732f0c2f431ed514bc1691d2004",
+      "raw/academic-rules-handbook-jun-2026.pdf": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "raw/prospectus-2026-academic-rules-and-regulations.pdf": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a",
+      "raw/student-handbook-jun-2026.pdf": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "raw/annual-report-2019-20.pdf": "4d1961e340b13273bb039805ab5fd5e2c7bd0144a5bd5870f2ce4da13becd650",
+      "raw/annual-report-2023-24.pdf": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a",
+      "raw/faculty-entrepreneurship-and-technical-start-ups-policy.pdf": "c2d5c7648d1593daf34d5c0596ede476e8984b0551830cc1690017e6e22f1359"
+    }
+  },
+  "corpus_verification_log": "  ok        undergraduate-academic-rules-aug-2023.pdf\n  ok        academic-rules-handbook-jun-2026.pdf\n  ok        prospectus-2026-academic-rules-and-regulations.pdf\n  ok        student-handbook-jun-2026.pdf\n  ok        annual-report-2019-20.pdf\n  ok        annual-report-2023-24.pdf\n  ok        faculty-entrepreneurship-and-technical-start-ups-policy.pdf\n\n7 of 7 match the manifest\n",
+  "held_constant": {
+    "RETRIEVER": "chroma",
+    "LLM_PROVIDER": "ollama-host",
+    "EMBED_MODEL": "nomic-embed-text",
+    "CHROMA_HOST": "chunk-chroma",
+    "CHROMA_PORT": "8000",
+    "CORPUS_DIR": "/corpus",
+    "TOP_K": "5",
+    "RELEVANCE_FLOOR": "0.5",
+    "REDIS_URL": "redis://chunk-redis:6379/0",
+    "CACHE_PREFIX": "rahbar:semantic-cache",
+    "CACHE_SIMILARITY_THRESHOLD": "0.95",
+    "TEMPERATURE": "0.2",
+    "LLM_MODEL": "llama3.2:3b",
+    "OLLAMA_URL": "http://172.23.112.1:11434",
+    "LOG_LEVEL": "INFO",
+    "QUARANTINE_DIR": "/tmp/quarantine",
+    "VERIFICATION_REPORT_DIR": "/tmp/verification-reports",
+    "ARCHIVE_DIR": "/tmp/archive"
+  },
+  "declared_image_identifiers": {
+    "api": "rahbar-api:dev",
+    "chroma": "chromadb/chroma:1.0.12",
+    "indexer": "rahbar-indexer:dev",
+    "redis": "redis:7.4-alpine"
+  },
+  "live_deployment_changed": false,
+  "ollama_model_tags": {
+    "EMBED_MODEL": {
+      "configured": "nomic-embed-text",
+      "name": "nomic-embed-text:latest",
+      "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "modified_at": "2026-11-04T17:16:17.0838103+05:00"
+    },
+    "LLM_MODEL": {
+      "configured": "llama3.2:3b",
+      "name": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "modified_at": "2026-11-06T16:52:06.4324532+05:00"
+    }
+  },
+  "failed_at": "2026-11-22T10:20:26.390117+00:00",
+  "error": "OSError: [Errno 22] Invalid argument"
+}

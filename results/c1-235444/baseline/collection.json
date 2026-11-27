@@ -1,0 +1,10 @@
+{
+  "name": "rahbar-ct-c1-235444-baseline",
+  "count": 351,
+  "metadata": {
+    "dimension": 768,
+    "hnsw:space": "cosine",
+    "embed_model": "nomic-embed-text"
+  },
+  "corpus_sha256": "65d37ca13a9a9a2e864322f21cc376eefbf199ccf254e596f1b3d5fcdbf8b0d7"
+}

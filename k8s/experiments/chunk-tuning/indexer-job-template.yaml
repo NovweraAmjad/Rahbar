@@ -49,6 +49,8 @@ spec:
             - name: corpus
               mountPath: /corpus
               readOnly: true
+            - name: indexer-data
+              mountPath: /var/lib/rahbar-data
             - name: tmp
               mountPath: /tmp
       volumes:
@@ -56,6 +58,9 @@ spec:
           hostPath:
             path: /mnt/rahbar-corpus
             type: Directory
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: chunk-tuning-indexer-data
         - name: tmp
           emptyDir:
             sizeLimit: 1Gi
