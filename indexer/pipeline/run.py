@@ -41,6 +41,22 @@ def _front_matter(path: Path) -> dict[str, str]:
     return meta
 
 
+def _markdown_title(path: Path) -> str:
+    """Return the first level-1 heading after any front matter, or ''."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    start = 0
+    if lines and lines[0].strip() == "---":
+        for index, line in enumerate(lines[1:], start=1):
+            if line.strip() == "---":
+                start = index + 1
+                break
+    for line in lines[start:]:
+        stripped = line.strip()
+        if stripped.startswith("# "):
+            return stripped[2:].strip()
+    return ""
+
+
 def _manifest_metadata(corpus_dir: str) -> list[dict[str, object]]:
     root = Path(corpus_dir)
     if not root.exists():
@@ -74,10 +90,11 @@ def _manifest_metadata(corpus_dir: str) -> list[dict[str, object]]:
     for path in sorted(root.glob("*")):
         if path.suffix.lower() not in {".pdf", ".md", ".html", ".txt"}:
             continue
-        meta = _front_matter(path) if path.suffix.lower() == ".md" else {}
+        is_markdown = path.suffix.lower() == ".md"
+        meta = _front_matter(path) if is_markdown else {}
         markdown_entries.append({
             "file": path.name,
-            "name": meta.get("title", ""),
+            "name": meta.get("title", "") or (_markdown_title(path) if is_markdown else ""),
             "doc_version": meta.get("doc_version", "unknown"),
             "superseded": meta.get("superseded", "false").lower() == "true",
             "url": meta.get("source", ""),
@@ -213,6 +230,7 @@ def run_pipeline(settings: IndexerSettings) -> int:
         report_dir=Path(settings.verification_report_dir),
         archive_dir=Path(settings.archive_dir),
         near_duplicate_threshold=settings.near_duplicate_threshold,
+        quarantine_prompt_injection=settings.quarantine_prompt_injection,
         embedder=None,
         candidates=candidates,
     )
@@ -380,6 +398,7 @@ def run_verification_only(settings: IndexerSettings) -> int:
         report_dir=Path(settings.verification_report_dir),
         archive_dir=Path(settings.archive_dir),
         near_duplicate_threshold=settings.near_duplicate_threshold,
+        quarantine_prompt_injection=settings.quarantine_prompt_injection,
         embedder=lambda text: embed([text], settings)[0],
         candidates=candidates,
     )
@@ -470,6 +489,7 @@ def run_incremental_pipeline(settings: IndexerSettings) -> dict[str, object]:
         report_dir=Path(settings.verification_report_dir),
         archive_dir=Path(settings.archive_dir),
         near_duplicate_threshold=settings.near_duplicate_threshold,
+        quarantine_prompt_injection=settings.quarantine_prompt_injection,
         embedder=None,
         candidates=candidates,
     )
@@ -1002,7 +1022,8 @@ def main() -> int:
             count = run_verification_only(settings)
         elif args.incremental:
             result = run_incremental_pipeline(settings)
-            count = result["total_stored"]
+            total_stored = result["total_stored"]
+            count = total_stored if isinstance(total_stored, int) else 0
             log(
                 "incremental pipeline complete",
                 **result,

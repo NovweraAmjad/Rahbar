@@ -41,11 +41,11 @@ class CorpusSnapshot:
         if not self.documents:
             self.generation = 0
         else:
-            max_gen = max(
-                (int(re.search(r"\d+", state.indexed_at.split("T")[0] or "")
-                      .group() or 0) if state.indexed_at else 0)
-                for state in self.documents.values()
-            )
+            max_gen = 0
+            for state in self.documents.values():
+                match = re.search(r"\d+", state.indexed_at.split("T")[0]) if state.indexed_at else None
+                if match is not None:
+                    max_gen = max(max_gen, int(match.group()))
             self.generation = max_gen
 
 

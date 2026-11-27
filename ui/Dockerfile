@@ -8,7 +8,7 @@ RUN apk update \
         nginx-module-image-filter \
         nginx-module-njs \
         nginx-module-xslt \
-    && apk add --no-cache "nginx>=1.28.3-r7"
+    && apk add --no-cache "nginx>=1.28.3-r8"
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /usr/share/nginx/html/index.html

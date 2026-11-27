@@ -64,7 +64,7 @@ def _version_key(value: str) -> tuple[int, ...]:
     return numbers or (-1,)
 
 
-def _quality(document: Document) -> dict[str, Any]:
+def _quality(document: Document, *, quarantine_injection: bool = True) -> dict[str, Any]:
     if document.extraction_error:
         return {"status": "fail", "reasons": [f"extraction failed: {document.extraction_error}"]}
 
@@ -82,7 +82,13 @@ def _quality(document: Document) -> dict[str, Any]:
     )
     lower = text.casefold()
     matched_markers = [marker for marker in injection_markers if marker in lower]
-    if matched_markers:
+    injection_note = ""
+    if matched_markers and not quarantine_injection:
+        injection_note = (
+            "prompt-injection instruction detected but retained for runtime guardrails: "
+            + ", ".join(matched_markers)
+        )
+    elif matched_markers:
         return {
             "status": "fail",
             "reasons": [
@@ -114,7 +120,10 @@ def _quality(document: Document) -> dict[str, Any]:
             "status": "fail",
             "reasons": [f"garbled text: only {alphanumeric_ratio:.1%} is alphanumeric"],
         }
-    return {"status": "pass", "reasons": ["extracted text is non-empty and readable"]}
+    reasons = ["extracted text is non-empty and readable"]
+    if injection_note:
+        reasons.append(injection_note)
+    return {"status": "pass", "reasons": reasons}
 
 
 def _completeness(path: Path, document: Document) -> dict[str, Any]:
@@ -202,6 +211,7 @@ class DocumentVerifier:
         near_duplicate_threshold: float,
         embedder: Callable[[str], list[float]] | None,
         candidates: Sequence[Mapping[str, object]],
+        quarantine_prompt_injection: bool = True,
     ) -> None:
         if not 0.0 <= near_duplicate_threshold <= 1.0:
             raise ValueError("near duplicate threshold must be between 0 and 1")
@@ -211,13 +221,17 @@ class DocumentVerifier:
         self.threshold = near_duplicate_threshold
         self.embedder = embedder
         self.candidates = candidates
+        self.quarantine_prompt_injection = quarantine_prompt_injection
         self.raw_hashes: dict[str, str] = {}
         self.text_hashes: dict[str, str] = {}
         self.embeddings: dict[str, list[float]] = {}
         self.documents: list[dict[str, object]] = []
 
     def verify(self, path: Path, document: Document) -> dict[str, object]:
-        quality = _quality(document)
+        quality = _quality(
+            document,
+            quarantine_injection=self.quarantine_prompt_injection,
+        )
         completeness = _completeness(path, document)
         recency = _recency(document, self.candidates)
 

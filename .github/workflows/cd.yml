@@ -377,27 +377,27 @@ jobs:
                 namespace: rahbar
               patch: |-
                 - op: add
-                  path: /spec/template/spec/initContainers
+                  path: /spec/template/spec/initContainers/0
                   value:
-                    - name: wait-for-fixture-embedding
-                      image: ${INDEXER_IMAGE}
-                      imagePullPolicy: IfNotPresent
-                      command:
-                        - python
-                        - -c
-                        - |-
-                          import time
-                          import urllib.request
-                          url = "http://ollama-fixture:8081/healthz"
-                          deadline = time.monotonic() + 180
-                          while time.monotonic() < deadline:
-                              try:
-                                  urllib.request.urlopen(url, timeout=2).read()
-                                  break
-                              except Exception:
-                                  time.sleep(2)
-                          else:
-                              raise SystemExit("fixture embedding server did not become ready")
+                    name: wait-for-fixture-embedding
+                    image: ${INDEXER_IMAGE}
+                    imagePullPolicy: IfNotPresent
+                    command:
+                      - python
+                      - -c
+                      - |-
+                        import time
+                        import urllib.request
+                        url = "http://ollama-fixture:8081/healthz"
+                        deadline = time.monotonic() + 180
+                        while time.monotonic() < deadline:
+                            try:
+                                urllib.request.urlopen(url, timeout=2).read()
+                                break
+                            except Exception:
+                                time.sleep(2)
+                        else:
+                            raise SystemExit("fixture embedding server did not become ready")
           YAML
           kubectl apply --kustomize "$overlay_dir"
 

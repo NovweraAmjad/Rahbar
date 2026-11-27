@@ -66,6 +66,10 @@ _STOP_WORDS = {
     "a", "an", "and", "are", "as", "at", "by", "for", "from", "how",
     "in", "is", "it", "of", "on", "the", "to", "what", "when", "which",
     "with", "must", "should", "can", "does",
+    # Pronouns and auxiliaries carry no evidence; counting them under-scores
+    # natural questions such as "If I repeat a course, is my grade capped?".
+    "if", "do", "be", "was", "will", "this", "that",
+    "my", "me", "we", "our", "you", "your",
 }
 
 

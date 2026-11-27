@@ -24,6 +24,9 @@ class IndexerSettings:
     verification_report_dir: str
     archive_dir: str
     near_duplicate_threshold: float
+    # QUARANTINE_PROMPT_INJECTION=false keeps documents with injection-like text in the
+    # index (flagged in the report) so the API's runtime guardrails can be exercised.
+    quarantine_prompt_injection: bool = True
 
 
 def get_settings() -> IndexerSettings:
@@ -51,4 +54,8 @@ def get_settings() -> IndexerSettings:
         near_duplicate_threshold=float(
             os.environ.get("NEAR_DUPLICATE_THRESHOLD", "0.95")
         ),
+        quarantine_prompt_injection=os.environ.get(
+            "QUARANTINE_PROMPT_INJECTION", "true"
+        ).strip().lower()
+        not in {"0", "false", "no", "off"},
     )

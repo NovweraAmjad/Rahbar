@@ -7,10 +7,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 RUN sed -i \
-    -e 's|^URIs: http://deb.debian.org/debian$|URIs: http://snapshot.debian.org/archive/debian/20261104T212339Z|' \
-    -e 's|^URIs: http://deb.debian.org/debian-security$|URIs: http://snapshot.debian.org/archive/debian-security/20261104T212339Z|' \
+    -e 's|^URIs: http://deb.debian.org/debian$|URIs: http://snapshot.debian.org/archive/debian/20261127T000000Z|' \
+    -e 's|^URIs: http://deb.debian.org/debian-security$|URIs: http://snapshot.debian.org/archive/debian-security/20261127T000000Z|' \
     /etc/apt/sources.list.d/debian.sources \
     && apt-get -o Acquire::Check-Valid-Until=false update \
+    && apt-get upgrade --no-install-recommends -y \
     && apt-get install --no-install-recommends -y tesseract-ocr poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 

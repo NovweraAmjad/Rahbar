@@ -54,13 +54,27 @@ def test_base_indexer_job_and_cronjob_use_persistent_writable_data() -> None:
         "/var/lib/rahbar-data/",
     )
     _assert_pvc_mount(cron_pod, config, "/var/lib/rahbar-data/")
+    assert config["CORPUS_DIR"] == "/var/lib/rahbar-data/corpus"
     for pod_spec in (job["spec"]["template"]["spec"], cron_pod):
-        mounts = {
+        volumes = {volume["name"]: volume for volume in pod_spec["volumes"]}
+        assert volumes["corpus-source"]["hostPath"]["path"] == "/mnt/rahbar-corpus"
+
+        init_containers = {
+            container["name"]: container for container in pod_spec["initContainers"]
+        }
+        sync_mounts = {
+            mount["name"]: mount
+            for mount in init_containers["corpus-sync"]["volumeMounts"]
+        }
+        assert sync_mounts["corpus-source"]["mountPath"] == "/corpus-source"
+        assert sync_mounts["corpus-source"]["readOnly"] is True
+        assert sync_mounts["indexer-data"]["mountPath"] == "/var/lib/rahbar-data"
+
+        indexer_mounts = {
             mount["name"]: mount
             for mount in pod_spec["containers"][0]["volumeMounts"]
         }
-        assert mounts["corpus"]["mountPath"] == "/corpus"
-        assert mounts["corpus"]["readOnly"] is True
+        assert "corpus-source" not in indexer_mounts
 
 
 def test_indexer_pvc_is_in_base_kustomization() -> None:
@@ -80,5 +94,5 @@ def test_candidate_indexer_uses_separate_persistent_state_paths() -> None:
     _assert_pvc_mount(
         pod_spec,
         config,
-        "/var/lib/rahbar-data/candidate/",
+        "/var/lib/rahbar-data/candidate-pass/",
     )

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from .schemas import Passage
 
 _INJECTION_MARKERS = (
@@ -23,6 +25,24 @@ def _matched_markers(text: str) -> list[str]:
     return [marker for marker in _INJECTION_MARKERS if marker in normalized]
 
 
+def _redact_injected_paragraphs(text: str) -> str | None:
+    """Drop paragraphs that carry an injection marker.
+
+    Returns the remaining text when it still holds substantive (non-heading) content,
+    or None when nothing trustworthy is left and the passage should be excluded.
+    """
+    paragraphs = re.split(r"\n\s*\n", text)
+    kept = [paragraph for paragraph in paragraphs if not _matched_markers(paragraph)]
+    substantive = [
+        paragraph
+        for paragraph in kept
+        if paragraph.strip() and not paragraph.lstrip().startswith("#")
+    ]
+    if not substantive:
+        return None
+    return "\n\n".join(paragraph for paragraph in kept if paragraph.strip())
+
+
 def inspect_untrusted_content(
     question: str, passages: list[Passage]
 ) -> tuple[list[Passage], dict[str, object]]:
@@ -35,10 +55,16 @@ def inspect_untrusted_content(
 
     safe_passages: list[Passage] = []
     excluded_ids: list[str] = []
+    redacted_ids: list[str] = []
     for passage in passages:
         markers = _matched_markers(passage.text)
         if markers:
-            excluded_ids.append(passage.chunk_id)
+            redacted_text = _redact_injected_paragraphs(passage.text)
+            if redacted_text is None:
+                excluded_ids.append(passage.chunk_id)
+            else:
+                redacted_ids.append(passage.chunk_id)
+                safe_passages.append(passage.model_copy(update={"text": redacted_text}))
             findings.append(
                 {
                     "source": "retrieved_passage",
@@ -47,6 +73,7 @@ def inspect_untrusted_content(
                     "document_source": passage.source,
                     "document_version": passage.doc_version,
                     "matched_markers": markers,
+                    "action": "redacted" if redacted_text is not None else "excluded",
                 }
             )
         else:
@@ -57,6 +84,8 @@ def inspect_untrusted_content(
         actions.append("abstained_on_injection_in_query")
     if excluded_ids:
         actions.append("excluded_injected_passage")
+    if redacted_ids:
+        actions.append("redacted_injected_paragraphs")
     if not actions:
         actions.append("none")
 
@@ -65,4 +94,5 @@ def inspect_untrusted_content(
         "findings": findings,
         "actions": actions,
         "excluded_chunk_ids": excluded_ids,
+        "redacted_chunk_ids": redacted_ids,
     }

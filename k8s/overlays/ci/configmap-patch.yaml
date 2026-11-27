@@ -10,3 +10,6 @@ data:
   RELEVANCE_FLOOR: "0.1"
   CACHE_PREFIX: rahbar:ci:semantic-cache
   OLLAMA_URL: http://ollama-fixture:8081
+  # The fixture plants an injection in academic-rules-2026.md section 3 to test the
+  # API's runtime guardrails (golden f06), so the indexer must keep that document.
+  QUARANTINE_PROMPT_INJECTION: "false"
